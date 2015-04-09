@@ -1,0 +1,8 @@
+- Version 1.2 
+        support overrides for country code per IDP
+        
+- Version 1.1 
+        support overrides for weights per IDP
+
+- Version 1.0
+    initial version

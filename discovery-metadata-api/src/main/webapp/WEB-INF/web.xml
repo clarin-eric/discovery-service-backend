@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <display-name>Shibboleth Metadata Conversion API</display-name>
+    
+    <welcome-file-list>
+        <welcome-file>rest-api.xml</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>Shib-Metadata-API</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>nl.mpi.shibboleth.metadata.rest</param-value>
+        </init-param>
+
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Shib-Metadata-API</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+   
+     
+    <listener>
+        <listener-class>org.quartz.ee.servlet.QuartzInitializerListener</listener-class>
+    </listener>
+        
+    <!-- Quartz scheduler configuration -->
+    <context-param>
+        <param-name>quartz:config-file</param-name>
+        <param-value>quartz.properties</param-value>
+    </context-param>
+    <context-param>
+        <param-name>quartz:shutdown-on-unload</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>quartz:wait-on-shutdown</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>quartz:start-on-load</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>quartz:scheduler-context-servlet-context-key</param-name>
+        <param-value>servletContext</param-value>
+    </context-param>
+     
+    <!-- Application configuration -->
+    <context-param>
+        <param-name>GEO-IP-DATABASE</param-name>
+        <param-value>/lat/webapps/geolookup/GeoLiteCity.dat</param-value>
+    </context-param>
+    <context-param>
+        <param-name>LOCAL-IP</param-name>
+        <param-value>172.16.16.</param-value>
+    </context-param>
+    <context-param>
+        <param-name>PUBLIC-IP</param-name>
+        <param-value>195.169.108.192</param-value>
+    </context-param>
+</web-app>

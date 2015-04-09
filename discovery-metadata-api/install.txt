@@ -1,0 +1,3 @@
+
+- deploy into tomcat
+- make sure to configure the "GEO-IP-DATABASE" context parameter to point to the full path of the GeoIP database.

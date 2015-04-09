@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xml" href="rest-api.xsl"?>
+<rest-api>
+    <description>
+        <title>Shibboleth metadata REST API</title>
+        <doc>https://trac.mpi.nl/wiki/SDS</doc>
+    </description>
+    <api-call>
+        <name>./rest/metadata/discojuice</name>
+        <method>POST</method>
+        <description><![CDATA[Transform the shibboleth metadata files, configured in the supplied metadata source, into discojuice compatible json.]]></description>
+        <parameters>
+            <parameter>
+                <name>Metadata Source</name>
+                <description>MetadataSource configuration xml posted as binary data</description>
+            </parameter>
+        </parameters>
+    </api-call>
+    <api-call>
+        <name>./rest/lookup/ip/{ip}</name>
+        <method>GET</method>
+        <description><![CDATA[Perform a lookup in the geo ip database to retrieve the geo information for the supplied ip.]]></description>
+        <parameters>
+            <parameter>
+                <name>IP</name>
+                <description>IP address to look up in the geo ip database</description>
+            </parameter>
+        </parameters>
+    </api-call>
+    <api-call>
+        <name>./rest/lookup/url/{url}</name>
+        <method>GET</method>
+        <description><![CDATA[Resolve the url to an ip and perform a lookup in the geo ip database to retrieve the geo information for the supplied ip.]]></description>
+        <parameters>
+            <parameter>
+                <name>URL</name>
+                <description>URL to resolve to an ip address and to look up in the geo ip database</description>
+            </parameter>
+        </parameters>
+    </api-call>
+</rest-api>

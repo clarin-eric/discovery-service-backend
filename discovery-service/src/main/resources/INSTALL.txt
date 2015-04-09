@@ -1,0 +1,59 @@
+** Installation **
+
+1. unpack the .war into the proper directory on the server where you want to run the application.
+    E.g. /lat/webapps/shibboleth/sds/{version}
+2. make a symbolic link from /lat/webapps/shibboleth/sds/{version} to /lat/webapps/shibboleth/sds/current
+3. update the web.xml file
+
+    <context-param>
+        <param-name></param-name>
+        <param-value></param-value>
+    </context-param>
+
+** Parameter description **
+
+    ** Proxy servlet **
+
+    Name: metadata-source
+    Specify the url use to retrieve the discojuice metadata. This can be located
+    on a different host.
+
+    Example:
+    <param-name>metadata-source</param-name>
+    <param-value>http://lux17.mpi.nl/discojuice/discojuice_metadata_lux17.json</param-value>
+
+    ** Discovery service servlet **
+
+    Name: title
+    Specify the title of the discovery paged. Used in the browser title and as the
+    title on the discovery page itself.
+
+    Example:
+    <param-name>title</param-name>
+    <param-value>lux17</param-value>
+
+    Name: subtitle
+    Specify a subtitle.
+
+    Example:
+    <param-name>subtitle</param-name>
+    <param-value>lux17</param-value>
+
+    Name: noscipt-ds-fallback
+    Provide a link to a backup non-javascript discovery service. Displayed to 
+    browser without javascript support or with javascript disabled.
+    
+    Example:
+    <param-name>noscipt-ds-fallback</param-name>
+    <param-value>http://lux16.mpi.nl/Shibboleth.SSO/Login</param-value>
+
+    Name: provider-help
+    Specify a help text to display before the providers list. This can be used
+    to help people find the proper identiy provider or point to a link where they
+    can register for a general purpose account.
+
+    Example:
+    <param-name>provider-help</param-name>
+    <param-value><![CDATA[If you cannot find your institution in the list above please select the \"Clarin.eu website account\" and use your credentials of the <a href=\"http://www.clarin.eu/user\">CLARIN website</a>. For questions please contact <a href=\"mailto:webmaster@clarin.eu\">webmaster@clarin.eu</a>.]]></param-value>
+
+

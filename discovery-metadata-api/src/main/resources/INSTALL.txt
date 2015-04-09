@@ -1,0 +1,40 @@
+1. unpack the .war into the proper directory on the server where you want to run the application.
+    E.g. /lat/webapps/shibboleth/sma/{version}
+2. make a symbolic link from /lat/webapps/shibboleth/sma/{version} to /lat/webapps/shibboleth/sma/current
+3. update the web.xml file
+
+
+    <context-param>
+        <param-name></param-name>
+        <param-value></param-value>
+    </context-param>
+
+list of parameters:
+    
+    ** Name: GEO-IP-DATABASE
+    Specify the location of the Geo IP database. This database is used to translate
+    the IP address of IDP hostnames into geo locations.
+
+    Example:
+        <param-name>GEO-IP-DATABASE</param-name>
+        <param-value>/lat/webapps/geolookup/GeoLiteCity.dat</param-value>
+
+    ** Name: LOCAL-IP
+    Specify a mask for the local network. This can be used to obtain an external
+    IP address (for geo translation) for any IDP running in the local network as
+    well. E.g. the damlr IDP runs on idp.mpi.nl which is in the same local network
+    as corpus1.mpi.nl or lux17.mpi.nl.
+
+    Example:
+        <param-name>LOCAL-IP</param-name>
+        <param-value>172.16.16.</param-value>
+
+
+    ** Name: PUBLIC-IP
+    Specify the public IP address to use for any IDPs matching the local ip-mask.
+
+    Example:
+        <param-name>PUBLIC-IP</param-name>
+        <param-value>195.169.108.192</param-value>
+
+    
