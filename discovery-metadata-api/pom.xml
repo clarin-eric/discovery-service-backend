@@ -23,7 +23,7 @@
     <groupId>eu.clarin.aai</groupId>
     <artifactId>discovery-metadata-apiI</artifactId>
     <packaging>war</packaging>
-    <version>1.4-SNAPSHOT</version>
+    <version>${project.version}</version>
     <name>discovery-metadata-api</name>
 
     <repositories>
