@@ -24,7 +24,7 @@
     <groupId>eu.clarin.aai</groupId>
     <artifactId>discovery-service</artifactId>
     <packaging>war</packaging>
-    <version>1.8-SNAPSHOT</version>
+    <version>${project.version}</version>
     <name>discovery-service</name>
     
     <dependencies>
