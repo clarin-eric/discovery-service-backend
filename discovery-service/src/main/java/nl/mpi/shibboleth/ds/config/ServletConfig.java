@@ -1,5 +1,6 @@
-package nl.mpi.shibboleth.ds.metadata.proxy;
+package nl.mpi.shibboleth.ds.config;
 
+import nl.mpi.shibboleth.ds.AbstractServlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;

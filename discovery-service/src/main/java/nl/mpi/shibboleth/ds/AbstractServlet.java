@@ -1,4 +1,4 @@
-package nl.mpi.shibboleth.ds.metadata.proxy;
+package nl.mpi.shibboleth.ds;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

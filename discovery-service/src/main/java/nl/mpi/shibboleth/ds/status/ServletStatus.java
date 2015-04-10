@@ -1,5 +1,6 @@
-package nl.mpi.shibboleth.ds.metadata.proxy;
+package nl.mpi.shibboleth.ds.status;
 
+import nl.mpi.shibboleth.ds.AbstractServlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,7 +8,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import nl.mpi.shibboleth.ds.metadata.proxy.DiscoJuiceJson;
 import nl.mpi.shibboleth.ds.metadata.proxy.DiscoJuiceJson.Idp;
+import nl.mpi.shibboleth.ds.metadata.proxy.MetadataLoader;
+import nl.mpi.shibboleth.ds.metadata.proxy.MetadataProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +19,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author wilelb
  */
-public class Status extends AbstractServlet {
+public class ServletStatus extends AbstractServlet {
     
     private static final Logger logger = LoggerFactory.getLogger(MetadataProxy.class);
     

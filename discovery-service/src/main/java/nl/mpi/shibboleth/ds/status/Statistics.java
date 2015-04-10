@@ -1,4 +1,4 @@
-package nl.mpi.shibboleth.ds.metadata.proxy;
+package nl.mpi.shibboleth.ds.status;
 
 import java.util.ArrayList;
 import java.util.List;

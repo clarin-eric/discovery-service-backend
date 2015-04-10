@@ -20,7 +20,7 @@ public class MetadataLoader {
 
     private static final Logger logger = LoggerFactory.getLogger(MetadataProxy.class);
     
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
     
     public String loadRawMetadata(ServletContext ctxt, String charset) throws MalformedURLException, IllegalStateException, UnsupportedEncodingException, IOException {
         String jsonMetadata = ctxt.getInitParameter("metadata-source");
