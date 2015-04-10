@@ -21,6 +21,6 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.version>1.8.1</project.version>
+        <project.version>2.0-Snapshot</project.version>
     </properties>
 </project>
