@@ -3,8 +3,8 @@ package nl.mpi.shibboleth.ds.metadata.proxy;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import nl.mpi.shibboleth.ds.metadata.proxy.DiscoJuiceJson.Idp;
@@ -23,10 +23,13 @@ public class Status extends AbstractServlet {
     
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ServletContext ctxt = request.getSession().getServletContext();
+        //ServletContext ctxt = request.getServletContext();
+        
         String charset = "UTF-8";
         
         MetadataLoader loader = new MetadataLoader();
-        DiscoJuiceJson json = loader.loadMetadata(request.getServletContext(), charset);
+        DiscoJuiceJson json = loader.loadMetadata(ctxt, charset);
         
         Statistics stats = new Statistics();
         for(Idp idp : json.idps) {
