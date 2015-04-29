@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
     <display-name>DiscoJuice Shibboleth Discovery Service</display-name>
+    
     <!-- proxy servlet -->
     <servlet>
         <servlet-name>MetadataProxy</servlet-name>
@@ -13,7 +15,8 @@
         <servlet-name>MetadataProxy</servlet-name>
         <url-pattern>/proxy</url-pattern>
     </servlet-mapping>
-    <!-- idp servlet -->
+    
+    <!-- discovery service servlet -->
     <servlet>
         <servlet-name>DiscoJuice</servlet-name>
         <servlet-class>nl.mpi.shibboleth.ds.ServletDiscojuice</servlet-class>
@@ -22,6 +25,7 @@
         <servlet-name>DiscoJuice</servlet-name>
         <url-pattern>/discojuice</url-pattern>
     </servlet-mapping>
+    
     <!-- status servlet -->
     <servlet>
         <servlet-name>MetadataStatus</servlet-name>
@@ -31,6 +35,7 @@
         <servlet-name>MetadataStatus</servlet-name>
         <url-pattern>/status</url-pattern>
     </servlet-mapping>
+    
     <!-- config servlet -->
     <servlet>
         <servlet-name>ConfigServlet</servlet-name>
@@ -40,10 +45,14 @@
         <servlet-name>ConfigServlet</servlet-name>
         <url-pattern>/config</url-pattern>
     </servlet-mapping>
+    
     <!-- specify the discojuice JSON metadata source -->
     <context-param>
         <param-name>metadata-source</param-name>
+        <param-value>https://discovery.clarin.eu/metadata/clarin_spf_idps.json</param-value>
+        <!--
         <param-value>http://localhost:8080/DS/clarin_spf_idps.json</param-value>
+        -->
     </context-param>
     <!-- specify the display name of this page -->
     <context-param>

@@ -10,6 +10,7 @@ import java.util.List;
 public class Statistics {
 
     public List<Country> countries = new ArrayList<Country>();
+    public Long lastModified = 0L;
     
     public void addCountry(String name) {
         for(Country c : countries) {

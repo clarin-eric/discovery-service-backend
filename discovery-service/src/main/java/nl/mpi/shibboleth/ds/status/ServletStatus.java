@@ -23,24 +23,27 @@ public class ServletStatus extends AbstractServlet {
     
     private static final Logger logger = LoggerFactory.getLogger(MetadataProxy.class);
     
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
+    private final MetadataLoader loader = new MetadataLoader();
+    
+    private static final String CHARSET = "UTF-8";
     
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //servlet 2.0 spec:
         ServletContext ctxt = request.getSession().getServletContext();
-        //ServletContext ctxt = request.getServletContext();
+        //servlet 3.0 spec:
+        //ServletContext ctxt = request.getServletContext();        
         
-        String charset = "UTF-8";
-        
-        MetadataLoader loader = new MetadataLoader();
-        DiscoJuiceJson json = loader.loadMetadata(ctxt, charset);
+        DiscoJuiceJson json = loader.loadMetadata(ctxt, CHARSET);
         
         Statistics stats = new Statistics();
+        stats.lastModified = loader.getLastModified();
         for(Idp idp : json.idps) {
             stats.addCountry(idp.country);
         }
         
-        response.setContentType("application/json");//charset="+charset);
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         out.println(mapper.writeValueAsString(stats));
     }
