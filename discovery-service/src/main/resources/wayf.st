@@ -28,5 +28,25 @@
         <noscript>
             Your browser is not support javascript. To use the fallback discovery service <a href="$noscript$">click here</a>.
         </noscript>
+
+        <!-- Piwik -->
+	<script type="text/javascript">
+  		var _paq = _paq || [];
+  		_paq.push(['trackPageView']);
+ 		 _paq.push(['enableLinkTracking']);
+  		(function() {
+    			var u="//stats.clarin.eu/";
+    			_paq.push(['setTrackerUrl', u+'piwik.php']);
+    			_paq.push(['setSiteId', 7]);
+    			var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    			g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  		})();
+	</script>
+<!--
+	<noscript>
+		<p><img src="//stats.clarin.eu/piwik.php?idsite=7" style="border:0;" alt="" /></p>
+	</noscript>
+-->
+	<!-- End Piwik Code -->
     </body>
 </html>
