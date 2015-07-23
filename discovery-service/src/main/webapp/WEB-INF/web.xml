@@ -66,7 +66,9 @@
     <!-- specify a no javascript DS shibboleth endpoint -->
     <context-param>
         <param-name>noscipt-ds-fallback</param-name>
-        <param-value>https://lux17.mpi.nl/Shibboleth.SSO/Login</param-value>
+        <param-value>
+            <![CDATA[Your browser does not support javascript or javascript is disabled. To use the fallback discovery service <a href="https://lux17.mpi.nl/Shibboleth.SSO/Login">click here</a>.]]>
+        </param-value>
     </context-param>
     <context-param>
         <param-name>provider-help</param-name>
