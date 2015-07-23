@@ -165,7 +165,18 @@ DiscoJuice.Control = {
         if (that.parent.Utils.options.get('country', false)) {
             that.filterCountrySetup();
         }
+        /*
+        function compare(a,b) {
+            if (a.title < b.title)
+              return -1;
+            if (a.title > b.title)
+              return 1;
+            return 0;
+          }
 
+          this.data.sort(compare);
+          console.log("Sorted entity ids")
+*/
         that.readCookie(); // Syncronous
         that.readExtensionResponse(); // Reading response set by the Browser extension
 
@@ -425,23 +436,49 @@ DiscoJuice.Control = {
         if (!this.data)
             return;
 
-        /*
-         * Sort data by weight...
-         */
-        this.data.sort(function (a, b) {
-
-            // Weight
-            var xa, xb;
-            xa = (a.weight ? a.weight : 0);
-            xb = (b.weight ? b.weight : 0);
-
-            if (a.distanceweight)
-                xa += a.distanceweight;
-            if (b.distanceweight)
-                xb += b.distanceweight;
-
-            return (xa - xb);
+        var sorted = [];
+        var dataWithWeight = [];
+        var dataWithoutWeight = [];
+        var langs = [];
+        if(this.customData.languages !== null) {
+            langs = this.customData.languages;
+        }
+        
+        this.data.forEach(function(i) {
+            setTitle(i, langs);
+            if(i.weight !== 0) {
+                dataWithWeight.push(i);
+            } else {
+                dataWithoutWeight.push(i);
+            }
         });
+        
+        dataWithWeight
+            .sort(function (a, b) {
+                var xa, xb;
+                xa = (a.weight ? a.weight : 0);
+                xb = (b.weight ? b.weight : 0);
+                if (a.distanceweight)
+                    xa += a.distanceweight;
+                if (b.distanceweight)
+                    xb += b.distanceweight;
+                return (xa - xb);
+            })
+            .forEach(function(d) {
+                sorted.push(d);
+            });
+        dataWithoutWeight
+            .sort(function (a, b) {
+               if(a.title === null) {
+                   return -1;
+               }
+               return a.title.localeCompare(b.title);
+            })
+            .forEach(function(d) {
+                sorted.push(d);
+            });
+        
+        this.data = sorted;
 
         if (term || categories) {
             this.ui.popup.find("p.discojuice_showall").show();
@@ -627,9 +664,6 @@ DiscoJuice.Control = {
 
         this.ui.refreshData(someleft, this.maxhits, hits);
 
-        //this.increase();
-        //Discojuice.UI.showProviderList();
-        
         /**
          * Set the title in the IDP object based on the language preference
          * infered from the Accept-Language headers included in the customData
@@ -659,8 +693,12 @@ DiscoJuice.Control = {
                 for (var i = 0; i < idp.titles.length; i++) {
                     var t = idp.titles[i];
                     if (t.language === lang) {
-                        return t.value;
+                        return t.value.trim();
                     }
+                }
+                //Return first entry if we couldn't match any prefered langauge
+                if (idp.titles.length > 0) {
+                    return idp.titles[0].value.trim();
                 }
                 return null;
             }
