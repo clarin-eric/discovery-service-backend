@@ -33,6 +33,9 @@ public class MetadataDiscojuiceProcessor implements MetadataProcessor {
                         = DiscoJuiceJsonObject.create(descriptor, lookup, source);
                 discoJuiceJson.addObject(jsonObj);
                 idpCount++;
+            } catch (NullPointerException ex) {
+                logger.error("Failed to generate json for entityId: [" + descriptor.getEntityID() + "]");
+                logger.error("", ex);
             } catch (Exception ex) {
                 logger.error("Failed to generate json for entityId: [" + descriptor.getEntityID() + "]", ex);
             }
