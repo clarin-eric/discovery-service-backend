@@ -21,7 +21,7 @@
             Support metadata ui extensions
     -->
     <groupId>eu.clarin.aai</groupId>
-    <artifactId>discovery-metadata-apiI</artifactId>
+    <artifactId>discovery-metadata-api</artifactId>
     <packaging>war</packaging>
     <version>${project.version}</version>
     <name>discovery-metadata-api</name>
@@ -108,7 +108,7 @@
     </dependencies>
 
     <build>
-        <finalName>ShibbolethMetadataAPI-${project.version}</finalName>
+        <finalName>metadata-api-${project.version}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -118,17 +118,6 @@
                         <descriptor>src/main/assembly/assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
-                <!--
-                <executions>
-                    <execution>
-                        <id>make-assembly</id> 
-                        <phase>package</phase> 
-                        <goals>
-                        <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                -->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -141,7 +130,4 @@
             </plugin>
         </plugins>
     </build>
-    <properties>
-        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
-    </properties>
 </project>
