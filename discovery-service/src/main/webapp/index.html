@@ -25,13 +25,14 @@
                     count += d.count;
                     rows += '<tr><td>'+d.name+'</td><td>'+d.count+'</td></tr>';
                 });
+                rows += '<tr><td>Unkown</td><td>' + data.unkown + '</td></tr>';
                 var lastModification = moment(data.lastModified);
                 var age = moment().diff(lastModification, 'minutes');
                 
                 var html = '';
                 
                 html += '<p>Last modification: '+lastModification.format('YYYY-MM-DD hh:mm:ss')+', age = '+age+' minutes</p>';
-                if(age > 8) {
+                if(age > 30) {
                     html += '<p style="color: red;">Failure: metadata age exceeds 30 minutes<<p>';
                 } else if(age > 15) {
                    html += '<p style="color: orange;">Warning metadata age exceeds 15 minutes</p>'; 
