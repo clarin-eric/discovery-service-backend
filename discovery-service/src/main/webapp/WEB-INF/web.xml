@@ -49,7 +49,10 @@
     <!-- specify the discojuice JSON metadata source -->
     <context-param>
         <param-name>metadata-source</param-name>
+        <param-value>file:///data/idps.json</param-value>
+        <!--
         <param-value>https://discovery.clarin.eu/metadata/clarin_spf_idps.json</param-value>
+        -->
         <!--
         <param-value>http://localhost:8080/DS/clarin_spf_idps.json</param-value>
         -->
