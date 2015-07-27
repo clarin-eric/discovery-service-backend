@@ -36,7 +36,8 @@ public class MetadataProxy extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         String charset = "UTF-8";
-        response.setContentType("text/html;charset="+charset);
+        //response.setContentType("text/html;charset="+charset);
+        response.setContentType("application/json");//charset="+charset);
 
         String jsonMetadata = getServletContext().getInitParameter("metadata-source");
 
@@ -77,7 +78,7 @@ public class MetadataProxy extends HttpServlet {
             if(url.getProtocol().equalsIgnoreCase("file")) {
                 String f = jsonMetadata.replaceAll("file://", "");
                 logger.info("Proxying local file [{}]", f);
-                br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+                br = new BufferedReader(new InputStreamReader(new FileInputStream(f),charset));
             } else {
                 logger.info("Proxying url [{}]", jsonMetadata);
                 br = new BufferedReader(new InputStreamReader(url.openStream(),charset));
