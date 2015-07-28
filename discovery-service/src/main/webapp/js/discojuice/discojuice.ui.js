@@ -151,13 +151,16 @@ DiscoJuice.UI = {
 		if (this.alreadyLoaded[relID]) return;
 		this.alreadyLoaded[relID] = true;
 		
-                var maxWidth = 200;
-                var maxHeight = 50;
+                //var maxWidth = 200;
+                //var maxHeight = 50;
                 
 		// Add icon element first
 		if (item.icon && this.parent.Utils.options.get('showIcon', true)) {
                     //TODO: replace with regex?
-                    if(item.icon.url.startsWith("http://") || item.icon.url.startsWith("https://")) {
+                    if(item.icon.url.startsWith("data:")) {
+                        textLink += '<img class="logo" src="' + item.icon.url + '" />';
+                    } else if(item.icon.url.startsWith("http://") || item.icon.url.startsWith("https://")) {
+                        /*
                         var w = item.icon.width;
                         var h = item.icon.height;
                         
@@ -171,8 +174,8 @@ DiscoJuice.UI = {
                             w = w*rateX;
                             h = h*rateX;
                         }
-                       
-                        textLink += '<img class="logo" src="' + item.icon.url + '" width="'+w+'" height="'+h+'"/>';
+                        */
+                        textLink += '<img class="logo" src="' + item.icon.url + '" />';//width="'+w+'" height="'+h+'"/>';
                     } else {
 			textLink += '<img class="logo" src="' + iconpath + item.icon.url + '" />';
                     }
@@ -402,7 +405,16 @@ DiscoJuice.UI = {
 		this.popup.find("div.discojuice_errortext").append('<p style="border-bottom: 1px dotted #ddd; margin-bottom: 3px" class="discojuice_errortext">' + message + '</p>');
 	},
 
+        "getParameterByName": function (name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        },
+
         "enable": function(control) {
+            var returnParam = this.getParameterByName("return") != null;
+            
 		var imgpath = this.parent.Utils.options.get('discoPath', '') + 'images/';
 		
 		var textSearch = this.parent.Utils.options.get('textSearch',  DiscoJuice.Dict.orSearch);
@@ -413,7 +425,8 @@ DiscoJuice.UI = {
                 var titleText = '<strong>'+this.parent.Utils.options.get('title', null)+'</strong>';
                 var mainTitleHTML = '<p class="discojuice_maintitle">'+this.sprintf(DiscoJuice.Dict.connectTo, titleText)+'</p>';
                 //Make subtitle html
-                var subtitleText = this.parent.Utils.options.get('subtitle', null);
+                //var subtitleText = this.parent.Utils.options.get('subtitle', null);
+                var subtitleText = this.parent.Utils.options.get('subtitle', DiscoJuice.Dict.subtitle);
 		var subtitleHTML = (subtitleText !== null ? '<p class="discojuice_subtitle">' + subtitleText + '</p>' : '');
 	
                 var accountHelpText = this.parent.Utils.options.get('helpMore', DiscoJuice.Dict.helpMore);
@@ -432,7 +445,11 @@ DiscoJuice.UI = {
                     '</div>' + 
 
                     '<div class="help">'+accountHelpHtml+'</div>';
-                                    
+            
+                    if(returnParam) {
+                        html += '<div class="help error">' + DiscoJuice.Dict.noReturnParamError + '</div>';
+                    }
+                    
                     //preselected idp area. Enabled in mode 2.
                     if(this.mode === 2) {                        
                         html += '<div class="" >' +
