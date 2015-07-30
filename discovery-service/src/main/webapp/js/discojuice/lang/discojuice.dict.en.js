@@ -18,8 +18,8 @@ DiscoJuice.Dict = {
     
     "connectTo": "Sign in via the CLARIN Service Provider Federation",
     "subtitle": "Select your identity provider below. This is usually the institution where you work or study. Signing in here will allow you to access certain CLARIN resources and services which are only available to users who have logged in.",
-    "helpMore": "If you cannot find your institution in the list below please select the <i>clarin.eu website account</i> and use your credentials of the <a href=\"https://user.clarin.eu/user\">CLARIN website</a>. Such accounts can be requested <a href=\"https://user.clarin.eu/user/register\">here</a>. For questions please contact <a href=\"mailto:spf@clarin.eu\">spf@clarin.eu</a>.",
-    "noReturnParamError": "Warning: It appears as if you visited this page directly, this will not work!. Please login via the service you are trying to access.",
+    "helpMore": "If you cannot find your institution in the list below, please select the <i>clarin.eu website account</i> and use your CLARIN website credentials. If you don't have such credentials you can register an account <a href=\"https://user.clarin.eu/user/register\">here</a>. For questions please contact <a href=\"mailto:spf@clarin.eu\">spf@clarin.eu</a>.",
+    "noReturnParamError": "Warning: It appears as if you visited this page directly, this will not work. Please login <a href=\"https://www.clarin.eu/content/easy-access-protected-resources\">via the service</a> you are trying to access.",
     
     "textHelp": "External Identity Providers",
     "textHelpPreselected": "Default identity provider", 
