@@ -391,6 +391,9 @@ DiscoJuice.UI = {
                     //this.control.increase();
                     this.showProviderList();
                 }
+                
+                $('#search_box').focus();
+                console.log('visible='+$('#search_box').is(':visible'));
 	},
         
         "showProviderList": function() {
@@ -496,7 +499,7 @@ DiscoJuice.UI = {
 			'</div>' +
 	
 			'<div id="search" class="">' +
-				'<p id="search_field" style="display: none"><input type="search" class="discojuice_search" results=5 autosave="discojuice" name="searchfield" placeholder="' + textSearch + '" value="" /></p>' +
+				'<p id="search_field" style="display: none"><input type="search" id="search_box" class="discojuice_search" results=5 autosave="discojuice" name="searchfield" placeholder="' + textSearch + '" value="" /></p>' +
 			'</div>' +
 			
 			'<div id="discojuice_error" style="display: none"  class="" >' +
