@@ -446,7 +446,7 @@ DiscoJuice.Control = {
         
         this.data.forEach(function(i) {
             setTitle(i, langs);
-            if(i.weight !== 0) {
+            if(i.weight !== 0 || (i.distanceweight && i.distanceweight !== 0) ) {
                 dataWithWeight.push(i);
             } else {
                 dataWithoutWeight.push(i);
