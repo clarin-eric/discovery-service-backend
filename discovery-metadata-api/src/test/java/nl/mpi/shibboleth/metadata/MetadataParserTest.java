@@ -115,6 +115,34 @@ public class MetadataParserTest {
     }
     
     @Test
+    public void testMetadata5() {
+        String resourceName = "test-metadata-encoding.xml";
+        URL resource = this.getClass().getClassLoader().getResource(resourceName);
+        Assert.assertNotNull("Resource " + resourceName + " should be provided in the test resources.", resource);
+        EntitiesDescriptor descriptors = parse(resource);
+        Assert.assertNotNull(descriptors);
+        Assert.assertNotNull(descriptors.getEntityDescriptor());
+        Assert.assertTrue("Expected one entity descriptor", descriptors.getEntityDescriptor().size() == 1);
+        EntityDescriptor descriptor = descriptors.getEntityDescriptor().get(0);
+        String name = descriptor.getIdpSsoDescriptors().get(0).getExtensions().getInfo().getNames().get(0).getName();
+        logger.info("Name={}", name);
+    }
+    
+    @Test
+    public void testMetadata6() {
+        String resourceName = "test-metadata-encoding2.xml";
+        URL resource = this.getClass().getClassLoader().getResource(resourceName);
+        Assert.assertNotNull("Resource " + resourceName + " should be provided in the test resources.", resource);
+        EntitiesDescriptor descriptors = parse(resource);
+        Assert.assertNotNull(descriptors);
+        Assert.assertNotNull(descriptors.getEntityDescriptor());
+        Assert.assertTrue("Expected one entity descriptor", descriptors.getEntityDescriptor().size() == 1);
+        EntityDescriptor descriptor = descriptors.getEntityDescriptor().get(0);
+        String name = descriptor.getIdpSsoDescriptors().get(0).getExtensions().getInfo().getNames().get(0).getName();
+        logger.info("Name={}", name);
+    }
+    
+    @Test
     public void testGeoHint() throws MalformedURLException {
         URL resource = new URL("https://infra.clarin.eu/aai/prod_md_about_spf_idps.xml");
         parse(resource);

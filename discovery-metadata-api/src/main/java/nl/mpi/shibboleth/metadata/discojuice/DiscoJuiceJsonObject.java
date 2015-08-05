@@ -60,11 +60,10 @@ public class DiscoJuiceJsonObject {
             logger.debug("Missing UIInfo section");
         }
 
-        
         djjo.setEntityID(descriptor.getEntityID());
         
         if(uiInfo != null) { //Try to get a displayname in the specified language
-             for(UIInfo.Name name : uiInfo.getNames()) {                 
+             for(UIInfo.Name name : uiInfo.getNames()) {  
                 djjo.addTitle(new Title(name.getLang(), name.getName()));
              }            
              //set logo
@@ -80,15 +79,9 @@ public class DiscoJuiceJsonObject {
                 djjo.addTitle(new Title(name.lang, name.value));
             }
         } else {
-            //invalidInfo++;
             logger.warn("No displayname available");
         }
-/*
-        logger.debug("Found in SAML metadata:");
-        logger.debug("\tsso url: {}", url);
-        logger.debug("\tentityID: {}", djjo.getEntityID());
-        logger.debug("\torganizationDisplayName: {}", djjo.getTitles().get(0).getValue());
-*/
+
         //override weights
         int weight = 0;
         if(source.getWeights() != null) {
