@@ -5,7 +5,7 @@
  */
 if (typeof DiscoJuice == "undefined") var DiscoJuice = {};
 
-
+//var first = false;
 DiscoJuice.UI = {
 	// Reference to the top level DiscoJuice object
 	"parent" : DiscoJuice,
@@ -26,15 +26,20 @@ DiscoJuice.UI = {
         "preselectResulthtml": 'Loading data…',
         
 	"show": function() {
-		this.control.load();
-	
-		this.popup.fadeIn("slow");
-		$("div#discojuice_overlay").show(); // fadeIn("fast");
-		this.focusSearch();
+            var that = this;
+            
+            //this.parent.Utils.info("*** Show");
+            this.control.load();
+            $("div#discojuice_overlay").show(); // fadeIn("fast");
+            //this.popup.show();
+            this.popup.fadeIn("slow", function () {that.focusSearch();});
 	},
 	
 	"focusSearch": function() {
-		$("input.discojuice_search").focus();
+            //this.parent.Utils.info("*** Focussing search");
+            var element = $('input.discojuice_search');
+            //this.parent.Utils.info('focus search. visible='+element.is(':visible'))
+            element.focus();
 	},
 	
 	"hide": function() {x
@@ -256,11 +261,11 @@ DiscoJuice.UI = {
         
 	"addPreselectedItem": function(item, countrydef, search, distance, quickentry, enabled) {
             this.preselectResulthtml += this.generateTextLink(item,countrydef,search,distance,quickentry,enabled);
-            console.log('added preselected idp item');
+            this.parent.Utils.debug('added preselected idp item');
         },
         
 	"addItem": function(item, countrydef, search, distance, quickentry, enabled) {
-            console.log("added");
+            this.parent.Utils.debug("added");
             if(quickentry) {
                 this.resulthtmlQuick += this.generateTextLink(item,countrydef,search,distance,quickentry,enabled); 
             } else {
@@ -280,8 +285,6 @@ DiscoJuice.UI = {
 		$("div#discojuice_page").show();
 		$("div#discojuice_page_return").show();
 		
-		console.log($("div#discojuice_page"));
-		
 	},
 	
 	"returnToProviderList": function () {
@@ -299,7 +302,7 @@ DiscoJuice.UI = {
 	"refreshData": function(showmore, show, listcount) {
 		var that = this;
 		
-		this.parent.Utils.log('DiscoJuice.UI refreshData()');
+		this.parent.Utils.info('DiscoJuice.UI refreshData()');
 		
                 this.popup.find("div#preselectedScroller").empty().append(this.preselectResulthtml);
                 this.popup.find("div#preselectedScroller a").each(function() {
@@ -391,9 +394,13 @@ DiscoJuice.UI = {
                     //this.control.increase();
                     this.showProviderList();
                 }
-                
-                $('#search_box').focus();
-                console.log('visible='+$('#search_box').is(':visible'));
+                /*
+                if(first) {
+                    $('#search_box').focus();
+                    this.parent.Utils.log('visible='+$('#search_box').is(':visible'));
+                    first = false;
+                }
+                */
 	},
         
         "showProviderList": function() {
@@ -403,7 +410,7 @@ DiscoJuice.UI = {
         },
 	
 	"error": function(message) {
-		console.log("error" + message);
+		this.parent.Utils.error("error" + message);
 		this.popup.find("div#discojuice_error").show();
 		this.popup.find("div.discojuice_errortext").append('<p style="border-bottom: 1px dotted #ddd; margin-bottom: 3px" class="discojuice_errortext">' + message + '</p>');
 	},
@@ -542,7 +549,7 @@ DiscoJuice.UI = {
 		}
 
 		if (this.parent.Utils.options.get('overlay', true)) {
-                    //console.log('DiscoJuice Enable: adding overlay');
+                    this.parent.Utils.debug('DiscoJuice Enable: adding overlay');
                     var overlay = '<div id="discojuice_overlay" style="display: none"></div>';
                     $(overlay).appendTo($("body"));
 		}
@@ -611,7 +618,7 @@ DiscoJuice.UI = {
 			$("a#locateme").click(function(event) {
 				var imgpath = that.parent.Utils.options.get('discoPath', '') + 'images/';
 
-				that.parent.Utils.log('Locate me. Detected click event.');
+				that.parent.Utils.debug('Locate me. Detected click event.');
 				event.preventDefault();
  				event.stopPropagation();
 				$("div.locatemebefore").hide();
