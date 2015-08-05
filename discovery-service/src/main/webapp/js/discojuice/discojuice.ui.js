@@ -27,23 +27,18 @@ DiscoJuice.UI = {
         
 	"show": function() {
             var that = this;
-            
-            //this.parent.Utils.info("*** Show");
             this.control.load();
-            $("div#discojuice_overlay").show(); // fadeIn("fast");
-            //this.popup.show();
+            $("div#discojuice_overlay").show();
             this.popup.fadeIn("slow", function () {that.focusSearch();});
 	},
 	
 	"focusSearch": function() {
-            //this.parent.Utils.info("*** Focussing search");
             var element = $('input.discojuice_search');
-            //this.parent.Utils.info('focus search. visible='+element.is(':visible'))
             element.focus();
 	},
 	
 	"hide": function() {x
-		$("div#discojuice_overlay").fadeOut("slow"); //fadeOut("fast");
+		$("div#discojuice_overlay").fadeOut("slow");
 		this.popup.fadeOut("slow");
 	},
 	
@@ -552,9 +547,13 @@ DiscoJuice.UI = {
                     this.parent.Utils.debug('DiscoJuice Enable: adding overlay');
                     var overlay = '<div id="discojuice_overlay" style="display: none"></div>';
                     $(overlay).appendTo($("body"));
-		}
-		
+                    //htarget = $("#discojuice_overlay");
+                //this.popup = $(html).appendTo(htarget);
+		}                     
+                
                 this.popup = $(html).appendTo(htarget);
+		
+                
                 
                 $("#discojuice").keypress(function(event) {
                     var charCode;
