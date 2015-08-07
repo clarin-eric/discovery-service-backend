@@ -15,10 +15,10 @@ public class DiscoJuice20Injector extends AbstractDiscoJuiceInjector{
         discoJuiceInject.append("function getConfig (title, subtitle, preselectedIDP) {\n");
             discoJuiceInject.append("var options, i;\n");
             discoJuiceInject.append("options = {\n");
-                    discoJuiceInject.append("'title': title,\n");
+                    //discoJuiceInject.append("'title': title,\n");
                         //discoJuiceInject.append(title);
                     //discoJuiceInject.append(",\n");
-                    discoJuiceInject.append("'subtitle': subtitle,\n");
+                    //discoJuiceInject.append("'subtitle': subtitle,\n");
                         //discoJuiceInject.append(subtitle);
                     //discoJuiceInject.append("',\n");
                     discoJuiceInject.append("'disco': {");
@@ -47,9 +47,9 @@ public class DiscoJuice20Injector extends AbstractDiscoJuiceInjector{
         discoJuiceInject.append("};\n");
         discoJuiceInject.append("\n");
         
-        discoJuiceInject.append("DiscoJuice.Dict.helpMore = '");
-        discoJuiceInject.append(helpMore);
-        discoJuiceInject.append("';");
+        //discoJuiceInject.append("DiscoJuice.Dict.helpMore = '");
+        //discoJuiceInject.append(helpMore);
+        //discoJuiceInject.append("';");
         
         /* Inject discojuice in the page */
         discoJuiceInject.append("$('document').ready(function() {\n");

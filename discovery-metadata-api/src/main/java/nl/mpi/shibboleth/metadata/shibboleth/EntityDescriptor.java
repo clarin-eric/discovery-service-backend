@@ -15,7 +15,10 @@ public class EntityDescriptor {
     private List<Organization> organizations = new ArrayList<Organization>();
     private List<ContactPerson> contacts = new ArrayList<ContactPerson>();
     private String entityID;
-
+    
+    @XmlElement(name="Extensions", namespace="urn:oasis:names:tc:SAML:2.0:metadata")
+    public EntityExtensions extensions;
+    
     @XmlAttribute(name="entityID")
     public String getEntityID() {
         return entityID;

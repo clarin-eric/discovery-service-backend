@@ -74,11 +74,19 @@ if (typeof console == "undefined")
 
 var DiscoJuice = {};
 
+var log_level = 20;
 
 /*
  * Country codes available here http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
  */
 DiscoJuice.Constants = {
+    /*
+    "LOG_LEVEL": {
+        "DEBUG": 10,
+        "INFO": 20,
+        "ERROR": 30
+    },
+    */
     "Countries": {
         'EU': 'European Union',
         'AF': 'Afghanistan',
@@ -579,8 +587,31 @@ DiscoJuice.Constants = {
 };
 
 DiscoJuice.Utils = {
-    "log": function (string) {
-        console.log(string);
+    "debug": function (string) {
+        this.log(10, string);
+    },
+    
+    "info": function (string) {
+        this.log(20, string);
+    },   
+    
+    "error": function (string) {
+        this.log(30, string);
+    },
+    
+    "log": function (level, string) {
+        if(level >= log_level) {
+            prefix = '';
+            switch(level) {
+                case 10: 
+                    console.debug('[DEBUG] ' + string); break;
+                case 20:
+                    console.log('[INFO] ' + string); break;
+                case 30:
+                    console.error('[ERROR] ' + string); break;
+            }
+            //console.log(prefix + string);
+        }
     },
     
     "options": function () {
@@ -697,11 +728,12 @@ DiscoJuice.Utils = {
 
         var my = {},
                 parallellActions = [],
-                executed = false;
+                executed = false,
+                that = this;
 
         function execute() {
             if (executed) {
-                console.log('Execution cancelled. Already performed.');
+                that.debug('Execution cancelled. Already performed.');
                 return;
             }
 
@@ -713,34 +745,34 @@ DiscoJuice.Utils = {
             var thisAction = {completed: false};
 
             parallellActions.push(thisAction);
-            console.log('Running action ' + parallellActions.length);
+            that.debug('Running action ' + parallellActions.length);
             act(function () {
                 var i;
                 thisAction.completed = true;
                 for (i = 0; i < parallellActions.length; i++) {
                     if (!parallellActions[i].completed) {
-                        console.log('Cannot execute because we are waiting for another action to complete.');
+                        that.error('Cannot execute because we are waiting for another action to complete.');
                         return;
                     }
                 }
                 if (executed) {
                     if (my.allowMultiple) {
-                        console.log('Slow response; but executing anyway!!');
+                        that.info('Slow response; but executing anyway!!');
                         execute();
                     } else if (typeof tooLate === 'function') {
-                        console.log('All actions completed. Too late for executing...');
+                        that.info('All actions completed. Too late for executing...');
                         tooLate();
                     }
                     return;
                 }
-                console.log('All actions completed. Executing!');
+                that.debug('All actions completed. Executing!');
                 execute();
             });
         }
 
         function startTimer() {
             if (parallellActions.length === 0) {
-                console.log('Executing because no action is scheduled....');
+                that.debug('Executing because no action is scheduled....');
                 if (!executed) {
                     execute();
                 }
@@ -748,7 +780,7 @@ DiscoJuice.Utils = {
             }
 
             setTimeout(function () {
-                console.log('Action timeout!');
+                that.error('Action timeout!');
                 if (!executed) {
                     execute();
                 }
@@ -769,8 +801,8 @@ DiscoJuice.Utils = {
 (function ($) {
     $.fn.DiscoJuice = function (options) {
         return this.each(function (i, target) {
-            console.log('Target is');
-            console.log(target);
+            DiscoJuice.Utils.debug('Target is');
+            DiscoJuice.Utils.debug(target);
 
             options.target = target;
             DiscoJuice.Utils.options.set(options);

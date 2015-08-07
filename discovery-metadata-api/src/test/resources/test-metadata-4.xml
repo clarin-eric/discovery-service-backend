@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<md:EntitiesDescriptor 
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" 
+    xmlns:ds="http://www.w3.org/2000/09/xmldsig#" 
+    xmlns:mdattr="urn:oasis:names:tc:SAML:metadata:attribute" 
+    xmlns:mdrpi="urn:oasis:names:tc:SAML:metadata:rpi" 
+    xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui" 
+    xmlns:pyff="http://pyff-project.org/NS" 
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" 
+    xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" 
+    xmlns:xrd="http://docs.oasis-open.org/ns/xri/xrd-1.0" 
+    ID="_20150727T122619Z" 
+    Name="http://www.clarin.eu/spf" 
+    cacheDuration="PT5H" 
+    validUntil="2015-08-06T12:26:19Z">
+
+    <md:EntityDescriptor entityID="https://weblogin-test.univie.ac.at/shibboleth">
+        <md:Extensions>
+            <mdrpi:RegistrationInfo registrationAuthority="http://eduid.at" registrationInstant="2010-08-26T18:23:59Z"/>
+            <mdattr:EntityAttributes>
+                <saml:Attribute Name="http://macedir.org/entity-category" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+                    <saml:AttributeValue>http://refeds.org/category/hide-from-discovery</saml:AttributeValue>
+                </saml:Attribute>
+            </mdattr:EntityAttributes>
+        </md:Extensions>
+        <md:IDPSSODescriptor protocolSupportEnumeration="urn:mace:shibboleth:1.0 urn:oasis:names:tc:SAML:1.1:protocol urn:oasis:names:tc:SAML:2.0:protocol">
+            <md:Extensions>
+                <shibmd:Scope regexp="false">univie.ac.at</shibmd:Scope>
+                <mdui:UIInfo>
+                    <mdui:DisplayName xml:lang="de">Universität Wien (Test)</mdui:DisplayName>
+                    <mdui:DisplayName xml:lang="en">University of Vienna (Test)</mdui:DisplayName>
+                    <mdui:Logo height="63" width="215">https://public.univie.ac.at/uploads/pics/logo_farbe_web.gif</mdui:Logo>
+                    <mdui:Logo height="16" width="16">https://www.univie.ac.at/fileadmin/favicon.ico</mdui:Logo>
+                </mdui:UIInfo>
+            </md:Extensions>
+            <md:KeyDescriptor use="signing">
+                <ds:KeyInfo>
+                    <ds:X509Data>
+                        <ds:X509Certificate>
+                            MIIDVDCCAjygAwIBAgIVAP7KWOECrYLcr/C/yKIwsPltYGnuMA0GCSqGSIb3DQEB
+                            BQUAMCUxIzAhBgNVBAMTGndlYmxvZ2luLXRlc3QudW5pdmllLmFjLmF0MB4XDTA4
+                            MTIxNjE5MjMzOVoXDTI4MTIxNjE5MjMzOVowJTEjMCEGA1UEAxMad2VibG9naW4t
+                            dGVzdC51bml2aWUuYWMuYXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+                            AQCEcGvFpprskCp9i8LiArfxFFY9hWtPdXIejXZJUnAAlqlcNTzcGO5wILKhFFz6
+                            xAorRZprFL+pwHDqqv9iJyPGDblIMPTKYT3rKuQAQmh2DbhhUHZUlAq6430IvDoP
+                            W0eGBUWEx+gnMDgxUKIxQxm+GkR+Xh0WvHL+juoum0PnbJznU1XBkP3UAIpYndUq
+                            PjseTu+glvWPNXGE1MzQ4ZpniQC6nIKHnpztscsojVQ2LuKb5cSTcF1UNRs9dp78
+                            bV5SwZ0V4oclYSlXmMEfe6WEi7/LjMLoGBq/eCWwUnYNhLTKlC+P7IalOP8zbDss
+                            kEEJ2TMhdUT3F3bBgD0popAPAgMBAAGjezB5MFgGA1UdEQRRME+CGndlYmxvZ2lu
+                            LXRlc3QudW5pdmllLmFjLmF0hjFodHRwczovL3dlYmxvZ2luLXRlc3QudW5pdmll
+                            LmFjLmF0L2lkcC9zaGliYm9sZXRoMB0GA1UdDgQWBBTCOfU9Hg33c5d3iq9utQJa
+                            kFwQZDANBgkqhkiG9w0BAQUFAAOCAQEAFiKc456fbw1+vYWhwHtchD5qcmGNQyK1
+                            aSbmOstu1Dw+i77j1dMcepjw2W7z/HY/JY8XTn3GDrqK9qF+s0840xmi2Pm/DWbM
+                            DaAtLnYUTGxYJPFvN+9JpfgugXQ1QbyKE+mtDe1PH1u9vxIZi8v7jWT24FavQwR2
+                            6HWBIBTh/SlZBqrBYFAdlkCU/axsXEG+D9pZcUR4EZRABGrwyNXTYxGXUSgvrgwA
+                            Qcvja0DQRxwntQt7LL5QHrGkQbq1c+kV2fdwVwhpNjcWjzM7UUP3k2cSrFJpKdtK
+                            S4FFQ4UI4Is9RWHMoLFx1BUOvhBW4IrZX6ut0mRMr0STUd5NHn2K0g==
+                        </ds:X509Certificate>
+                    </ds:X509Data>
+                </ds:KeyInfo>
+            </md:KeyDescriptor>
+            <md:NameIDFormat>urn:mace:shibboleth:1.0:nameIdentifier</md:NameIDFormat>
+            <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+            <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+            <md:SingleSignOnService Binding="urn:mace:shibboleth:1.0:profiles:AuthnRequest" Location="https://weblogin-test.univie.ac.at/idp/profile/Shibboleth/SSO"/>
+            <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://weblogin-test.univie.ac.at/idp/profile/SAML2/POST/SSO"/>
+            <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://weblogin-test.univie.ac.at/idp/profile/SAML2/Redirect/SSO"/>
+            <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="https://weblogin-test.univie.ac.at/idp/profile/SAML2/SOAP/ECP"/>
+        </md:IDPSSODescriptor>
+        <md:Organization>
+            <md:OrganizationName xml:lang="de">Universität Wien</md:OrganizationName>
+            <md:OrganizationName xml:lang="en">University of Vienna</md:OrganizationName>
+            <md:OrganizationDisplayName xml:lang="de">Universität Wien (Test)</md:OrganizationDisplayName>
+            <md:OrganizationDisplayName xml:lang="en">University of Vienna (test)</md:OrganizationDisplayName>
+            <md:OrganizationURL xml:lang="de">http://www.univie.ac.at/</md:OrganizationURL>
+            <md:OrganizationURL xml:lang="en">http://www.univie.ac.at/en/</md:OrganizationURL>
+        </md:Organization>
+        <md:ContactPerson contactType="support">
+            <md:GivenName>Helpdesk</md:GivenName>
+            <md:SurName>ZID</md:SurName>
+            <md:EmailAddress>mailto:helpdesk.zid@univie.ac.at</md:EmailAddress>
+        </md:ContactPerson>
+        <md:ContactPerson contactType="technical">
+            <md:GivenName>IDP Admins</md:GivenName>
+            <md:SurName>ZID</md:SurName>
+            <md:EmailAddress>mailto:idp.zid@univie.ac.at</md:EmailAddress>
+        </md:ContactPerson>
+    </md:EntityDescriptor>
+  
+</md:EntitiesDescriptor>
+   

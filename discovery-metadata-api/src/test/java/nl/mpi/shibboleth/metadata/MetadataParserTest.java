@@ -22,7 +22,7 @@ public class MetadataParserTest {
     public MetadataParserTest() {
     }
 
-    private void parse(URL resource) {
+    private EntitiesDescriptor parse(URL resource) {
         EntitiesDescriptor descriptor = parser.parse(resource);
 
         if (descriptor == null) {
@@ -56,6 +56,8 @@ public class MetadataParserTest {
                 }
             }
         }
+        
+        return descriptor;
     }
     
     /**
@@ -89,6 +91,55 @@ public class MetadataParserTest {
         URL resource = this.getClass().getClassLoader().getResource(resourceName);
         Assert.assertNotNull("Resource " + resourceName + " should be provided in the test resources.", resource);
         parse(resource);
+    }
+    
+    @Test
+    public void testMetadata4() {
+        String resourceName = "test-metadata-4.xml";
+        URL resource = this.getClass().getClassLoader().getResource(resourceName);
+        Assert.assertNotNull("Resource " + resourceName + " should be provided in the test resources.", resource);
+        
+        EntitiesDescriptor descriptors = parse(resource);
+        Assert.assertNotNull(descriptors);
+        Assert.assertNotNull(descriptors.getEntityDescriptor());
+        Assert.assertTrue("Expected one entity descriptor", descriptors.getEntityDescriptor().size() == 1);
+        EntityDescriptor descriptor = descriptors.getEntityDescriptor().get(0);
+        Assert.assertNotNull("Extensions expected", descriptor.extensions);
+        Assert.assertNotNull("Expected registration info in extensions.", descriptor.extensions.registrationInfo);
+        Assert.assertNotNull(descriptor.extensions.attributes);
+        Assert.assertTrue(descriptor.extensions.attributes.size() > 0);
+        Assert.assertNotNull(descriptor.extensions.attributes.get(0));
+        Assert.assertNotNull(descriptor.extensions.attributes.get(0).name);
+        Assert.assertNotNull(descriptor.extensions.attributes.get(0).nameFormat);
+        Assert.assertNotNull(descriptor.extensions.attributes.get(0).value);
+    }
+    
+    @Test
+    public void testMetadata5() {
+        String resourceName = "test-metadata-encoding.xml";
+        URL resource = this.getClass().getClassLoader().getResource(resourceName);
+        Assert.assertNotNull("Resource " + resourceName + " should be provided in the test resources.", resource);
+        EntitiesDescriptor descriptors = parse(resource);
+        Assert.assertNotNull(descriptors);
+        Assert.assertNotNull(descriptors.getEntityDescriptor());
+        Assert.assertTrue("Expected one entity descriptor", descriptors.getEntityDescriptor().size() == 1);
+        EntityDescriptor descriptor = descriptors.getEntityDescriptor().get(0);
+        String name = descriptor.getIdpSsoDescriptors().get(0).getExtensions().getInfo().getNames().get(0).getName();
+        logger.info("Name={}", name);
+    }
+    
+    @Test
+    public void testMetadata6() {
+        String resourceName = "test-metadata-encoding2.xml";
+        URL resource = this.getClass().getClassLoader().getResource(resourceName);
+        Assert.assertNotNull("Resource " + resourceName + " should be provided in the test resources.", resource);
+        EntitiesDescriptor descriptors = parse(resource);
+        Assert.assertNotNull(descriptors);
+        Assert.assertNotNull(descriptors.getEntityDescriptor());
+        Assert.assertTrue("Expected one entity descriptor", descriptors.getEntityDescriptor().size() == 1);
+        EntityDescriptor descriptor = descriptors.getEntityDescriptor().get(0);
+        String name = descriptor.getIdpSsoDescriptors().get(0).getExtensions().getInfo().getNames().get(0).getName();
+        logger.info("Name={}", name);
     }
     
     @Test

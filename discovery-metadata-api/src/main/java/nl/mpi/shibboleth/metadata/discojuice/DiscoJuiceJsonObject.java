@@ -1,5 +1,7 @@
 package nl.mpi.shibboleth.metadata.discojuice;
 
+import com.maxmind.geoip2.exception.AddressNotFoundException;
+import eu.clarin.url.TldUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
@@ -58,11 +60,10 @@ public class DiscoJuiceJsonObject {
             logger.debug("Missing UIInfo section");
         }
 
-        String url = ssos.getLocation();
         djjo.setEntityID(descriptor.getEntityID());
         
         if(uiInfo != null) { //Try to get a displayname in the specified language
-             for(UIInfo.Name name : uiInfo.getNames()) {                 
+             for(UIInfo.Name name : uiInfo.getNames()) {  
                 djjo.addTitle(new Title(name.getLang(), name.getName()));
              }            
              //set logo
@@ -78,15 +79,9 @@ public class DiscoJuiceJsonObject {
                 djjo.addTitle(new Title(name.lang, name.value));
             }
         } else {
-            //invalidInfo++;
             logger.warn("No displayname available");
         }
 
-        logger.debug("Found in SAML metadata:");
-        logger.debug("\tsso url: {}", url);
-        logger.debug("\tentityID: {}", djjo.getEntityID());
-        logger.debug("\torganizationDisplayName: {}", djjo.getTitles().get(0).getValue());
-        
         //override weights
         int weight = 0;
         if(source.getWeights() != null) {
@@ -115,21 +110,48 @@ public class DiscoJuiceJsonObject {
         djjo.setWeight(weight);        
         djjo.setCountryCode(countryCode);
         
+        String url = ssos.getLocation();
         //set geospatial information
-        GeoLookupResult lookupResult = lookup.performLookupByUrl(url);
-        //Skip output if the geoip lookup failed for any reason
-        if(!Float.isNaN(lookupResult.getLatitude()) && !Float.isNaN(lookupResult.getLongitute())) {
-            Geo geo = new Geo();
-            geo.setLat(lookupResult.getLatitude());
-            geo.setLon(lookupResult.getLongitute());
-            djjo.setGeo(geo);
-            if(countryCode == null) {
-                djjo.setCountryCode(lookupResult.getCountryCode());
-            } else {
-                djjo.setCountryCode(countryCode.toUpperCase());
+        GeoLookupResult lookupResult = null;
+        try {
+            lookupResult = lookup.performLookupByUrl(url);
+            //Skip output if the geoip lookup failed for any reason
+            if(!Float.isNaN(lookupResult.getLatitude()) && !Float.isNaN(lookupResult.getLongitute())) {
+                Geo geo = new Geo();
+                geo.setLat(lookupResult.getLatitude());
+                geo.setLon(lookupResult.getLongitute());
+                djjo.setGeo(geo);
+                if(countryCode == null) {
+                    /*
+                    Extract country code based on TLD. If a country code is returned
+                    */
+                    String c = TldUtils.getTldCountryCode(url);
+                    if(c != null) {
+                        djjo.setCountryCode(c);
+                    } else {
+                        djjo.setCountryCode(lookupResult.getCountryCode());
+                    }
+                } else {
+                    djjo.setCountryCode(countryCode.toUpperCase());
+                }
+            }
+        } catch(IllegalStateException ex) {
+            logger.error("IllegalStateException while looking up entity: {}, with url: {}. Error: {}", djjo.getEntityID(), url, ex.getMessage());
+            logger.debug("Stacktrace:", ex);
+        } catch(NullPointerException ex) {
+            logger.error("NullPointerException while looking up entity: {}, with url: {}", djjo.getEntityID(), url);
+            logger.debug("Stacktrace:", ex);
+        }
+       
+        //if we failed to set countrycode because of geo ip lookup, fallback to 
+        //tld lookup
+        if(djjo.getCountryCode() == null) {
+            String c = TldUtils.getTldCountryCode(url);
+            if(c != null) {
+                djjo.setCountryCode(c);
             }
         }
-
+        
         return djjo;
     }
     

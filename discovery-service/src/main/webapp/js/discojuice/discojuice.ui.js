@@ -5,7 +5,7 @@
  */
 if (typeof DiscoJuice == "undefined") var DiscoJuice = {};
 
-
+//var first = false;
 DiscoJuice.UI = {
 	// Reference to the top level DiscoJuice object
 	"parent" : DiscoJuice,
@@ -26,19 +26,19 @@ DiscoJuice.UI = {
         "preselectResulthtml": 'Loading data…',
         
 	"show": function() {
-		this.control.load();
-	
-		this.popup.fadeIn("slow");
-		$("div#discojuice_overlay").show(); // fadeIn("fast");
-		this.focusSearch();
+            var that = this;
+            this.control.load();
+            $("div#discojuice_overlay").show();
+            this.popup.fadeIn("slow", function () {that.focusSearch();});
 	},
 	
 	"focusSearch": function() {
-		$("input.discojuice_search").focus();
+            var element = $('input.discojuice_search');
+            element.focus();
 	},
 	
 	"hide": function() {x
-		$("div#discojuice_overlay").fadeOut("slow"); //fadeOut("fast");
+		$("div#discojuice_overlay").fadeOut("slow");
 		this.popup.fadeOut("slow");
 	},
 	
@@ -151,13 +151,16 @@ DiscoJuice.UI = {
 		if (this.alreadyLoaded[relID]) return;
 		this.alreadyLoaded[relID] = true;
 		
-                var maxWidth = 200;
-                var maxHeight = 50;
+                //var maxWidth = 200;
+                //var maxHeight = 50;
                 
 		// Add icon element first
 		if (item.icon && this.parent.Utils.options.get('showIcon', true)) {
                     //TODO: replace with regex?
-                    if(item.icon.url.startsWith("http://") || item.icon.url.startsWith("https://")) {
+                    if(item.icon.url.startsWith("data:")) {
+                        textLink += '<img class="logo" src="' + item.icon.url + '" />';
+                    } else if(item.icon.url.startsWith("http://") || item.icon.url.startsWith("https://")) {
+                        /*
                         var w = item.icon.width;
                         var h = item.icon.height;
                         
@@ -171,8 +174,8 @@ DiscoJuice.UI = {
                             w = w*rateX;
                             h = h*rateX;
                         }
-                       
-                        textLink += '<img class="logo" src="' + item.icon.url + '" width="'+w+'" height="'+h+'"/>';
+                        */
+                        textLink += '<img class="logo" src="' + item.icon.url + '" />';//width="'+w+'" height="'+h+'"/>';
                     } else {
 			textLink += '<img class="logo" src="' + iconpath + item.icon.url + '" />';
                     }
@@ -253,11 +256,11 @@ DiscoJuice.UI = {
         
 	"addPreselectedItem": function(item, countrydef, search, distance, quickentry, enabled) {
             this.preselectResulthtml += this.generateTextLink(item,countrydef,search,distance,quickentry,enabled);
-            console.log('added preselected idp item');
+            this.parent.Utils.debug('added preselected idp item');
         },
         
 	"addItem": function(item, countrydef, search, distance, quickentry, enabled) {
-            console.log("added");
+            this.parent.Utils.debug("added");
             if(quickentry) {
                 this.resulthtmlQuick += this.generateTextLink(item,countrydef,search,distance,quickentry,enabled); 
             } else {
@@ -277,8 +280,6 @@ DiscoJuice.UI = {
 		$("div#discojuice_page").show();
 		$("div#discojuice_page_return").show();
 		
-		console.log($("div#discojuice_page"));
-		
 	},
 	
 	"returnToProviderList": function () {
@@ -296,7 +297,7 @@ DiscoJuice.UI = {
 	"refreshData": function(showmore, show, listcount) {
 		var that = this;
 		
-		this.parent.Utils.log('DiscoJuice.UI refreshData()');
+		this.parent.Utils.info('DiscoJuice.UI refreshData()');
 		
                 this.popup.find("div#preselectedScroller").empty().append(this.preselectResulthtml);
                 this.popup.find("div#preselectedScroller a").each(function() {
@@ -388,6 +389,13 @@ DiscoJuice.UI = {
                     //this.control.increase();
                     this.showProviderList();
                 }
+                /*
+                if(first) {
+                    $('#search_box').focus();
+                    this.parent.Utils.log('visible='+$('#search_box').is(':visible'));
+                    first = false;
+                }
+                */
 	},
         
         "showProviderList": function() {
@@ -397,12 +405,21 @@ DiscoJuice.UI = {
         },
 	
 	"error": function(message) {
-		console.log("error" + message);
+		this.parent.Utils.error("error" + message);
 		this.popup.find("div#discojuice_error").show();
 		this.popup.find("div.discojuice_errortext").append('<p style="border-bottom: 1px dotted #ddd; margin-bottom: 3px" class="discojuice_errortext">' + message + '</p>');
 	},
 
+        "getParameterByName": function (name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        },
+
         "enable": function(control) {
+            var returnParam = this.getParameterByName("return") != null;
+            
 		var imgpath = this.parent.Utils.options.get('discoPath', '') + 'images/';
 		
 		var textSearch = this.parent.Utils.options.get('textSearch',  DiscoJuice.Dict.orSearch);
@@ -413,7 +430,8 @@ DiscoJuice.UI = {
                 var titleText = '<strong>'+this.parent.Utils.options.get('title', null)+'</strong>';
                 var mainTitleHTML = '<p class="discojuice_maintitle">'+this.sprintf(DiscoJuice.Dict.connectTo, titleText)+'</p>';
                 //Make subtitle html
-                var subtitleText = this.parent.Utils.options.get('subtitle', null);
+                //var subtitleText = this.parent.Utils.options.get('subtitle', null);
+                var subtitleText = this.parent.Utils.options.get('subtitle', DiscoJuice.Dict.subtitle);
 		var subtitleHTML = (subtitleText !== null ? '<p class="discojuice_subtitle">' + subtitleText + '</p>' : '');
 	
                 var accountHelpText = this.parent.Utils.options.get('helpMore', DiscoJuice.Dict.helpMore);
@@ -432,7 +450,11 @@ DiscoJuice.UI = {
                     '</div>' + 
 
                     '<div class="help">'+accountHelpHtml+'</div>';
-                                    
+            
+                    if(returnParam) {
+                        html += '<div class="help error">' + DiscoJuice.Dict.noReturnParamError + '</div>';
+                    }
+                    
                     //preselected idp area. Enabled in mode 2.
                     if(this.mode === 2) {                        
                         html += '<div class="" >' +
@@ -479,7 +501,7 @@ DiscoJuice.UI = {
 			'</div>' +
 	
 			'<div id="search" class="">' +
-				'<p id="search_field" style="display: none"><input type="search" class="discojuice_search" results=5 autosave="discojuice" name="searchfield" placeholder="' + textSearch + '" value="" /></p>' +
+				'<p id="search_field" style="display: none"><input type="search" id="search_box" class="discojuice_search" results=5 autosave="discojuice" name="searchfield" placeholder="' + textSearch + '" value="" /></p>' +
 			'</div>' +
 			
 			'<div id="discojuice_error" style="display: none"  class="" >' +
@@ -522,12 +544,16 @@ DiscoJuice.UI = {
 		}
 
 		if (this.parent.Utils.options.get('overlay', true)) {
-                    //console.log('DiscoJuice Enable: adding overlay');
+                    this.parent.Utils.debug('DiscoJuice Enable: adding overlay');
                     var overlay = '<div id="discojuice_overlay" style="display: none"></div>';
                     $(overlay).appendTo($("body"));
-		}
-		
+                    //htarget = $("#discojuice_overlay");
+                //this.popup = $(html).appendTo(htarget);
+		}                     
+                
                 this.popup = $(html).appendTo(htarget);
+		
+                
                 
                 $("#discojuice").keypress(function(event) {
                     var charCode;
@@ -591,7 +617,7 @@ DiscoJuice.UI = {
 			$("a#locateme").click(function(event) {
 				var imgpath = that.parent.Utils.options.get('discoPath', '') + 'images/';
 
-				that.parent.Utils.log('Locate me. Detected click event.');
+				that.parent.Utils.debug('Locate me. Detected click event.');
 				event.preventDefault();
  				event.stopPropagation();
 				$("div.locatemebefore").hide();

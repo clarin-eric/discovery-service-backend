@@ -72,6 +72,10 @@ div.discojuice p#dj_help {
 	cursor: pointer;
 }
 
+.help {
+    color: red;
+}
+
 
 
 div.discojuice > div.top {
@@ -176,11 +180,16 @@ div.discojuice div.scroller {
 div.discojuice div.scroller img.logo {
 	margin: 0px;
 	float:  right;
+        min-height: 40px;
+        max-height: 50px;
+        max-width: 200px;
+        margin-top: 5px;
 }
 
 div.discojuice div.scroller a {
 	padding: 3px 6px;
 	font-size: 100% ! important;
+        max-height: 60px;
 }
 div.discojuice div.scroller a span {
 /*	margin: 3px;*/

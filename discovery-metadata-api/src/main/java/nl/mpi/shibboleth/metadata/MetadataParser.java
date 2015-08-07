@@ -1,9 +1,15 @@
 package nl.mpi.shibboleth.metadata;
 
+import java.io.BufferedReader;
 import nl.mpi.shibboleth.metadata.shibboleth.EntitiesDescriptor;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -11,7 +17,6 @@ import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.InputSource;
 
 /**
  * Use the apache commons digester to parse shibboleth metadata xml files
@@ -38,8 +43,8 @@ public class MetadataParser {
     public EntitiesDescriptor parse(URL url) {
         EntitiesDescriptor descriptor = null;
         try {
-            InputSource input = new InputSource(url.openStream());
-            descriptor = parseJaxb(input);
+            InputStreamReader rdr = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
+            descriptor = parseJaxb(rdr);
         } catch(IOException ex) {
             logger.error("Failed to read url.", ex);
         }
@@ -47,11 +52,10 @@ public class MetadataParser {
     }
     
     public EntitiesDescriptor parse(String xml) {
-        InputSource input = new InputSource(new StringReader((xml)));
-        return parseJaxb(input);
+        return parseJaxb(new StringReader(xml));
     }
     
-    public EntitiesDescriptor parseJaxb(InputSource input) {
+    public EntitiesDescriptor parseJaxb(Reader input) {
         EntitiesDescriptor descriptor = null;
         try {        
             JAXBContext context = JAXBContext.newInstance(EntitiesDescriptor.class);
