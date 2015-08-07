@@ -87,7 +87,7 @@ DiscoJuice.Control = {
         }
 
 
-        this.parent.Utils.log('metadataurl is ' + metadataurl);
+        this.parent.Utils.info('metadataurl is ' + metadataurl);
         if (!metadataurl)
             return;
 
@@ -98,9 +98,9 @@ DiscoJuice.Control = {
             parameters.entityID = discosettings.spentityid;
         }
 
-        that.parent.Utils.log('Setting up load() waiter');
+        that.parent.Utils.debug('Setting up load() waiter');
         waiter = DiscoJuice.Utils.waiter(function () {
-            that.parent.Utils.log('load() waiter EXECUTED');
+            that.parent.Utils.debug('load() waiter EXECUTED');
             that.postLoad();
         }, 10000);
 
@@ -108,7 +108,7 @@ DiscoJuice.Control = {
             curmdurl = metadataurls[i];
             waiter.runAction(
                     function (notifyCompleted) {
-                        console.log('control.completed()?');
+                        that.parent.Utils.debug('control.completed()?');
                         var j = i + 1;
                         var req = $.ajax({
                             url: curmdurl,
@@ -124,7 +124,7 @@ DiscoJuice.Control = {
                             that.customData = data.custom;
 
                             that.data = $.merge(that.data, data.discojuice);
-                            that.parent.Utils.log('Successfully loaded metadata (' + data.length + ') (' + j + ' of ' + metadataurls.length + ')');
+                            that.parent.Utils.info('Successfully loaded metadata (' + data.length + ') (' + j + ' of ' + metadataurls.length + ')');
                             notifyCompleted();
                         });
 
@@ -165,16 +165,27 @@ DiscoJuice.Control = {
         if (that.parent.Utils.options.get('country', false)) {
             that.filterCountrySetup();
         }
+        /*
+        function compare(a,b) {
+            if (a.title < b.title)
+              return -1;
+            if (a.title > b.title)
+              return 1;
+            return 0;
+          }
 
+          this.data.sort(compare);
+          console.log("Sorted entity ids")
+*/
         that.readCookie(); // Syncronous
         that.readExtensionResponse(); // Reading response set by the Browser extension
 
-        that.parent.Utils.log('Setting up postLoad() waiter');
+        that.parent.Utils.debug('Setting up postLoad() waiter');
 
         waiter = DiscoJuice.Utils.waiter(function () {
             that.prepareData();
             that.searchboxSetup();
-            that.parent.Utils.log('postLoad() waiter EXECUTE');
+            that.parent.Utils.debug('postLoad() waiter EXECUTE');
         }, 2000);
 
         waiter.allowMultiple = true;
@@ -198,7 +209,7 @@ DiscoJuice.Control = {
                 subID = matched[2];
             }
 
-            this.parent.Utils.log('COOKIE read ' + selectedRelID);
+            this.parent.Utils.debug('COOKIE read ' + selectedRelID);
             if (selectedRelID) {
                 this.setWeight(-100, entityID, subID);
                 this.cookieEntityId = entityID;
@@ -220,7 +231,7 @@ DiscoJuice.Control = {
         if (this.extensionResponse.selectedRelID) {
             this.setWeight(-100, this.extensionResponse.entityID, this.extensionResponse.subID);
         }
-        this.parent.Utils.log('DiscoJuice Extension readExtensionResponse ' + this.extensionResponse.entityID + ' ' + this.extensionResponse.subID);
+        this.parent.Utils.debug('DiscoJuice Extension readExtensionResponse ' + this.extensionResponse.entityID + ' ' + this.extensionResponse.subID);
     },
     
     "discojuiceextension": function () {
@@ -236,7 +247,7 @@ DiscoJuice.Control = {
             subID = matched[2];
         }
 
-        this.parent.Utils.log('DiscoJuice Extension read ' + selectedRelID + ' ' + entityID + ' ' + subID);
+        this.parent.Utils.debug('DiscoJuice Extension read ' + selectedRelID + ' ' + entityID + ' ' + subID);
 
         var autologin = $("meta#discojuice_autologin").attr('content');
 
@@ -265,14 +276,14 @@ DiscoJuice.Control = {
             if (isNaN(this.data[i].weight))
                 this.data[i].weight = 0;
             this.data[i].weight += weight;
-            this.parent.Utils.log('COOKIE Setting weight to ' + this.data[i].weight);
+            this.parent.Utils.debug('COOKIE Setting weight to ' + this.data[i].weight);
             return;
         }
-        this.parent.Utils.log('DiscoJuice setWeight failer (no entries found for) ' + entityID + ' # ' + subID);
+        this.parent.Utils.debug('DiscoJuice setWeight failer (no entries found for) ' + entityID + ' # ' + subID);
     },
     
     "discoResponseError": function (cid, error) {
-        this.parent.Utils.log('DiscoResponse ERROR Received cid=' + cid);
+        this.parent.Utils.error('DiscoResponse ERROR Received cid=' + cid);
         if (cid) {
             this.runCallback(cid);
         }
@@ -283,7 +294,7 @@ DiscoJuice.Control = {
     },
     
     "discoResponse": function (sender, entityID, subID, cid) {
-        this.parent.Utils.log('DiscoResponse Received from [' + sender + '] entityID: ' + entityID + ' subID: ' + subID);
+        this.parent.Utils.info('DiscoResponse Received from [' + sender + '] entityID: ' + entityID + ' subID: ' + subID);
 
         var includessubid = true;
         var settings = this.parent.Utils.options.get('disco');
@@ -291,7 +302,7 @@ DiscoJuice.Control = {
             var stores = settings.subIDstores;
             if (stores) {
                 if (stores[entityID] && !subID) {
-                    this.parent.Utils.log('Ignoring discoResponse from entityID: ' + entityID + ' because subID was required and not provided');
+                    this.parent.Utils.debug('Ignoring discoResponse from entityID: ' + entityID + ' because subID was required and not provided');
                     includessubid = false;
                 }
             }
@@ -345,7 +356,7 @@ DiscoJuice.Control = {
     
     "locateMe": function () {
         var that = this;
-        this.parent.Utils.log('Locate Me');
+        this.parent.Utils.debug('Locate Me');
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -384,7 +395,7 @@ DiscoJuice.Control = {
                             }
                     );
                 } else {
-            this.parent.Utils.log('Did not find navigator.geolocation');
+            this.parent.Utils.debug('Did not find navigator.geolocation');
         }
 
     },
@@ -414,7 +425,7 @@ DiscoJuice.Control = {
     "prepareData": function (showall) {
         var showall = (showall ? true : false);
 
-        this.parent.Utils.log('DiscoJuice.Control prepareData(). data.length=' + this.data.length);
+        this.parent.Utils.debug('DiscoJuice.Control prepareData(). data.length=' + this.data.length);
 
         var hits, i, current, search;
         var someleft = false;
@@ -425,23 +436,49 @@ DiscoJuice.Control = {
         if (!this.data)
             return;
 
-        /*
-         * Sort data by weight...
-         */
-        this.data.sort(function (a, b) {
-
-            // Weight
-            var xa, xb;
-            xa = (a.weight ? a.weight : 0);
-            xb = (b.weight ? b.weight : 0);
-
-            if (a.distanceweight)
-                xa += a.distanceweight;
-            if (b.distanceweight)
-                xb += b.distanceweight;
-
-            return (xa - xb);
+        var sorted = [];
+        var dataWithWeight = [];
+        var dataWithoutWeight = [];
+        var langs = [];
+        if(this.customData.languages !== null) {
+            langs = this.customData.languages;
+        }
+        
+        this.data.forEach(function(i) {
+            setTitle(i, langs);
+            if(i.weight !== 0 || (i.distanceweight && i.distanceweight !== 0) ) {
+                dataWithWeight.push(i);
+            } else {
+                dataWithoutWeight.push(i);
+            }
         });
+        
+        dataWithWeight
+            .sort(function (a, b) {
+                var xa, xb;
+                xa = (a.weight ? a.weight : 0);
+                xb = (b.weight ? b.weight : 0);
+                if (a.distanceweight)
+                    xa += a.distanceweight;
+                if (b.distanceweight)
+                    xb += b.distanceweight;
+                return (xa - xb);
+            })
+            .forEach(function(d) {
+                sorted.push(d);
+            });
+        dataWithoutWeight
+            .sort(function (a, b) {
+               if(a.title === null) {
+                   return -1;
+               }
+               return a.title.localeCompare(b.title);
+            })
+            .forEach(function(d) {
+                sorted.push(d);
+            });
+        
+        this.data = sorted;
 
         if (term || categories) {
             this.ui.popup.find("p.discojuice_showall").show();
@@ -468,7 +505,7 @@ DiscoJuice.Control = {
                     current.weight = 0;
 
                 if (!current.title) {
-                    this.parent.Utils.log('No title for this entry [' + current.entityID + (current.relID) + '] skipping.');
+                    this.parent.Utils.debug('No title for this entry [' + current.entityID + (current.relID) + '] skipping.');
                     continue;
                 }
 
@@ -535,7 +572,7 @@ DiscoJuice.Control = {
                             current.weight = 0;
 
                         if (!current.title) {
-                            this.parent.Utils.log('No title for this entry [' + current.entityID + (current.relID) + '] skipping.');
+                            this.parent.Utils.debug('No title for this entry [' + current.entityID + (current.relID) + '] skipping.');
                             continue;
                         }
 
@@ -567,7 +604,7 @@ DiscoJuice.Control = {
                     
                     var enabled = this.isEnabled(current);
                     this.ui.addItem(current, countrydef, search, current.distance, true, enabled);
-                    console.log("Added quick select IDP ["+current.entityID+"]");
+                    this.parent.Utils.debug("Added quick select IDP ["+current.entityID+"]");
                     
                     this.quickEntry = current;                    
                     break;                
@@ -586,7 +623,7 @@ DiscoJuice.Control = {
                         current.weight = 0;
 
                     if (!current.title) {
-                        this.parent.Utils.log('No title for this entry [' + current.entityID + (current.relID) + '] skipping.');
+                        this.parent.Utils.debug('No title for this entry [' + current.entityID + (current.relID) + '] skipping.');
                         continue;
                     }
 
@@ -627,9 +664,6 @@ DiscoJuice.Control = {
 
         this.ui.refreshData(someleft, this.maxhits, hits);
 
-        //this.increase();
-        //Discojuice.UI.showProviderList();
-        
         /**
          * Set the title in the IDP object based on the language preference
          * infered from the Accept-Language headers included in the customData
@@ -659,8 +693,12 @@ DiscoJuice.Control = {
                 for (var i = 0; i < idp.titles.length; i++) {
                     var t = idp.titles[i];
                     if (t.language === lang) {
-                        return t.value;
+                        return t.value.trim();
                     }
+                }
+                //Return first entry if we couldn't match any prefered langauge
+                if (idp.titles.length > 0) {
+                    return idp.titles[0].value.trim();
                 }
                 return null;
             }
@@ -668,7 +706,7 @@ DiscoJuice.Control = {
    },
    
     "hitEnter": function () {
-        this.parent.Utils.log("hitEnter() " + this.quickEntry);
+        this.parent.Utils.debug("hitEnter() " + this.quickEntry);
         this.selectProvider(this.quickEntry.entityID, this.quickEntry.subID);
     },
     
@@ -688,7 +726,7 @@ DiscoJuice.Control = {
         }
 
         if (entity.auth && entity.auth === 'local') {
-            this.parent.Utils.log('local');
+            this.parent.Utils.debug('local');
             callback(entity, that);
             return;
         }
@@ -700,12 +738,12 @@ DiscoJuice.Control = {
             if (subID)
                 relID += '#' + subID;
 
-            this.parent.Utils.log('COOKIE write ' + relID);
+            this.parent.Utils.debug('COOKIE write ' + relID);
             this.parent.Utils.createCookie(relID);
         }
 
-        this.parent.Utils.log('Entity Selected');
-        this.parent.Utils.log(entity);
+        this.parent.Utils.debug('Entity Selected');
+        this.parent.Utils.debug(entity);
 
         if (callback) {
             if (mustwait) {
@@ -747,7 +785,7 @@ DiscoJuice.Control = {
                 returnurlwithparams = DiscoJuice.Utils.addQueryParam(returnurl, 'cid', callbackid);
 
                 currentStore = stores[i];
-                that.parent.Utils.log('Setting up DisoJuice Read from Store [' + currentStore + ']');
+                that.parent.Utils.debug('Setting up DisoJuice Read from Store [' + currentStore + ']');
                 iframeurl = currentStore + '?entityID=' + escape(spentityid) + '&isPassive=true&returnIDParam=entityID&return=' + escape(returnurlwithparams);
                 html = '<iframe src="' + iframeurl + '" style="display: none"></iframe>';
                 that.ui.addContent(html);
@@ -760,7 +798,7 @@ DiscoJuice.Control = {
         var settings = this.parent.Utils.options.get('disco');
         var that = this;
 
-        this.parent.Utils.log('discoSubReadSetup()');
+        this.parent.Utils.debug('discoSubReadSetup()');
 
         if (!settings)
             return;
@@ -777,7 +815,7 @@ DiscoJuice.Control = {
             return;
 
         for (var idp in stores) {
-            this.parent.Utils.log('discoSubReadSetup()');
+            this.parent.Utils.debug('discoSubReadSetup()');
 
             waiter.runAction(function (notifyCompleted) {
 
@@ -785,10 +823,10 @@ DiscoJuice.Control = {
                 returnurl = settings.url + '?entityID=' + escape(idp) + '&cid=' + callbackid;
 
                 currentStore = stores[idp];
-                that.parent.Utils.log('Setting up SubID DisoJuice Read from Store [' + idp + '] =>  [' + currentStore + ']');
+                that.parent.Utils.debug('Setting up SubID DisoJuice Read from Store [' + idp + '] =>  [' + currentStore + ']');
                 iframeurl = currentStore + '?entityID=' + escape(spentityid) + '&isPassive=true&returnIDParam=subID&return=' + escape(returnurl);
-                that.parent.Utils.log('iFrame URL is  [' + iframeurl + ']');
-                that.parent.Utils.log('return URL is  [' + returnurl + ']');
+                that.parent.Utils.debug('iFrame URL is  [' + iframeurl + ']');
+                that.parent.Utils.debug('return URL is  [' + returnurl + ']');
                 html = '<iframe src="' + iframeurl + '" style="display: none"></iframe>';
                 that.ui.addContent(html);
             });
@@ -809,17 +847,17 @@ DiscoJuice.Control = {
 
         var idpentityid = entityID;
 
-        this.parent.Utils.log('DiscoJuice.Control discoWrite()');
+        this.parent.Utils.debug('DiscoJuice.Control discoWrite()');
 
         if (subID) {
-            this.parent.Utils.log('DiscoJuice.Control discoWrite(...)');
+            this.parent.Utils.debug('DiscoJuice.Control discoWrite(...)');
             if (settings.subIDwritableStores && settings.subIDwritableStores[entityID]) {
 
-                this.parent.Utils.log('DiscoJuice.Control discoWrite(' + entityID + ') with SubID [' + subID + ']');
+                this.parent.Utils.debug('DiscoJuice.Control discoWrite(' + entityID + ') with SubID [' + subID + ']');
                 writableStore = settings.subIDwritableStores[entityID];
                 iframeurl = settings.subIDwritableStores[entityID] + escape(subID);
 
-                this.parent.Utils.log('DiscoJuice.Control discoWrite iframeURL (' + iframeurl + ') ');
+                this.parent.Utils.debug('DiscoJuice.Control discoWrite iframeURL (' + iframeurl + ') ');
 
                 html = '<iframe src="' + iframeurl + '" style="display: none"></iframe>';
                 this.ui.addContent(html);
@@ -828,7 +866,7 @@ DiscoJuice.Control = {
             idpentityid += "#" + subID;
         }
 
-        this.parent.Utils.log('DiscoJuice.Control discoWrite(' + idpentityid + ') to ' + writableStore);
+        this.parent.Utils.debug('DiscoJuice.Control discoWrite(' + idpentityid + ') to ' + writableStore);
 
         iframeurl = DiscoJuice.Utils.addQueryParam(writableStore, 'origin', spentityid);
         iframeurl = DiscoJuice.Utils.addQueryParam(iframeurl, 'IdPentityID', idpentityid);
@@ -836,7 +874,7 @@ DiscoJuice.Control = {
         iframeurl = DiscoJuice.Utils.addQueryParam(iframeurl, 'returnIDParam', 'bogus');
         iframeurl = DiscoJuice.Utils.addQueryParam(iframeurl, 'return', returnurl);
 
-        this.parent.Utils.log('DiscoJuice.Control discoWrite iframeURL (2)(' + iframeurl + ') ');
+        this.parent.Utils.debug('DiscoJuice.Control discoWrite iframeURL (2)(' + iframeurl + ') ');
 
         html = '<iframe src="' + iframeurl + '" style="display: none"></iframe>';
         this.ui.addContent(html);
@@ -917,7 +955,7 @@ DiscoJuice.Control = {
         var that = this;
         var key;
 
-        this.parent.Utils.log('filterCountrySetup()');
+        this.parent.Utils.debug('filterCountrySetup()');
 
         // Reduce country list to those in metadata
         var validCountry = {};
@@ -1006,7 +1044,7 @@ DiscoJuice.Control = {
             if (countrycache) {
 
                 this.setCountry(countrycache, false);
-                this.parent.Utils.log('DiscoJuice getCountry() : Found country in cache: ' + countrycache);
+                this.parent.Utils.debug('DiscoJuice getCountry() : Found country in cache: ' + countrycache);
 
                 if (geocachelat && geocachelon) {
                     this.setPosition(geocachelat, geocachelon, false);
@@ -1028,7 +1066,7 @@ DiscoJuice.Control = {
 
                                         that.parent.Utils.createCookie(data.country, 'Country2');
                                         that.setCountry(data.country, false);
-                                        that.parent.Utils.log('DiscoJuice getCountry() : Country lookup succeeded: ' + data.country);
+                                        that.parent.Utils.debug('DiscoJuice getCountry() : Country lookup succeeded: ' + data.country);
 
                                         if (data.geo && data.geo.lat && data.geo.lon) {
                                             that.setPosition(data.geo.lat, data.geo.lon, false);
@@ -1037,10 +1075,10 @@ DiscoJuice.Control = {
                                         }
 
                                     } else if (data && data.error) {
-                                        that.parent.Utils.log('DiscoJuice getCountry() : Country lookup failed: ' + (data.error || ''));
+                                        that.parent.Utils.error('DiscoJuice getCountry() : Country lookup failed: ' + (data.error || ''));
                                         that.ui.error("Error looking up users localization by country: " + (data.error || ''));
                                     } else {
-                                        that.parent.Utils.log('DiscoJuice getCountry() : Country lookup failed');
+                                        that.parent.Utils.error('DiscoJuice getCountry() : Country lookup failed');
                                         that.ui.error("Error looking up users localization by country.");
                                     }
                                     notifyCompleted();

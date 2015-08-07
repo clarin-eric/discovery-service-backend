@@ -4,9 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -41,8 +42,8 @@ public class MetadataProxy extends HttpServlet {
         String jsonMetadata = getServletContext().getInitParameter("metadata-source");
 
         BufferedReader br = null;
-        PrintWriter out = response.getWriter();
-        
+        OutputStreamWriter out = new OutputStreamWriter(response.getOutputStream(), Charset.forName(charset));
+
         String acceptHeader = request.getHeader("Accept-Language");
         logger.debug("Accept header: {}", acceptHeader);
         
@@ -77,7 +78,7 @@ public class MetadataProxy extends HttpServlet {
             if(url.getProtocol().equalsIgnoreCase("file")) {
                 String f = jsonMetadata.replaceAll("file://", "");
                 logger.info("Proxying local file [{}]", f);
-                br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+                br = new BufferedReader(new InputStreamReader(new FileInputStream(f),charset));
             } else {
                 logger.info("Proxying url [{}]", jsonMetadata);
                 br = new BufferedReader(new InputStreamReader(url.openStream(),charset));
@@ -108,9 +109,7 @@ public class MetadataProxy extends HttpServlet {
             buffer.append(discojuiceJsonBuffer.toString());
             buffer.append("}");
 
-            out.println(buffer.toString());
-            
-            //out.println(discojuiceJsonBuffer.toString());
+            out.write(buffer.toString());
         } catch(MalformedURLException ex) {
             logger.error("Malformed url [" + jsonMetadata + "]", ex);
             throw ex;

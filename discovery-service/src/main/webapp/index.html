@@ -13,9 +13,9 @@
                 <li><a href="./status">DiscoJuice Discovery Service Metadata Status</a></li>
             <ul>
         </div>
-        
         <div id="status"></div>
         
+        <script src="http://momentjs.com/downloads/moment.min.js"></script>
         <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
         <script>
             $.getJSON( "./status", function( data ) {
@@ -25,15 +25,34 @@
                     count += d.count;
                     rows += '<tr><td>'+d.name+'</td><td>'+d.count+'</td></tr>';
                 });
+                rows += '<tr><td>Unkown</td><td>' + data.unkown + '</td></tr>';
+                var lastModification = moment(data.lastModified);
+                var age = moment().diff(lastModification, 'minutes');
                 
                 var html = '';
                 
+                html += '<p>Last modification: '+lastModification.format('YYYY-MM-DD hh:mm:ss')+', age = '+age+' minutes</p>';
+                if(age > 30) {
+                    html += '<p style="color: red;">Failure: metadata age exceeds 30 minutes<<p>';
+                } else if(age > 15) {
+                   html += '<p style="color: orange;">Warning metadata age exceeds 15 minutes</p>'; 
+                }
                 html += '<p>'+count+' idps in '+data.countries.length+' countries.</p>';
                 html += '<table><thead></thead><tbody>';
                 html += rows;
                 html += '</tbody></table>';
                 
                 $('#status').empty().html(html);
+            })
+            .fail(function(jqxhr) {
+                var html = '';                
+                html += '<p>Failed to load statistics.</p>';
+                html += '<p>Error: '+jqxhr.status+' : '+jqxhr.statusText+'.</p>';
+                html += '<p>Trace: <br>';
+                html += jqxhr.responseText;
+                html += '</p>';
+                $('#status').empty().html(html);
+                console.log(jqxhr)
             });
         </script>
     </body>

@@ -1,19 +1,24 @@
 package nl.mpi.shibboleth.metadata.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.FileOutputStream;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.List;
-import java.util.Set;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import nl.mpi.geoip.GeoIpLookup;
 import nl.mpi.shibboleth.metadata.MetadataParser;
 import nl.mpi.shibboleth.metadata.discojuice.DiscoJuiceJsonObject;
+import nl.mpi.shibboleth.metadata.discojuice.DiscoJuiceJsonObject.Title;
 import nl.mpi.shibboleth.metadata.shibboleth.EntitiesDescriptor;
 import nl.mpi.shibboleth.metadata.shibboleth.EntityDescriptor;
 import nl.mpi.shibboleth.metadata.source.MetadataSource;
@@ -73,7 +78,7 @@ public class MetadataResource {
     @POST
     @Path("/discojuice")
     @Consumes({MediaType.APPLICATION_XML})
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.APPLICATION_JSON  ) 
     public List<DiscoJuiceJsonObject> getDiscojuiceJson(MetadataSource source) throws IOException {
         if (source == null) {
             throw new IllegalStateException("No source argument supplied.");
@@ -84,8 +89,21 @@ public class MetadataResource {
         GeoIpLookup lookup = Configuration.loadLookup(ctxt);
         MetadataDiscojuiceProcessor processor = new MetadataDiscojuiceProcessor(lookup);
         processIdpDescriptors(source, processor);
-
-        return processor.getDiscoJuiceJson().getObjects();
+        
+        List<DiscoJuiceJsonObject> objects = processor.getDiscoJuiceJson().getObjects();        
+        return objects;
+    }
+    
+    static void writeOutput(String outputFile, String str) {
+        try {
+            FileOutputStream fos = new FileOutputStream(outputFile);
+            try (Writer out = new OutputStreamWriter(fos, Charset.forName("UTF8"))) {
+                out.write(str);
+            }
+        } 
+        catch (IOException ex) {
+            logger.error("Failed to write:", ex);
+        }
     }
     
     /**

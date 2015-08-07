@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-
+    
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-
     <display-name>DiscoJuice Shibboleth Discovery Service</display-name>
-
+    
     <!-- proxy servlet -->
     <servlet>
         <servlet-name>MetadataProxy</servlet-name>
@@ -16,31 +15,31 @@
         <servlet-name>MetadataProxy</servlet-name>
         <url-pattern>/proxy</url-pattern>
     </servlet-mapping>
-
-    <!-- idp servlet -->
+    
+    <!-- discovery service servlet -->
     <servlet>
         <servlet-name>DiscoJuice</servlet-name>
-        <servlet-class>nl.mpi.shibboleth.ds.Discojuice</servlet-class>
+        <servlet-class>nl.mpi.shibboleth.ds.ServletDiscojuice</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DiscoJuice</servlet-name>
         <url-pattern>/discojuice</url-pattern>
     </servlet-mapping>
-
+    
     <!-- status servlet -->
     <servlet>
         <servlet-name>MetadataStatus</servlet-name>
-        <servlet-class>nl.mpi.shibboleth.ds.metadata.proxy.Status</servlet-class>
+        <servlet-class>nl.mpi.shibboleth.ds.status.ServletStatus</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MetadataStatus</servlet-name>
         <url-pattern>/status</url-pattern>
     </servlet-mapping>
-        
+    
     <!-- config servlet -->
     <servlet>
         <servlet-name>ConfigServlet</servlet-name>
-        <servlet-class>nl.mpi.shibboleth.ds.metadata.proxy.ServletConfig</servlet-class>
+        <servlet-class>nl.mpi.shibboleth.ds.config.ServletConfig</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ConfigServlet</servlet-name>
@@ -50,9 +49,14 @@
     <!-- specify the discojuice JSON metadata source -->
     <context-param>
         <param-name>metadata-source</param-name>
+        <param-value>file:///data/idps.json</param-value>
+        <!--
+        <param-value>https://discovery.clarin.eu/metadata/clarin_spf_idps.json</param-value>
+        -->
+        <!--
         <param-value>http://localhost:8080/DS/clarin_spf_idps.json</param-value>
+        -->
     </context-param>
-    
     <!-- specify the display name of this page -->
     <context-param>
         <param-name>title</param-name>
@@ -65,11 +69,13 @@
     <!-- specify a no javascript DS shibboleth endpoint -->
     <context-param>
         <param-name>noscipt-ds-fallback</param-name>
-        <param-value>https://lux17.mpi.nl/Shibboleth.SSO/Login</param-value>
+        <param-value>
+            <![CDATA[Your browser does not support javascript or javascript is disabled. To use the fallback discovery service <a href="https://lux17.mpi.nl/Shibboleth.SSO/Login">click here</a>.]]>
+        </param-value>
     </context-param>
     <context-param>
         <param-name>provider-help</param-name>
-        <param-value><![CDATA[If you cannot find your institution in the list above please select the \"Clarin.eu website account\" and use your credentials of the <a href=\"https://user.clarin.eu/user\">CLARIN website</a>. For questions please contact <a href=\"mailto:spf@clarin.eu\">spf@clarin.eu</a>.]]></param-value>
+        <param-value>If you cannot find your institution in the list above please select the \"Clarin.eu website account\" and use your credentials of the &lt;a href=\"https://user.clarin.eu/user\"&gt;CLARIN website&lt;/a&gt;. For questions please contact &lt;a href=\"mailto:spf@clarin.eu\"&gt;spf@clarin.eu&lt;/a&gt;.</param-value>
     </context-param>
     <context-param>
         <param-name>language-mappings</param-name>

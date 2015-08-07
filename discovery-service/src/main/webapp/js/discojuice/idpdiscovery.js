@@ -51,34 +51,31 @@ var IdPDiscovery = function() {
 		
 		"returnTo": function(e) {
 			
-			var returnTo = query['return'] || null;
-			var returnIDParam = query.returnIDParam || 'entityID';
-			var allowed = false;
+                    var returnTo = query['return'] || null;
+                    var returnIDParam = query.returnIDParam || 'entityID';
+                    var allowed = false;
 
-			if(!returnTo) {
-				DiscoJuice.Utils.log('Missing required parameter [return]');
-				return;
-			}
-			if (!acl) {
-				allowed = true;
-			} else {
+                    if(!returnTo) {
+                        DiscoJuice.Utils.error('Missing required parameter [return]');
+                        return;
+                    }
+                    if (!acl) {
+                        allowed = true;
+                    } else {
+                        var returnToHost = this.getHostname(returnTo);
+                        for (var i = 0; i < returnURLs.length; i++) {
+                            if (returnURLs[i] == returnToHost) {
+                                allowed = true;
+                            }
+                        }
 
-				
-				var returnToHost = this.getHostname(returnTo);
-				
-				for (var i = 0; i < returnURLs.length; i++) {
-					if (returnURLs[i] == returnToHost) allowed = true;
-
-				}
-				
-				if (!allowed) {
-					returnTo = addQueryParam(returnTo, 'error', encodeURIComponent('IdP Discovery: Access denied. Access not granted to return results to host [' + returnToHost + ']'));
-					
-					DiscoJuice.Utils.log('Access denied for return parameter [' + returnToHost + ']');
-					DiscoJuice.Utils.log('Allowed hosts');
-					DiscoJuice.Utils.log(returnURLs);
-				}
-			}
+                        if (!allowed) {
+                            returnTo = addQueryParam(returnTo, 'error', encodeURIComponent('IdP Discovery: Access denied. Access not granted to return results to host [' + returnToHost + ']'));
+                            DiscoJuice.Utils.error('Access denied for return parameter [' + returnToHost + ']');
+                            DiscoJuice.Utils.error('Allowed hosts');
+                            DiscoJuice.Utils.error(returnURLs);
+                        }
+                    }
 			
 
 			
@@ -89,8 +86,8 @@ var IdPDiscovery = function() {
 				
 			// Return without entity found...
 			} else if (!e.entityID) {
-				DiscoJuice.Utils.log('ReturnTo without Entityid');
-				DiscoJuice.Utils.log(e);
+				DiscoJuice.Utils.debug('ReturnTo without Entityid');
+				DiscoJuice.Utils.debug(e);
 				window.location = returnTo;
 			
 			// Return entityid
@@ -100,7 +97,7 @@ var IdPDiscovery = function() {
 					returnTo = addQueryParam(returnTo, 'auth', e.auth);
 				}
 				
-				DiscoJuice.Utils.log('ReturnTo with Entityid');
+				DiscoJuice.Utils.debug('ReturnTo with Entityid');
 				window.location = addQueryParam(returnTo, returnIDParam, escape(e.entityID));
 			}
 			
@@ -108,45 +105,40 @@ var IdPDiscovery = function() {
 
 		},
 		
-		"receive": function() {
-		
-			var entityID = this.getSP();
+            "receive": function() {
+                var entityID = this.getSP();
 
-			if(!entityID) {
-				// DiscoJuice.Utils.log('Missing required parameter [entityID]');
-				return;
-			}
-			
-			var preferredIdP = DiscoJuice.Utils.readCookie() || null;
-			
-			if (query.IdPentityID) {
-				DiscoJuice.Utils.createCookie(query.IdPentityID);
-				preferredIdP = query.IdPentityID;
-			}
-			
-			var isPassive = query.isPassive || 'false';
-			
-			if (isPassive === 'true') {
-				this.returnTo({'entityID': preferredIdP});
-			}
-		},
-		
-		"setup": function(options, rurls, servnames) {
-			var that = this;
-			
-			if (servnames) {
-				serviceNames = servnames;
-			}
-			
-			console.log('Setting up DiscoJuice');
-			returnURLs = rurls;
+                if(!entityID) {
+                    return;
+                }
 
-			this.receive();
-			
-			return function (e) {
-				that.returnTo(e);
-			};
-		}
+                var preferredIdP = DiscoJuice.Utils.readCookie() || null;
+
+                if (query.IdPentityID) {
+                    DiscoJuice.Utils.createCookie(query.IdPentityID);
+                    preferredIdP = query.IdPentityID;
+                }
+
+                var isPassive = query.isPassive || 'false';
+
+                if (isPassive === 'true') {
+                    this.returnTo({'entityID': preferredIdP});
+                }
+            },
+		
+            "setup": function(options, rurls, servnames) {
+                var that = this;
+                if (servnames) {
+                    serviceNames = servnames;
+                }
+
+                returnURLs = rurls;
+                this.receive();
+
+                return function (e) {
+                    that.returnTo(e);
+                };
+            }
 	};
 }();
 

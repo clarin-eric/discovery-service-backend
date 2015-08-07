@@ -1,4 +1,4 @@
-package nl.mpi.shibboleth.ds.metadata.proxy;
+package nl.mpi.shibboleth.ds.status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,16 +10,22 @@ import java.util.List;
 public class Statistics {
 
     public List<Country> countries = new ArrayList<Country>();
+    public Long lastModified = 0L;
+    public Long unkown = 0L;
     
     public void addCountry(String name) {
         for(Country c : countries) {
-            if(c.name.equalsIgnoreCase(name)) {
+            if(c.name != null && c.name.equalsIgnoreCase(name)) {
                 c.increment();
                 return;
             }
         }
         
-        countries.add(new Country(name));
+        if(name != null) {
+            countries.add(new Country(name));
+        } else {
+            unkown++;
+        }
     }
     
     public static class Country {
