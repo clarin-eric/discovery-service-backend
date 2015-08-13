@@ -414,7 +414,7 @@ DiscoJuice.UI = {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
             var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
             results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
         },
 
         "enable": function(control) {
@@ -451,7 +451,7 @@ DiscoJuice.UI = {
 
                     '<div class="help">'+accountHelpHtml+'</div>';
             
-                    if(returnParam) {
+                    if(!returnParam) {
                         html += '<div class="help error">' + DiscoJuice.Dict.noReturnParamError + '</div>';
                     }
                     
