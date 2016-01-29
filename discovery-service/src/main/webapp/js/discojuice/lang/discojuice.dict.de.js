@@ -16,8 +16,10 @@ DiscoJuice.Dict = {
     "showIn":"Zeige Anbieter in",
     "allCountries":"allen L\u00e4ndern",
     "showAllCountries":"Zeige alle L\u00e4nder",
-    "connectTo": "Einloggen bei %s",
+    "connectTo": "Einloggen bei CLARIN Service Provider Föderation",
     "textHelp": "Externe Identitätsanbieter",
     "textHelpPreselected": " Default Identitätsanbieter",
-    "moreLinkPreselected": "Klicken Sie hier, um externe Identitätsanbieter zu zeigen"
+    "moreLinkPreselected": "Klicken Sie hier, um externe Identitätsanbieter zu zeigen",
+    "allLinkPreselected": "Klicken Sie hier, um alle externe Identitätsanbieter zu zeigen",
+    "subtitle": "Select your identity provider below. This is usually the institution where you work or study. Signing in here will allow you to access certain CLARIN resources and services which are only available to users who have logged in."
 };

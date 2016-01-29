@@ -17,7 +17,7 @@ DiscoJuice.Dict = {
     "allCountries":"all countries",
     "showAllCountries":"show all countries", 
     
-    "connectTo": "Sign in to %s",
+    "connectTo": "Sign in to CLARIN Service Provider Federation",
     "textHelp": "External Identity Providers",
     "textHelpPreselected": "Default identity provider", 
     "moreLinkPreselected": "Click here to show external identity providers"
