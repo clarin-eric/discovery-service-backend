@@ -9,11 +9,9 @@
         <script type="text/javascript" src="./js/discojuice/discojuice.misc.js"></script>
         <script type="text/javascript" src="./js/discojuice/discojuice.control.js"></script>
         <script type="text/javascript" src="./js/discojuice/discojuice.ui.js"></script>
-        <!--<script type="text/javascript" src="./js/discojuice/discojuice.dict.en.js"></script>-->
         $discojuice_language_inject$
         <script type="text/javascript" src="./js/discojuice/idpdiscovery.js"></script>
 
-        
         <link rel="stylesheet" type="text/css" href="./js/discojuice/css/discojuice.css" />
         <link rel="stylesheet" type="text/css" href="style.css" />
 
@@ -21,7 +19,7 @@
             $discojuice_inject$
         </script>
     </head>
-    <body><!-- style="background: #ccc">-->
+    <body>
 
         <p style="text-align: right"><a class="signin" href="/"></a></p>
 

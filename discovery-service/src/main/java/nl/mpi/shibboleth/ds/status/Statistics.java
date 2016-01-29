@@ -13,7 +13,7 @@ public class Statistics {
     public Long lastModified = 0L;
     public Long unkown = 0L;
     
-    public void addCountry(String name) {
+    public void addCountry(String name) throws UnkownCountryException {
         for(Country c : countries) {
             if(c.name != null && c.name.equalsIgnoreCase(name)) {
                 c.increment();
@@ -25,6 +25,7 @@ public class Statistics {
             countries.add(new Country(name));
         } else {
             unkown++;
+            throw new UnkownCountryException();
         }
     }
     

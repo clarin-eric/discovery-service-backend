@@ -10,7 +10,9 @@ public abstract class AbstractDiscoJuiceInjector {
     protected String metadataLocation;
     protected String helpMore;
     protected String acl;
-    private String noScriptFallback;
+    protected String noScriptFallback;
+    protected String server;
+    protected String version;
     
     public abstract String getDiscoJuiceInject();
     
@@ -96,5 +98,33 @@ public abstract class AbstractDiscoJuiceInjector {
      */
     public void setNoScriptFallback(String noScriptFallback) {
         this.noScriptFallback = noScriptFallback;
+    }
+
+    /**
+     * @return the server
+     */
+    public String getServer() {
+        return server;
+    }
+
+    /**
+     * @param server the server to set
+     */
+    public void setServer(String server) {
+        this.server = server;
+    }
+
+    /**
+     * @return the version
+     */
+    public String getVersion() {
+        return version;
+    }
+
+    /**
+     * @param version the version to set
+     */
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

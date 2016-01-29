@@ -40,7 +40,11 @@ public class ServletStatus extends AbstractServlet {
         Statistics stats = new Statistics();
         stats.lastModified = loader.getLastModified();
         for(Idp idp : json.idps) {
-            stats.addCountry(idp.country);
+            try {
+                stats.addCountry(idp.country);                
+            } catch(UnkownCountryException ex) {
+                logger.info("Unkown country [{}] for idp: {}", idp.country, idp.entityID);
+            }
         }
         
         response.setContentType("application/json");

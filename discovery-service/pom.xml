@@ -13,12 +13,18 @@
     
     <!-- 
         History
+            1.8.3
+                - Version and servername are now passed in to discojuice configuration 
+                and displayed in the UI.
+                - moment.js javascript is now packaged and provided with a relative link,
+                this fixes scheme issues.
+                
             1.8
-                Include support for the new json enveloppe with multi language support
-                Allow proxying of metadate store in a local file
+                - Include support for the new json enveloppe with multi language support
+                Allow proxying of metadate store in a local file.
                 
             1.7 
-                Included language support for en,nl,de,fr,pt,es,ru,id according to
+                - Included language support for en,nl,de,fr,pt,es,ru,id according to
                 the ISO 639-1 language codes.
     -->
     <groupId>eu.clarin.aai</groupId>

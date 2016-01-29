@@ -4,7 +4,7 @@ package nl.mpi.shibboleth.ds.injector;
  *
  * @author wilelb
  */
-public class DiscoJuice20Injector extends AbstractDiscoJuiceInjector{
+public class DiscoJuice20Injector extends AbstractDiscoJuiceInjector {
     
     @Override
     public String getDiscoJuiceInject() {
@@ -30,6 +30,14 @@ public class DiscoJuice20Injector extends AbstractDiscoJuiceInjector{
                     discoJuiceInject.append("'discoPath': './js/discojuice/',\n");
                     discoJuiceInject.append("'metadata': [],\n");
                     discoJuiceInject.append("'preselected': preselectedIDP,\n");
+                    //Add servername
+                    discoJuiceInject.append("'server': '");
+                    discoJuiceInject.append(server);
+                    discoJuiceInject.append("',\n");
+                    //Add version
+                    discoJuiceInject.append("'version': '");
+                    discoJuiceInject.append(version);
+                    discoJuiceInject.append("',\n");
             discoJuiceInject.append("};\n");
             discoJuiceInject.append("options.metadata.push('");
                 discoJuiceInject.append(metadataLocation);
