@@ -418,6 +418,11 @@ DiscoJuice.UI = {
         },
 
         "enable": function(control) {
+            
+            console.log('Enable UI:');
+            console.log('version: '+this.parent.Utils.options.get('version', '?'));
+            console.log('server: '+this.parent.Utils.options.get('server', 'n/a'));
+            
             var returnParam = this.getParameterByName("return") != null;
             
 		var imgpath = this.parent.Utils.options.get('discoPath', '') + 'images/';
@@ -527,11 +532,23 @@ DiscoJuice.UI = {
 			
 			'<div class="bottom">' +
 				'<div class="filters" style="padding: 0px; margin: 0px; display: none;" id="filters"></div>' +
-				'<p id="dj_help" style="margin 0px; text-align: right; color: #ccc; font-size: 75%">' + 
-				'Based on DiscoJuice &copy; UNINETT ' + 
-				'<img class="" style="position: relative; bottom: -4px; right: -5px" alt="Information" src="' + imgpath + 'info.png" />'
-				'</p>' +
-
+                                
+                                '<table style="width: 100%">' +
+                                    '<tr>' +
+                                        '<td>' +
+                                            '<p id="dj_help" style="margin 0px; text-align: right; color: #ccc; font-size: 75%">' + 
+                                                'Based on DiscoJuice &copy; UNINETT<br />' + 
+                                                'Version: ' + this.parent.Utils.options.get('version', '?') +
+                                                ', Server ID: ' + this.parent.Utils.options.get('server', 'n/a') +
+                                            '</p>' +
+                                        '</td><td>' +
+                                            '<p id="dj_help" style="margin 0px; text-align: right; color: #ccc; font-size: 75%">' + 
+                                                '<img class="" style="position: relative; bottom: -4px; right: -5px" alt="Information" src="' + imgpath + 'info.png" />' +
+                                            '</p>' +
+                                        '</td>' +
+                                    '</tr>' +
+                                '</table>' +
+                                
 			'</div>' +
 	
 

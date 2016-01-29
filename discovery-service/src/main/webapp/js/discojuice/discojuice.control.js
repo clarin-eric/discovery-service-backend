@@ -86,7 +86,6 @@ DiscoJuice.Control = {
             this.data = inlinemetadata;
         }
 
-
         this.parent.Utils.info('metadataurl is ' + metadataurl);
         if (!metadataurl)
             return;

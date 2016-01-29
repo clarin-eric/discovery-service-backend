@@ -85,4 +85,8 @@
         <param-name>default-language</param-name>
         <param-value>en</param-value>
     </context-param>
+    <context-param>
+        <param-name>version</param-name>
+        <param-value>1.8.3-SNAPSHOT</param-value>
+    </context-param>
 </web-app>
