@@ -27,6 +27,12 @@ public class MetadataProxy extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(MetadataProxy.class);
     
+    private boolean cors_enabled;
+    
+    public MetadataProxy() {
+        this.cors_enabled = false;
+    }
+    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -38,7 +44,11 @@ public class MetadataProxy extends HttpServlet {
     throws ServletException, IOException {
         String charset = "UTF-8";
         response.setContentType("text/html;charset="+charset);
-
+        if(this.cors_enabled) {
+            //Set cross origin access policy
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        }
         String jsonMetadata = getServletContext().getInitParameter("metadata-source");
 
         BufferedReader br = null;
