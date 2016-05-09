@@ -24,7 +24,7 @@
         <p style="text-align: right"><a class="signin" href="/"></a></p>
 
         <noscript>
-            Your browser is not support javascript. To use the fallback discovery service <a href="$noscript$">click here</a>.
+            Your browser does not support JavaScript. To use the fallback discovery service, please <a href="$noscript$">click here</a>.
         </noscript>
 
         <!-- Piwik -->
