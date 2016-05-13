@@ -12,6 +12,7 @@
         <module>discovery-service</module>
         <module>discovery-metadata-api</module>
     </modules>
+    
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -19,8 +20,9 @@
             <version>1.7.7</version>
         </dependency>
     </dependencies>
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.version>1.9.0</project.version>
+        <project.version>1.9.1</project.version>
     </properties>
 </project>

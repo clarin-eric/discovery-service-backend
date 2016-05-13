@@ -24,7 +24,7 @@ public class ServletConfig extends AbstractServlet {
     private final static String DEFAULT_subtitle = "Select your Provider";
     private final static String DEFAULT_metadataLocation = "./proxy";
     private final static String DEFAULT_helpMore = "If you cannot find your institution in the list above please select the \"Clarin.eu website account\" and use your credentials of the CLARIN website. For questions please contact webmaster@clarin.eu.";
-    private final static String DEFAULT_noscript = "http://lux17.mpi.nl/Shibboleth.SSO/Login";
+    private final static String DEFAULT_noscript = "https://catalog.clarin.eu/Shibboleth.SSO/Login";
     
     private final ObjectMapper mapper = new ObjectMapper();
     

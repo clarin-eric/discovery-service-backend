@@ -79,7 +79,7 @@
     </context-param>
     <context-param>
         <param-name>language-mappings</param-name>
-        <param-value>(en-US,en);(en,en);(nl_NL,nl);(nl,nl);(pt,pt);(de,de);(fr,fr);(es_ES, es);(es,es)</param-value>
+        <param-value>(en-US,en);(en,en);(nl_NL,nl);(nl,nl);(de,de);</param-value>
     </context-param>
     <context-param>
         <param-name>default-language</param-name>
@@ -87,6 +87,6 @@
     </context-param>
     <context-param>
         <param-name>version</param-name>
-        <param-value>1.9.0</param-value>
+        <param-value>1.9.1</param-value>
     </context-param>
 </web-app>
