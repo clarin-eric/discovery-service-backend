@@ -135,7 +135,7 @@ DiscoJuice.Control = {
                     function () {
                         var c = curmdurl;
                         return function () {
-                            that.ui.error("Metadata retrieval from [" + c + "] to slow. Ignoring response.");
+                            that.ui.error("Metadata retrieval from [" + c + "] too slow. Ignoring response.");
                         }
                     }()
             );
