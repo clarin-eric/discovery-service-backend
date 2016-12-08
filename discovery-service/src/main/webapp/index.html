@@ -30,7 +30,7 @@
                     rows += '<tr><td>'+d.name+'</td><td>'+d.count+'</td></tr>';
                 });
                 rows += '<tr><td>Unkown</td><td>' + data.unkown + '</td></tr>';
-                var lastModification = moment(data.lastModified);
+                var lastModification = moment(data.lastModified.msSinceEpoch);
                 var age = moment().diff(lastModification, 'minutes');
                 
                 var html = '';

@@ -4,6 +4,7 @@ import nl.mpi.shibboleth.ds.AbstractServlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,8 @@ import nl.mpi.shibboleth.ds.metadata.proxy.DiscoJuiceJson;
 import nl.mpi.shibboleth.ds.metadata.proxy.DiscoJuiceJson.Idp;
 import nl.mpi.shibboleth.ds.metadata.proxy.MetadataLoader;
 import nl.mpi.shibboleth.ds.metadata.proxy.MetadataProxy;
+import nl.mpi.shibboleth.ds.status.Statistics.State;
+import nl.mpi.shibboleth.ds.status.Statistics.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +31,8 @@ public class ServletStatus extends AbstractServlet {
     
     private static final String CHARSET = "UTF-8";
     
+    private final static int TRESHOLD_MINUTES = 15;
+    
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //servlet 2.0 spec:
@@ -38,7 +43,16 @@ public class ServletStatus extends AbstractServlet {
         DiscoJuiceJson json = loader.loadMetadata(ctxt, CHARSET);
         
         Statistics stats = new Statistics();
-        stats.lastModified = loader.getLastModified();
+        stats.lastModified = new Time(new Date(loader.getLastModified()));
+        long delta = new Date().getTime() - stats.lastModified.getMsSinceEpoch();
+        long treshold = 1000*60*TRESHOLD_MINUTES; //15 minutes converted to ms
+        if(delta > treshold) {
+            stats.status = State.error("Metadata too old. Age="+((delta-treshold)/(1000*60))+" minutes, expected < "+TRESHOLD_MINUTES+" minutes.");
+        } else {
+            stats.status = State.ok();
+        }
+        
+        
         for(Idp idp : json.idps) {
             try {
                 stats.addCountry(idp.country);                
