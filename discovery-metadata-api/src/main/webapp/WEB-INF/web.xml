@@ -4,8 +4,8 @@
     <display-name>Shibboleth Metadata Conversion API</display-name>
     
     <welcome-file-list>
-        <welcome-file>rest-api.xml</welcome-file>
-    </welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>    
 
     <!-- Conversion API servlet -->
     <servlet>
