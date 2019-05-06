@@ -23,7 +23,7 @@
     <groupId>eu.clarin.aai</groupId>
     <artifactId>discovery-metadata-api</artifactId>
     <packaging>war</packaging>
-    <version>${project.version}</version>
+    <!--version>${project.version}</version-->
     <name>discovery-metadata-api</name>
 
     <repositories>
@@ -32,18 +32,18 @@
             <name>GlassFish Maven Repository</name>
             <url>http://download.java.net/maven/glassfish/</url>
         </repository>
-        <repository>
+        <!--repository>
             <id>java.net.m1repo</id>
             <name>java.net Maven 1 Repository</name>
             <url>http://download.java.net/maven/1/</url>
             <layout>legacy</layout>
-        </repository>
-        <repository>
+        </repository-->
+        <!--repository>
             <id>java.net.m2repo</id>
             <name>java.net Maven 2 Repository</name>
             <url>http://download.java.net/maven/2/</url>
             <layout>default</layout>
-        </repository>
+        </repository-->
     </repositories> 
 
     <dependencies>
@@ -89,11 +89,11 @@
             <version>1.7</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>jta</artifactId>
             <version>1.0.1B</version>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>

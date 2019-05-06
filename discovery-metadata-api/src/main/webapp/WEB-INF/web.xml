@@ -7,6 +7,7 @@
         <welcome-file>rest-api.xml</welcome-file>
     </welcome-file-list>
 
+    <!-- Conversion API servlet -->
     <servlet>
         <servlet-name>Shib-Metadata-API</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -21,8 +22,34 @@
         <servlet-name>Shib-Metadata-API</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
-   
-     
+        
+    <!-- proxy servlet -->
+    <servlet>
+        <servlet-name>MetadataProxy</servlet-name>
+        <servlet-class>nl.mpi.shibboleth.ds.metadata.proxy.MetadataProxy</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MetadataProxy</servlet-name>
+        <url-pattern>/proxy</url-pattern>
+    </servlet-mapping>
+    
+    <!-- status servlet -->
+    <servlet>
+        <servlet-name>MetadataStatus</servlet-name>
+        <servlet-class>nl.mpi.shibboleth.ds.status.ServletStatus</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MetadataStatus</servlet-name>
+        <url-pattern>/status</url-pattern>
+    </servlet-mapping>
+    
+    <!-- specify the discojuice JSON metadata source -->
+    <context-param>
+        <param-name>metadata-source</param-name>
+        <!--param-value>file:///data/idps.json</param-value-->
+        <param-value>http://localhost:8080/DS/clarin_spf_idps.json</param-value>
+    </context-param>
+    
     <listener>
         <listener-class>org.quartz.ee.servlet.QuartzInitializerListener</listener-class>
     </listener>
