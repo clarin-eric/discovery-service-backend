@@ -6,7 +6,7 @@ The project contains one module:
 
 ## discovery-metadata-api
 This module provides a java web application providing a set of REST interfaces
-for geo-ip lookup and SAML --> JSON conversion and two additional endpoints.
+for geo-ip lookup and SAML --> JSON conversion and some additional endpoints.
 
 Endpoints:
  * /rest, the metadata conversion api.
