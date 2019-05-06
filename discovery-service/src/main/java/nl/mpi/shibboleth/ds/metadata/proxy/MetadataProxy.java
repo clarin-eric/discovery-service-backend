@@ -30,7 +30,7 @@ public class MetadataProxy extends HttpServlet {
     private boolean cors_enabled;
     
     public MetadataProxy() {
-        this.cors_enabled = false;
+        this.cors_enabled = true;
     }
     
     /** 

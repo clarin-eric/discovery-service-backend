@@ -47,7 +47,7 @@ public class ServletStatus extends AbstractServlet {
         long delta = new Date().getTime() - stats.lastModified.getMsSinceEpoch();
         long treshold = 1000*60*TRESHOLD_MINUTES; //15 minutes converted to ms
         if(delta > treshold) {
-            stats.status = State.error("Metadata too old. Age="+((delta-treshold)/(1000*60))+" minutes, expected < "+TRESHOLD_MINUTES+" minutes.");
+            stats.status = State.error("Metadata too old. Age="+(delta/(1000*60))+" minutes, expected < "+TRESHOLD_MINUTES+" minutes.");
         } else {
             stats.status = State.ok();
         }

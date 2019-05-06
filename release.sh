@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION="1.9.2"
+VERSION="1.9.3"
 
 rm *.war
 cp discovery-metadata-api/target/metadata-api-${VERSION}.war discovery-service/target/discovery-service-${VERSION}.war .
