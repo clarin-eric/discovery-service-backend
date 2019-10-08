@@ -17,7 +17,7 @@ deploy:
   prerelease: true
   api_key:
     secure: "${DEPLOY_TOKEN}"
-  file: "target/metadata_api-${TRAVIS_TAG}.war"
+  file: "target/metadata-api-${TRAVIS_TAG}.war"
   skip_cleanup: true
   on:
    tags: true
