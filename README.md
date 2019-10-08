@@ -1,18 +1,17 @@
-# Clarin discovery service
+# CLARIN Discovery Service Backend
 License: to be decided
 
-The project contains two modules:
- * discovery-service
+The project contains one module:
  * discovery-metadata-api
 
-## discovery-service
-This module provides a java web application providing the discovery service itself.
+## discovery-metadata-api
+This module provides a java web application providing a set of REST interfaces
+for geo-ip lookup and SAML --> JSON conversion and some additional endpoints.
 
 Endpoints:
- * /discojuice      
- * /proxy
- * /status
+ * /rest, the metadata conversion api.
+ * /proxy, return the json information with permissive CORS headers.
+ * /status, provides some statistics on the available data.
  
-##discovery-metadata-api
-Thius module provides a java web application providing a set of REST interfaces
-for geo-ip lookup and SAML --> JSON conversion.
+ ## Frontend
+ The discovery service frontend can be found here: https://github.com/clarin-eric/discovery-service-frontend

@@ -1,6 +1,8 @@
 #!/bin/sh
 
-VERSION="1.8.3-SNAPSHOT"
+VERSION="2.1.0"
 
-cp discovery-metadata-api/target/metadata-api-${VERSION}.war discovery-service/target/discovery-service-${VERSION}.war .
+mvn clean install
+rm -rf *.war
+cp discovery-metadata-api/target/metadata-api-*.war .
 tar -pczvf release-${VERSION}.tar.gz *.war

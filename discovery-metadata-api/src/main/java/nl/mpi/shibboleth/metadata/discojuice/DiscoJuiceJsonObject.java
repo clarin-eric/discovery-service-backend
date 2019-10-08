@@ -66,8 +66,8 @@ public class DiscoJuiceJsonObject {
              for(UIInfo.Name name : uiInfo.getNames()) {  
                 djjo.addTitle(new Title(name.getLang(), name.getName()));
              }            
-             //set logo
-             if(uiInfo.getLogo() != null) {
+             //set logo, but skip embedded base64 encoded entries
+             if(uiInfo.getLogo() != null && !uiInfo.getLogo().url.startsWith("data:")) {
                 Icon icon = new Icon();
                 icon.url = uiInfo.getLogo().url;
                 icon.width = uiInfo.getLogo().width;
