@@ -11,13 +11,13 @@ import javax.xml.bind.annotation.XmlElement;
  */
 public class EntityDescriptor {
 
-    private List<IDPSSoDescriptor> idpSsoDescriptors = new ArrayList<IDPSSoDescriptor>();
-    private List<Organization> organizations = new ArrayList<Organization>();
-    private List<ContactPerson> contacts = new ArrayList<ContactPerson>();
+    private List<IDPSSoDescriptor> idpSsoDescriptors = new ArrayList<>();
+    private List<Organization> organizations = new ArrayList<>();
+    private List<ContactPerson> contacts = new ArrayList<>();
     private String entityID;
     
     @XmlElement(name="Extensions", namespace="urn:oasis:names:tc:SAML:2.0:metadata")
-    public EntityExtensions extensions;
+    private EntityExtensions extensions;
     
     @XmlAttribute(name="entityID")
     public String getEntityID() {
@@ -61,5 +61,26 @@ public class EntityDescriptor {
 
     public boolean isSPDescriptor() {
         return false; //TODO: implement
+    }
+
+    /**
+     * @return the extensions
+     */
+    public EntityExtensions getExtensions() {
+        return extensions;
+    }
+    
+    public boolean hideFromDiscovery() {
+        boolean hide = false;
+        if(getExtensions() != null && getExtensions().attributes != null) {
+            for(EntityExtensions.EntityAttribute a : getExtensions().attributes) {
+                boolean entityCat = a.name.equalsIgnoreCase("http://macedir.org/entity-category");
+                boolean hideFromDiscovery = a.value.equalsIgnoreCase("http://refeds.org/category/hide-from-discovery");
+                if(entityCat && hideFromDiscovery) {
+                    hide = true;
+                }
+            }
+        }
+        return hide;
     }
 }

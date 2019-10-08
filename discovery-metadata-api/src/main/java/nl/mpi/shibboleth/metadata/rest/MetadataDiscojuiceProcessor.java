@@ -4,7 +4,6 @@ import nl.mpi.geoip.GeoIpLookup;
 import nl.mpi.shibboleth.metadata.discojuice.DiscoJuiceJson;
 import nl.mpi.shibboleth.metadata.discojuice.DiscoJuiceJsonObject;
 import nl.mpi.shibboleth.metadata.shibboleth.EntityDescriptor;
-import nl.mpi.shibboleth.metadata.shibboleth.EntityExtensions.EntityAttribute;
 import nl.mpi.shibboleth.metadata.source.MetadataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,18 +29,19 @@ public class MetadataDiscojuiceProcessor implements MetadataProcessor {
     public void process(EntityDescriptor descriptor, MetadataSource source) {
         if (descriptor.isIDPDescriptor()) {
             try {
+                /*
                 //Check if this idp is indication to not be included in the DS
                 boolean skip = false;
-                if(descriptor.extensions != null && descriptor.extensions.attributes != null) {
-                    for(EntityAttribute attr :  descriptor.extensions.attributes) {
+                if(descriptor.getExtensions() != null && descriptor.getExtensions().attributes != null) {
+                    for(EntityAttribute attr :  descriptor.getExtensions().attributes) {
                         if(attr.name.equalsIgnoreCase("http://macedir.org/entity-category") &&
                            attr.value.equalsIgnoreCase("http://refeds.org/category/hide-from-discovery")) {
                             skip = true;
                         }
                     }
                 }
-                
-                if(!skip) {
+                */
+                if(!descriptor.hideFromDiscovery()) {
                     DiscoJuiceJsonObject jsonObj
                         = DiscoJuiceJsonObject.create(descriptor, lookup, source);
                     discoJuiceJson.addObject(jsonObj);
