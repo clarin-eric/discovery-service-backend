@@ -51,15 +51,14 @@
     </context-param>
     
     <listener>
+        <listener-class>org.quartz.ee.servlet.QuartzInitializerListener</listener-class>
+    </listener>
+    <!--
+    <listener>
         <listener-class>nl.mpi.shibbolet.metadata.QuartzListener</listener-class>
     </listener>
-        
+   -->
     <!-- Quartz scheduler configuration -->
-    <!--
-    <context-param>
-        <param-name>quartz:config-file</param-name>
-        <param-value>quartz.properties</param-value>
-    </context-param>
     <context-param>
         <param-name>quartz:shutdown-on-unload</param-name>
         <param-value>true</param-value>
@@ -72,12 +71,12 @@
         <param-name>quartz:start-on-load</param-name>
         <param-value>true</param-value>
     </context-param>
+    <!--
     <context-param>
         <param-name>quartz:scheduler-context-servlet-context-key</param-name>
         <param-value>servletContext</param-value>
     </context-param>
-     -->
-         
+        --> 
     <!-- Application configuration -->
     <context-param>
         <param-name>GEO-IP-DATABASE</param-name>
