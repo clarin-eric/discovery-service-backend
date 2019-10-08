@@ -1,6 +1,5 @@
 package nl.mpi.shibboleth.metadata.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.FileOutputStream;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,7 +17,6 @@ import javax.ws.rs.POST;
 import nl.mpi.geoip.GeoIpLookup;
 import nl.mpi.shibboleth.metadata.MetadataParser;
 import nl.mpi.shibboleth.metadata.discojuice.DiscoJuiceJsonObject;
-import nl.mpi.shibboleth.metadata.discojuice.DiscoJuiceJsonObject.Title;
 import nl.mpi.shibboleth.metadata.shibboleth.EntitiesDescriptor;
 import nl.mpi.shibboleth.metadata.shibboleth.EntityDescriptor;
 import nl.mpi.shibboleth.metadata.source.MetadataSource;
@@ -132,7 +130,7 @@ public class MetadataResource {
                 //Get all idp descriptors and use them to create DiscoJuiceJsonObject
                 //objects and add these to the list.
                 t1 = System.nanoTime();
-                  for (EntityDescriptor descriptor : descriptors.getEntityDescriptor()) {
+                for (EntityDescriptor descriptor : descriptors.getEntityDescriptor()) {
                     processor.process(descriptor, source);                    
                 }
                 t2 = System.nanoTime();

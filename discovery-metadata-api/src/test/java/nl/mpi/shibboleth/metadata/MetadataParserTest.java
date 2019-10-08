@@ -2,10 +2,10 @@ package nl.mpi.shibboleth.metadata;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import nl.mpi.geoip.impl.GeoIpLookupImplApiV2;
 import nl.mpi.shibboleth.metadata.shibboleth.ContactPerson;
 import nl.mpi.shibboleth.metadata.shibboleth.EntitiesDescriptor;
 import nl.mpi.shibboleth.metadata.shibboleth.EntityDescriptor;
+import nl.mpi.shibboleth.metadata.shibboleth.EntityExtensions;
 import nl.mpi.shibboleth.metadata.shibboleth.IDPSSoDescriptor;
 import nl.mpi.shibboleth.metadata.shibboleth.Organization;
 import nl.mpi.shibboleth.metadata.shibboleth.SingleSignOnService;
@@ -32,12 +32,13 @@ public class MetadataParserTest {
             Assert.assertNotNull(descriptor.getEntityDescriptor());
             Assert.assertTrue(descriptor.getEntityDescriptor().size() > 0);
 
-            for (EntityDescriptor ed : descriptor.getEntityDescriptor()) {
+            
+            for (EntityDescriptor ed : descriptor.getEntityDescriptor()) {                
                 Assert.assertNotNull(ed.getEntityID());
                 Assert.assertNotNull(ed.getOrganizations());
                 Assert.assertNotNull(ed.getContacts());
                 Assert.assertNotNull(ed.getIdpSsoDescriptors());
-
+                
                 for (IDPSSoDescriptor sso : ed.getIdpSsoDescriptors()) {
                     Assert.assertNotNull(sso.getSsos());
                     Assert.assertTrue(sso.getSsos().size() > 0);
@@ -71,6 +72,17 @@ public class MetadataParserTest {
         parse(resource);
     }
 
+      /**
+     * Test with CLARIN homeless metadata, hidden from discovery
+     */
+    @Test
+    public void testMetadata1Hidden() {
+        String resourceName = "test-metadata-1-hide.xml";
+        URL resource = this.getClass().getClassLoader().getResource(resourceName);
+        Assert.assertNotNull("Resource " + resourceName + " should be provided in the test resources.", resource);
+        parse(resource);
+    }
+    
     /**
      * Test with 'old' surf metadata
      */
@@ -104,14 +116,14 @@ public class MetadataParserTest {
         Assert.assertNotNull(descriptors.getEntityDescriptor());
         Assert.assertTrue("Expected one entity descriptor", descriptors.getEntityDescriptor().size() == 1);
         EntityDescriptor descriptor = descriptors.getEntityDescriptor().get(0);
-        Assert.assertNotNull("Extensions expected", descriptor.extensions);
-        Assert.assertNotNull("Expected registration info in extensions.", descriptor.extensions.registrationInfo);
-        Assert.assertNotNull(descriptor.extensions.attributes);
-        Assert.assertTrue(descriptor.extensions.attributes.size() > 0);
-        Assert.assertNotNull(descriptor.extensions.attributes.get(0));
-        Assert.assertNotNull(descriptor.extensions.attributes.get(0).name);
-        Assert.assertNotNull(descriptor.extensions.attributes.get(0).nameFormat);
-        Assert.assertNotNull(descriptor.extensions.attributes.get(0).value);
+        Assert.assertNotNull("Extensions expected", descriptor.getExtensions());
+        Assert.assertNotNull("Expected registration info in extensions.", descriptor.getExtensions().registrationInfo);
+        Assert.assertNotNull(descriptor.getExtensions().attributes);
+        Assert.assertTrue(descriptor.getExtensions().attributes.size() > 0);
+        Assert.assertNotNull(descriptor.getExtensions().attributes.get(0));
+        Assert.assertNotNull(descriptor.getExtensions().attributes.get(0).name);
+        Assert.assertNotNull(descriptor.getExtensions().attributes.get(0).nameFormat);
+        Assert.assertNotNull(descriptor.getExtensions().attributes.get(0).value);
     }
     
     @Test

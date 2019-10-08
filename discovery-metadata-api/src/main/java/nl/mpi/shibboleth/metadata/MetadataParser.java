@@ -1,6 +1,5 @@
 package nl.mpi.shibboleth.metadata;
 
-import java.io.BufferedReader;
 import nl.mpi.shibboleth.metadata.shibboleth.EntitiesDescriptor;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,8 +7,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
