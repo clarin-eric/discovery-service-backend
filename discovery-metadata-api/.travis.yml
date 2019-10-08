@@ -9,14 +9,14 @@ before_install:
 install: /bin/true
 script:
 - bash -c 'if [ "${TRAVIS_TAG}" ]; then mvn versions:set -DnewVersion=${TRAVIS_TAG} versions:commit; fi'
-- mvn install -Dmaven.javadoc.skip=true -B -V
+- mvn package -Dmaven.javadoc.skip=true -B -V
 
 deploy:
   provider: releases
   prerelease: true
   api_key:
     secure: "${DEPLOY_TOKEN}"
-  file: "target/metadata-api-${TRAVIS_TAG}.war"
+  file: "discovery-metadata-api/target/metadata-api-${TRAVIS_TAG}.war"
   skip_cleanup: true
   on:
    tags: true
