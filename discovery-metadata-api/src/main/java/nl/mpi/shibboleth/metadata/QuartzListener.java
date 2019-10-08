@@ -13,6 +13,12 @@ import org.quartz.TriggerBuilder;
 import org.quartz.ee.servlet.QuartzInitializerListener;
 import org.quartz.impl.StdSchedulerFactory;
 
+/**
+ * Reference:
+ *   https://stackoverflow.com/questions/5663640/how-to-use-quartz-with-quartzinitializerlistener
+ * 
+ * @author wilelb
+ */
 @WebListener
 public class QuartzListener extends QuartzInitializerListener {
 
@@ -20,7 +26,13 @@ public class QuartzListener extends QuartzInitializerListener {
     public void contextInitialized(ServletContextEvent sce) {
         super.contextInitialized(sce);
         ServletContext ctx = sce.getServletContext();
+        
         StdSchedulerFactory factory = (StdSchedulerFactory) ctx.getAttribute(QUARTZ_FACTORY_KEY);
+        if(factory == null) {
+            factory = new StdSchedulerFactory();
+            ctx.setAttribute(QUARTZ_FACTORY_KEY, factory);
+        }
+        
         try {
             Scheduler scheduler = factory.getScheduler();
             JobDetail jobDetail = JobBuilder.newJob(nl.mpi.geoip.DatabaseDownloadJob.class).build();
