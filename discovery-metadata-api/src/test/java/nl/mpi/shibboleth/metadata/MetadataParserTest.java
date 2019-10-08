@@ -48,6 +48,7 @@ public class MetadataParserTest {
                     }
                 }
 
+                /*
                 for (Organization org : ed.getOrganizations()) {
                     logger.info(org.getNames().get(0) + ", " + org.getDisplayNames().get(0) + ", " + org.getUrl());
                 }
@@ -55,6 +56,7 @@ public class MetadataParserTest {
                 for (ContactPerson contact : ed.getContacts()) {
                     logger.info(contact.getContactType() + ", " + contact.getSurname() + ", " + contact.getEmailAddress());
                 }
+                */
             }
         }
         
