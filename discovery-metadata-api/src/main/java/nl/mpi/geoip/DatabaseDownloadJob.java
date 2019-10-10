@@ -1,14 +1,12 @@
 package nl.mpi.geoip;
 
-import java.io.IOException;
-import static java.util.Locale.lookup;
 import java.util.Map;
 import javax.servlet.ServletContext;
+import nl.mpi.shibboleth.metadata.QuartzListener;
 import nl.mpi.shibboleth.metadata.rest.Configuration;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,16 +23,23 @@ public class DatabaseDownloadJob implements Job {
     
     @Override
     public void execute(final JobExecutionContext ctx) throws JobExecutionException {
-        try {
-            logger.trace("Executing Job: "+getClass().getName());
-            ServletContext sctxt = (ServletContext)ctx.getScheduler().getContext().get("servletContext");
-            Map<String, String> config = Configuration.loadConfiguration(sctxt);
-            logger.trace("Loaded database path: "+config.get(Configuration.GEO_IP_DATABASE));
-            DatabaseDownloader downloader = new DatabaseDownloader(config.get(Configuration.GEO_IP_DATABASE));
-            downloader.checkForUpdate();
-            logger.trace("Job executed");
-        } catch(SchedulerException ex) {
-            throw new JobExecutionException("Failed to retrieve servlet context from quartz scheduler", ex);
-        } 
+        logger.trace("Executing Job: "+getClass().getName());
+        ServletContext sctxt = (ServletContext)ctx.getMergedJobDataMap().get(QuartzListener.QUARTZ_SC_KEY_NAME);
+        Map<String, String> config = Configuration.loadConfiguration(sctxt);
+        
+        String tmp_dir = System.getProperty("java.io.tmpdir");
+        if(!tmp_dir.endsWith("/")) {
+            tmp_dir += "/";
+        }
+        String geo_ip_database = tmp_dir+DatabaseDownloader.DEFAULT_GEOLITE2_CITY_FILENAME;
+        if(config != null && config.get(Configuration.GEO_IP_DATABASE) != null) {
+            geo_ip_database = config.get(Configuration.GEO_IP_DATABASE);
+        }
+        
+        logger.trace("Loaded database path: "+geo_ip_database);
+        
+        DatabaseDownloader downloader = new DatabaseDownloader(geo_ip_database);
+        downloader.checkForUpdate();
+        logger.trace("Job executed"); 
     }
 }

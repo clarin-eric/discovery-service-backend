@@ -14,7 +14,6 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -37,6 +36,8 @@ public class DatabaseDownloader {
     protected final File databaseGzipFile;
     protected final File databaseFile;
     protected final File databaseMd5File;
+    
+    public final static String DEFAULT_GEOLITE2_CITY_FILENAME = "GeoLiteCity.dat";
     
     protected final String geolite2_city_db = "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz";
     protected final String geolite2_city_md5 = "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5";
@@ -128,7 +129,7 @@ public class DatabaseDownloader {
         try (ReadableByteChannel rbc = Channels.newChannel(con.getInputStream())) {
             FileChannel fileChannel = FileChannel.open(tmp, EnumSet.of(StandardOpenOption.CREATE, StandardOpenOption.WRITE));
             totalBytesRead = fileChannel.transferFrom(rbc, 0, maxBytesToRead);
-            logger.info("totalBytesRead = " + totalBytesRead);
+            logger.trace("totalBytesRead = " + totalBytesRead);
             fileChannel.close();
         }
         

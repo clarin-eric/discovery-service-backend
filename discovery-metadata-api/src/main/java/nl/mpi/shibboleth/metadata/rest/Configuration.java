@@ -23,16 +23,16 @@ public class Configuration {
 
     private final static Logger logger = LoggerFactory.getLogger(Configuration.class);
 
-    private static String[] parameters = new String[] {PRIVATE_IP,PUBLIC_IP,GEO_IP_DATABASE};
+    private final static String[] parameters = new String[] {PRIVATE_IP,PUBLIC_IP,GEO_IP_DATABASE};
 
     private static Map<String,String> configuration =null;
 
     public static Map<String,String> loadConfiguration(ServletContext ctxt) {
         if(configuration == null) {
-            configuration = new HashMap<String,String>();
             if(ctxt == null) {
                 logger.error("Servlet context is null, cannot load configuration");
             } else {
+                configuration = new HashMap<>();
                 for(String parameter : parameters) {
                     String value = ctxt.getInitParameter(parameter);
                     if(value == null) {
