@@ -2,12 +2,9 @@ package nl.mpi.shibboleth.metadata;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import nl.mpi.shibboleth.metadata.shibboleth.ContactPerson;
 import nl.mpi.shibboleth.metadata.shibboleth.EntitiesDescriptor;
 import nl.mpi.shibboleth.metadata.shibboleth.EntityDescriptor;
-import nl.mpi.shibboleth.metadata.shibboleth.EntityExtensions;
 import nl.mpi.shibboleth.metadata.shibboleth.IDPSSoDescriptor;
-import nl.mpi.shibboleth.metadata.shibboleth.Organization;
 import nl.mpi.shibboleth.metadata.shibboleth.SingleSignOnService;
 import org.junit.Assert;
 import org.junit.Test;

@@ -12,3 +12,5 @@
 2019-10-10T13:41:03,612 [main] INFO  nl.mpi.shibboleth.metadata.MetadataParserTest: Name=Österreichische Akademie der Wissenschaften
 2019-10-10T13:49:58,226 [main] INFO  nl.mpi.shibboleth.metadata.MetadataParserTest: Name=ŠC Ptuj
 2019-10-10T13:49:58,241 [main] INFO  nl.mpi.shibboleth.metadata.MetadataParserTest: Name=Österreichische Akademie der Wissenschaften
+2019-10-10T13:58:42,705 [main] INFO  nl.mpi.shibboleth.metadata.MetadataParserTest: Name=ŠC Ptuj
+2019-10-10T13:58:42,729 [main] INFO  nl.mpi.shibboleth.metadata.MetadataParserTest: Name=Österreichische Akademie der Wissenschaften
