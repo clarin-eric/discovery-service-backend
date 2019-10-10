@@ -1,5 +1,6 @@
 package nl.mpi.shibboleth.metadata.rest;
 
+import nl.mpi.shibboleth.metadata.Configuration;
 import java.io.FileOutputStream;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -11,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -83,12 +85,20 @@ public class MetadataResource {
         } else if (source.getMetadataSources() == null || source.getMetadataSources().size() <= 0) {
             throw new IllegalStateException("No source urls defined in the source argument.");
         }
+        
+        String conversionId = UUID.randomUUID().toString();
        
+        long t1 = System.nanoTime();
+        logger.info("[{}] Convert metadata request", conversionId);
+        
         GeoIpLookup lookup = Configuration.loadLookup(ctxt);
         MetadataDiscojuiceProcessor processor = new MetadataDiscojuiceProcessor(lookup);
         processIdpDescriptors(source, processor);
         
         List<DiscoJuiceJsonObject> objects = processor.getDiscoJuiceJson().getObjects();        
+        
+        long tDelta = System.nanoTime()-t1;
+        logger.info("[{}] Convert metadata request finished in {}ms, processed {} entities." , conversionId, String.format("%.3f", tDelta/1000000.0), objects.size());
         return objects;
     }
     
@@ -114,7 +124,7 @@ public class MetadataResource {
     protected void processIdpDescriptors(MetadataSource source, MetadataProcessor processor) {
         for (String sourceUrl : source.getMetadataSources()) {
             try {
-                logger.info("Processing: " + sourceUrl);
+                logger.info("Processing input: " + sourceUrl);
 
                 //Load the metadata xml
                 long t1 = System.nanoTime();
@@ -129,17 +139,10 @@ public class MetadataResource {
 
                 //Get all idp descriptors and use them to create DiscoJuiceJsonObject
                 //objects and add these to the list.
-                t1 = System.nanoTime();
                 for (EntityDescriptor descriptor : descriptors.getEntityDescriptor()) {
                     processor.process(descriptor, source);                    
                 }
-                t2 = System.nanoTime();
-
-                logger.info(
-                        "Processing finished for {} IDPs in {}ms",
-                        processor.getIdpCount(),
-                        (t2 - t1) / 1000000);
-
+             
             } catch (MalformedURLException ex) {
                 logger.error("", ex);
             }

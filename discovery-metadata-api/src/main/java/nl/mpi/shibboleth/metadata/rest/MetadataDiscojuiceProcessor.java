@@ -29,18 +29,6 @@ public class MetadataDiscojuiceProcessor implements MetadataProcessor {
     public void process(EntityDescriptor descriptor, MetadataSource source) {
         if (descriptor.isIDPDescriptor()) {
             try {
-                /*
-                //Check if this idp is indication to not be included in the DS
-                boolean skip = false;
-                if(descriptor.getExtensions() != null && descriptor.getExtensions().attributes != null) {
-                    for(EntityAttribute attr :  descriptor.getExtensions().attributes) {
-                        if(attr.name.equalsIgnoreCase("http://macedir.org/entity-category") &&
-                           attr.value.equalsIgnoreCase("http://refeds.org/category/hide-from-discovery")) {
-                            skip = true;
-                        }
-                    }
-                }
-                */
                 if(!descriptor.hideFromDiscovery()) {
                     DiscoJuiceJsonObject jsonObj
                         = DiscoJuiceJsonObject.create(descriptor, lookup, source);
@@ -51,7 +39,7 @@ public class MetadataDiscojuiceProcessor implements MetadataProcessor {
                 }
             } catch (NullPointerException ex) {
                 logger.error("Failed to generate json for entityId: [" + descriptor.getEntityID() + "]");
-                logger.error("", ex);
+                logger.debug("", ex);
             } catch (Exception ex) {
                 logger.error("Failed to generate json for entityId: [" + descriptor.getEntityID() + "]", ex);
             }

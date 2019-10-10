@@ -37,7 +37,6 @@ public class DatabaseDownloader {
     protected final File databaseFile;
     protected final File databaseMd5File;
     
-    public final static String DEFAULT_GEOLITE2_CITY_FILENAME = "GeoLiteCity.dat";
     
     protected final String geolite2_city_db = "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz";
     protected final String geolite2_city_md5 = "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5";

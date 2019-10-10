@@ -9,7 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import nl.mpi.geoip.GeoIpLookup;
-import nl.mpi.shibboleth.metadata.rest.Configuration;
+import nl.mpi.shibboleth.metadata.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

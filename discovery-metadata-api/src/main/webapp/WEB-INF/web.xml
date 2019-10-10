@@ -8,6 +8,7 @@
     </welcome-file-list>    
 
     <!-- Conversion API servlet -->
+    <!--
     <servlet>
         <servlet-name>Shib-Metadata-API</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -20,6 +21,16 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Shib-Metadata-API</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+    -->
+    
+    <servlet>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
         

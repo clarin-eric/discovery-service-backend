@@ -1,9 +1,10 @@
-package nl.mpi.shibboleth.metadata.rest;
+package nl.mpi.shibboleth.metadata;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.ServletContext;
+import nl.mpi.geoip.DatabaseDownloader;
 import nl.mpi.geoip.GeoIpLookup;
 import nl.mpi.geoip.impl.GeoIpLookupImplApiV1;
 import nl.mpi.geoip.impl.GeoIpLookupImplApiV2;
@@ -21,6 +22,8 @@ public class Configuration {
     public final static String GEO_IP_DATABASE = "GEO-IP-DATABASE";
     public final static String METADATA_SOURCES = "METADATA-SOURCES";
 
+    public final static String DEFAULT_GEOLITE2_CITY_FILENAME = "GeoLiteCity.dat";
+    
     private final static Logger logger = LoggerFactory.getLogger(Configuration.class);
 
     private final static String[] parameters = new String[] {PRIVATE_IP,PUBLIC_IP,GEO_IP_DATABASE};
@@ -50,11 +53,24 @@ public class Configuration {
 
     public static GeoIpLookup loadLookup(ServletContext ctxt) throws IOException {
         Map<String, String> config = Configuration.loadConfiguration(ctxt);
+        String geo_ip_database = getGeoIpDatabaseFile();
         GeoIpLookup lookup = new GeoIpLookupImplApiV2(
-                    config.get(Configuration.GEO_IP_DATABASE),
+                    geo_ip_database,
                     config.get(Configuration.PRIVATE_IP),
                     config.get(Configuration.PUBLIC_IP)
                 );
         return lookup;
+    }
+    
+    public static String getGeoIpDatabaseFile() {
+        String tmp_dir = System.getProperty("java.io.tmpdir");
+        if(!tmp_dir.endsWith("/")) {
+            tmp_dir += "/";
+        }
+        String geo_ip_database = tmp_dir+DEFAULT_GEOLITE2_CITY_FILENAME;
+        if(configuration != null && configuration.get(Configuration.GEO_IP_DATABASE) != null) {
+            geo_ip_database = configuration.get(Configuration.GEO_IP_DATABASE);
+        }
+        return geo_ip_database;
     }
 }

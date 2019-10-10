@@ -136,10 +136,10 @@ public class DiscoJuiceJsonObject {
                 }
             }
         } catch(IllegalStateException ex) {
-            logger.error("IllegalStateException while looking up entity: {}, with url: {}. Error: {}", djjo.getEntityID(), url, ex.getMessage());
+            logger.error("IllegalStateException while looking up entity in geoip database: {}, with url: {}. Error: {}", djjo.getEntityID(), url, ex.getMessage());
             logger.debug("Stacktrace:", ex);
         } catch(NullPointerException ex) {
-            logger.error("NullPointerException while looking up entity: {}, with url: {}", djjo.getEntityID(), url);
+            logger.error("NullPointerException while looking up entity in geoip database: {}, with url: {}", djjo.getEntityID(), url);
             logger.debug("Stacktrace:", ex);
         }
        
