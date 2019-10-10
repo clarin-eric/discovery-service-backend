@@ -20,6 +20,9 @@ public class MetadataParserTest {
     }
 
     private EntitiesDescriptor parse(URL resource) {
+        logger.info("Parsing={}", resource);
+        
+        
         EntitiesDescriptor descriptor = parser.parse(resource);
 
         if (descriptor == null) {
