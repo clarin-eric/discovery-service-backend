@@ -157,7 +157,7 @@ public class DiscoJuiceJsonObject {
     
     private String entityID;
     private List<Title> titles = new ArrayList<>();
-    private String countryCode;
+    private String country;
     private Geo geo;
     private int weight = 0;
     private Icon icon;
@@ -182,14 +182,14 @@ public class DiscoJuiceJsonObject {
      */
     @XmlElement(name = "country")
     public String getCountryCode() {
-        return countryCode;
+        return country;
     }
 
     /**
      * @param countryCode the countryCode to set
      */
     public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+        this.country = countryCode;
     }
 
     /**

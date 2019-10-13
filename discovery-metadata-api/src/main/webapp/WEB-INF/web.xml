@@ -8,23 +8,6 @@
     </welcome-file-list>    
 
     <!-- Conversion API servlet -->
-    <!--
-    <servlet>
-        <servlet-name>Shib-Metadata-API</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-        <init-param>
-            <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>nl.mpi.shibboleth.metadata.rest</param-value>
-        </init-param>
-
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Shib-Metadata-API</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
-    </servlet-mapping>
-    -->
-    
     <servlet>
         <servlet-name>javax.ws.rs.core.Application</servlet-name>
     </servlet>
@@ -41,7 +24,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>MetadataProxy</servlet-name>
-        <url-pattern>/proxy</url-pattern>
+        <url-pattern>/proxy/*</url-pattern>
     </servlet-mapping>
     
     <!-- status servlet -->
