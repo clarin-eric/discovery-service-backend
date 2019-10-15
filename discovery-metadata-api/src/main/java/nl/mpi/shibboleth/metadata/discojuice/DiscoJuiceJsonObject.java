@@ -108,7 +108,7 @@ public class DiscoJuiceJsonObject {
         }        
 
         djjo.setWeight(weight);        
-        djjo.setCountryCode(countryCode);
+        djjo.setCountry(countryCode);
         
         String url = ssos.getLocation();
         //set geospatial information
@@ -127,12 +127,12 @@ public class DiscoJuiceJsonObject {
                     */
                     String c = TldUtils.getTldCountryCode(url);
                     if(c != null) {
-                        djjo.setCountryCode(c);
+                        djjo.setCountry(c);
                     } else {
-                        djjo.setCountryCode(lookupResult.getCountryCode());
+                        djjo.setCountry(lookupResult.getCountryCode());
                     }
                 } else {
-                    djjo.setCountryCode(countryCode.toUpperCase());
+                    djjo.setCountry(countryCode.toUpperCase());
                 }
             }
         } catch(IllegalStateException ex) {
@@ -145,10 +145,10 @@ public class DiscoJuiceJsonObject {
        
         //if we failed to set countrycode because of geo ip lookup, fallback to 
         //tld lookup
-        if(djjo.getCountryCode() == null) {
+        if(djjo.getCountry() == null) {
             String c = TldUtils.getTldCountryCode(url);
             if(c != null) {
-                djjo.setCountryCode(c);
+                djjo.setCountry(c);
             }
         }
         
@@ -181,14 +181,14 @@ public class DiscoJuiceJsonObject {
      * @return the countryCode
      */
     @XmlElement(name = "country")
-    public String getCountryCode() {
+    public String getCountry() {
         return country;
     }
 
     /**
      * @param countryCode the countryCode to set
      */
-    public void setCountryCode(String countryCode) {
+    public void setCountry(String countryCode) {
         this.country = countryCode;
     }
 
