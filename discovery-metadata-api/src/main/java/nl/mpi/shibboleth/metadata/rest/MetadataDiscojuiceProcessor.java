@@ -1,8 +1,10 @@
 package nl.mpi.shibboleth.metadata.rest;
 
+import eu.clarin.discovery.federation.Authorities;
 import nl.mpi.geoip.GeoIpLookup;
 import nl.mpi.shibboleth.metadata.discojuice.DiscoJuiceJson;
 import nl.mpi.shibboleth.metadata.discojuice.DiscoJuiceJsonObject;
+import nl.mpi.shibboleth.metadata.discojuice.DiscoJuideJsonObjectBuilder;
 import nl.mpi.shibboleth.metadata.shibboleth.EntityDescriptor;
 import nl.mpi.shibboleth.metadata.source.MetadataSource;
 import org.slf4j.Logger;
@@ -19,10 +21,12 @@ public class MetadataDiscojuiceProcessor implements MetadataProcessor {
     private final DiscoJuiceJson discoJuiceJson = new DiscoJuiceJson();
     
     private final GeoIpLookup lookup;
+    private final Authorities map;
     private long idpCount = 0;
     
-    public MetadataDiscojuiceProcessor(GeoIpLookup lookup) {
+    public MetadataDiscojuiceProcessor(GeoIpLookup lookup, Authorities map) {
         this.lookup = lookup;
+        this.map = map;
     }
     
     @Override
@@ -31,7 +35,7 @@ public class MetadataDiscojuiceProcessor implements MetadataProcessor {
             try {
                 if(!descriptor.hideFromDiscovery()) {
                     DiscoJuiceJsonObject jsonObj
-                        = DiscoJuiceJsonObject.create(descriptor, lookup, source);
+                        = DiscoJuideJsonObjectBuilder.create(descriptor, map, source, lookup);
                     discoJuiceJson.addObject(jsonObj);
                     idpCount++;
                 } else {

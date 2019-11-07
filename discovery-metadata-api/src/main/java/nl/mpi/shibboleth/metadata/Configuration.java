@@ -51,8 +51,12 @@ public class Configuration {
         return configuration;
     }
 
-    public static GeoIpLookup loadLookup(ServletContext ctxt) throws IOException {
+    public static GeoIpLookup loadLookup(ServletContext ctxt) throws IOException, NullPointerException {
         Map<String, String> config = Configuration.loadConfiguration(ctxt);
+        if(config == null) {
+            throw new NullPointerException("Configuration is null");
+        }
+        
         String geo_ip_database = getGeoIpDatabaseFile();
         GeoIpLookup lookup = new GeoIpLookupImplApiV2(
                     geo_ip_database,

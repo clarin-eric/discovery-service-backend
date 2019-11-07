@@ -1,5 +1,7 @@
 package nl.mpi.shibboleth.metadata.rest;
 
+import eu.clarin.discovery.federation.Authorities;
+import eu.clarin.discovery.federation.AuthoritiesFileParser;
 import nl.mpi.shibboleth.metadata.Configuration;
 import java.io.FileOutputStream;
 import javax.ws.rs.Path;
@@ -56,7 +58,7 @@ public class MetadataResource {
     @Path("/languages")
     @Consumes({MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON})
-    public MetadataLanguageProcessor.Languages getLanguages(MetadataSource source) {
+    public MetadataLanguageProcessor.Languages getLanguages(MetadataSource source) throws MalformedURLException {
         if (source == null) {
             throw new IllegalStateException("No source argument supplied.");
         } else if (source.getMetadataSources() == null || source.getMetadataSources().size() <= 0) {
@@ -74,6 +76,7 @@ public class MetadataResource {
      * 
      * @param source
      * @return
+     * @throws java.io.IOException
      */
     @POST
     @Path("/discojuice")
@@ -91,8 +94,18 @@ public class MetadataResource {
         long t1 = System.nanoTime();
         logger.info("[{}] Convert metadata request", conversionId);
         
-        GeoIpLookup lookup = Configuration.loadLookup(ctxt);
-        MetadataDiscojuiceProcessor processor = new MetadataDiscojuiceProcessor(lookup);
+        URL federationMapSourceUrl = new URL(source.getFederationMapSource());
+        AuthoritiesFileParser parser = new AuthoritiesFileParser();
+        Authorities map = parser.parse(federationMapSourceUrl);
+        
+        GeoIpLookup lookup = null;
+        try {
+            lookup = Configuration.loadLookup(ctxt);
+        } catch(IOException | NullPointerException ex) {
+            logger.warn("Failed to load geo ip lookup database. Continueing without geo ip lookup functionality.");
+        }
+        
+        MetadataDiscojuiceProcessor processor = new MetadataDiscojuiceProcessor(lookup, map);
         processIdpDescriptors(source, processor);
         
         List<DiscoJuiceJsonObject> objects = processor.getDiscoJuiceJson().getObjects();        
@@ -120,8 +133,9 @@ public class MetadataResource {
      * 
      * @param source
      * @param processor 
+     * @throws java.net.MalformedURLException 
      */
-    protected void processIdpDescriptors(MetadataSource source, MetadataProcessor processor) {
+    protected void processIdpDescriptors(MetadataSource source, MetadataProcessor processor) throws MalformedURLException {               
         for (String sourceUrl : source.getMetadataSources()) {
             try {
                 logger.info("Processing input: " + sourceUrl);
@@ -138,7 +152,7 @@ public class MetadataResource {
                         (t2 - t1) / 1000000);
 
                 //Get all idp descriptors and use them to create DiscoJuiceJsonObject
-                //objects and add these to the list.
+                //objects and add these to the list.               
                 for (EntityDescriptor descriptor : descriptors.getEntityDescriptor()) {
                     processor.process(descriptor, source);                    
                 }

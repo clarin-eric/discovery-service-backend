@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class DiscoJuiceJson {
 
-    private List<DiscoJuiceJsonObject> objects = new ArrayList<DiscoJuiceJsonObject>();
+    private List<DiscoJuiceJsonObject> objects = new ArrayList<>();
 
     /**
      * @return the objects
