@@ -7,7 +7,7 @@
     <Loggers>
         
         <!-- Default log level -->
-        <Root level="INFO">
+        <Root level="DEBUG">
             <!-- Default appender specifies where to log by default (can be changed per logger) -->
             <AppenderRef ref="CONSOLE"/>
         </Root>

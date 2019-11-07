@@ -5,6 +5,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
 
 /**
  *
@@ -13,31 +14,31 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "authorities")
 public class Authorities {
 
-    private List<Federation> federations = new ArrayList<>();
+    private List<Authority> authorities = new ArrayList<>();
 
     public Authorities() {
     }
 
     @XmlElement(name = "authority")
-    public List<Federation> getFederations() {
-        return federations;
+    public List<Authority> getAuthorities() {
+        return authorities;
     }
 
-    public void setFederations(List<Federation> federations) {
-        this.federations = federations;
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
     }
     
-    public Federation getFederation(String key) {
-        for(Federation f: federations) {
-            if(f.key.equalsIgnoreCase(key)) {
+    public Authority getAuthority(String key) {
+        for(Authority f: authorities) {
+            if(f.getKey().equalsIgnoreCase(key)) {
                 return f;
             }
         }
         return null;
     }
 
-    public boolean hasFederation(String key) {
-        for(Federation f: federations) {
+    public boolean hasAuthority(String key) {
+        for(Authority f: authorities) {
             if(f.key.equalsIgnoreCase(key)) {
                 return true;
             }
@@ -45,12 +46,12 @@ public class Authorities {
         return false;
     }
     
-    public static class Federation {
+    public static class Authority {
 
         private String key;
         private String code;
 
-        @XmlElement(name = "key")
+        @XmlValue
         public String getKey() {
             return key;
         }

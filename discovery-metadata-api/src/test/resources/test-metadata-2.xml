@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<EntitiesDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:SAML:2.0:metadata sstc-saml-schema-metadata-2.0.xsd urn:mace:shibboleth:metadata:1.0 shibboleth-metadata-1.0.xsd http://www.w3.org/2000/09/xmldsig# xmldsig-core-schema.xsd" Name="wayf.surfnet.nl" validUntil="2013-02-05T12:05:05Z" ID="pfx367a4cc9-cf0a-0c8c-416b-11efbd898e1d"><ds:Signature>
+<EntitiesDescriptor 
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" 
+    xmlns:mdattr="urn:oasis:names:tc:SAML:metadata:attribute" 
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" 
+    xmlns:mdrpi="urn:oasis:names:tc:SAML:metadata:rpi" 
+    xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui" 
+    
+    xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:SAML:2.0:metadata sstc-saml-schema-metadata-2.0.xsd urn:mace:shibboleth:metadata:1.0 shibboleth-metadata-1.0.xsd http://www.w3.org/2000/09/xmldsig# xmldsig-core-schema.xsd" Name="wayf.surfnet.nl" validUntil="2013-02-05T12:05:05Z" ID="pfx367a4cc9-cf0a-0c8c-416b-11efbd898e1d">
+  
+    <ds:Signature>
   <ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
     <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
   <ds:Reference URI="#pfx367a4cc9-cf0a-0c8c-416b-11efbd898e1d"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>i5k8uXR2cfXy72iAD+GjH0Jalm0=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>p75Ws8xhzJnlFOP3Ow9LnHiWmnMuzBLclXoAWLSHMQWDztE3S6Eqyq3Y17pUsm53AuufE6H1K52XFhAmmCju9BLptnhFG/Trw+U/Xs9/UbH6W0ApdvO1k8g3BsCx8GrQcfvOwyd80vLKvhbAZYLdPBpWOAg4dl95vQWnjFEvXr8xoZgPkR4+CCaFyaG/ZRVCAHSTWOsL4iibCNLIRU9T8UEI8NZMAVbxyNhv8BjVjMNlFhRT99lhmJ6c1S//SuhQ8t3HEQUwEzpcfZGHufROOdd5wSmWXiS1az5z2IRC9ZY6xHD55JygmbDnhkbpthXfN8/dHBU4X8Zd4PKdm+UwgQ==</ds:SignatureValue>
 <ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIEVDCCAzygAwIBAgIJANm7yUGYaeG1MA0GCSqGSIb3DQEBBQUAMHkxCzAJBgNVBAYTAk5MMRAwDgYDVQQKEwdTVVJGbmV0MREwDwYDVQQLEwhTZXJ2aWNlczEZMBcGA1UEAxMQRmVkZXJhdGllIEJlaGVlcjEqMCgGCSqGSIb3DQEJARYbZmVkZXJhdGllLWJlaGVlckBzdXJmbmV0Lm5sMB4XDTA4MDYwNTE1MDgyMVoXDTIzMDYwMjE1MDgyMVoweTELMAkGA1UEBhMCTkwxEDAOBgNVBAoTB1NVUkZuZXQxETAPBgNVBAsTCFNlcnZpY2VzMRkwFwYDVQQDExBGZWRlcmF0aWUgQmVoZWVyMSowKAYJKoZIhvcNAQkBFhtmZWRlcmF0aWUtYmVoZWVyQHN1cmZuZXQubmwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC/x+YuMaHyS3xeogfBB6hWrL4Frp+KzOuu4IixfhMHz3xIG5l7p2aNV8UrEXevOwMWCgMNxjfSLdZBgNhR14GBh2cVGCx9f/wUtB86scmkP3PrRLoZWu/EIY6MEbgET3D3tkdGuVejQwwhJTlK2xxWHtEdEL5abjYLveDg6Lb6z9odljFevylBMZO+5LwTjpa3+B+07oMZr2sV1yjsG2BEBwTFz4XZzJAabeK9UO836qhNptktjffoCNen33tNCjzqci4wzgQef3CNA/Ef0tMKGotdldKC6FtHvXixmVY5RKUKIutm8sRwne8XYqrD54BAgXZQ0ZovxFbvGhA77YXxAgMBAAGjgd4wgdswHQYDVR0OBBYEFJNoYjIYUrDN/h1+9BZYOTk7jQBNMIGrBgNVHSMEgaMwgaCAFJNoYjIYUrDN/h1+9BZYOTk7jQBNoX2kezB5MQswCQYDVQQGEwJOTDEQMA4GA1UEChMHU1VSRm5ldDERMA8GA1UECxMIU2VydmljZXMxGTAXBgNVBAMTEEZlZGVyYXRpZSBCZWhlZXIxKjAoBgkqhkiG9w0BCQEWG2ZlZGVyYXRpZS1iZWhlZXJAc3VyZm5ldC5ubIIJANm7yUGYaeG1MAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADggEBAI4IxrYPwwjJD9gO1Vzt8ByeQaRe+V0Mv5Ox9RlcXV33WX8Ny8hqUS4/kjs9v7JOuOw7TRop/4QJIAv/LEXH9B+hQ96zdLGMCcHI2crWF8l0yZ/DtgkpdlcyS7dNbjLtedtmgrOMSQubLE02tqoSUR491mQbRuXD49+kJsHXZH8I1YZqOShzPZ7+ksvnBd64txhef8OBlCzEelT60nOC3Jm8k3i0HwPcCYfDrh6+MJfC2dvfgktAcyu8rm1Q/ZelxaaXok17wUKgD8nDrVCOfTND1RCGcqJ3YVjYDhBrMdK+5NSuC5KOJUpVZbKgTOilnOM7B/Os8HJCfxLkDyGV/oQ=</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature>
   <EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" entityID="http://federation.amc.nl/adfs/services/trust">
-    <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <md:Extensions>
+      <mdattr:EntityAttributes>
+        <saml:Attribute Name="http://macedir.org/entity-category" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+          <saml:AttributeValue>http://refeds.org/category/hide-from-discovery</saml:AttributeValue>
+        </saml:Attribute>
+      </mdattr:EntityAttributes>
+      <mdrpi:RegistrationInfo registrationAuthority="http://aai.grnet.gr/">
+        <mdrpi:RegistrationPolicy xml:lang="en">http://aai.grnet.gr/static/policy/policy-en-1.1.0.pdf</mdrpi:RegistrationPolicy>
+        <mdrpi:RegistrationPolicy xml:lang="el">http://aai.grnet.gr/static/policy/policy-el-1.1.0.pdf</mdrpi:RegistrationPolicy>
+      </mdrpi:RegistrationInfo>
+    </md:Extensions>
+      <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
       <KeyDescriptor use="signing">
         <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
           <ds:X509Data>
@@ -59,6 +79,12 @@ fxLkDyGV/oQ=
     </ContactPerson>
   </EntityDescriptor>
   <EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" entityID="https://logon.mumc.nl:443/fed">
+      <md:Extensions>
+      <mdrpi:RegistrationInfo registrationAuthority="http://aai.grnet.gr/">
+        <mdrpi:RegistrationPolicy xml:lang="en">http://aai.grnet.gr/static/policy/policy-en-1.1.0.pdf</mdrpi:RegistrationPolicy>
+        <mdrpi:RegistrationPolicy xml:lang="el">http://aai.grnet.gr/static/policy/policy-el-1.1.0.pdf</mdrpi:RegistrationPolicy>
+      </mdrpi:RegistrationInfo>
+    </md:Extensions>
     <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
       <KeyDescriptor use="signing">
         <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">

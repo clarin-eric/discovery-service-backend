@@ -20,6 +20,6 @@ public class AuthoritiesParserTest {
         AuthoritiesFileParser parser = new AuthoritiesFileParser();
         Authorities map = parser.parse(resource);
         Assert.assertNotNull("Federation map " + resourceName + " should not be null.", map);
-        Assert.assertEquals("Number of federations", 67, map.getFederations().size());
+        Assert.assertEquals("Number of federations", 67, map.getAuthorities().size());
     }
 }

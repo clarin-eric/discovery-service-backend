@@ -54,6 +54,7 @@ public class MetadataResource {
      * @param source
      * @return 
      */
+    /*
     @POST
     @Path("/languages")
     @Consumes({MediaType.APPLICATION_XML})
@@ -69,7 +70,7 @@ public class MetadataResource {
         processIdpDescriptors(source, processor);
         return processor.getLanguages(); 
     }
-
+*/
     /**
      * Given the shibboleth metadata files specified in the input xml file, generate
      * a list of idps in disojuice json format

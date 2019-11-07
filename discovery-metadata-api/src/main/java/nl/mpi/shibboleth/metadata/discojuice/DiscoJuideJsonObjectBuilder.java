@@ -24,6 +24,8 @@ public class DiscoJuideJsonObjectBuilder {
     public static DiscoJuiceJsonObject create(EntityDescriptor descriptor, Authorities map, MetadataSource source, GeoIpLookup lookup) {
         DiscoJuideJsonObjectBuilder builder = new DiscoJuideJsonObjectBuilder();
         String entityID = descriptor.getEntityID();
+        logger.debug("Processing: {}", entityID);
+        
         builder.setEntityId(entityID);
         builder.setWeight(entityID, source);
         builder.setIcon(descriptor);
@@ -65,7 +67,7 @@ public class DiscoJuideJsonObjectBuilder {
         
         String countryCode = null;
         if (registrationAuthority != null) {
-            Authorities.Federation fed = map.getFederation(registrationAuthority);
+            Authorities.Authority fed = map.getAuthority(registrationAuthority);
             if (fed != null) {                
                 countryCode = fed.getCode();
                 logger.debug("Mapped registration authority={} to country={}", registrationAuthority, countryCode);
@@ -130,7 +132,7 @@ public class DiscoJuideJsonObjectBuilder {
      * @return 
      */
     public DiscoJuideJsonObjectBuilder setCountryCode(EntityDescriptor descriptor, MetadataSource source, Authorities map, GeoIpLookup lookup) {
-        String entityID = descriptor.getEntityID();
+        String entityID = descriptor.getEntityID();       
         IDPSSoDescriptor sso = descriptor.getIdpSsoDescriptors().get(0);
         SingleSignOnService ssos = sso.getSsos().get(0);
         String singleSignOnServiceUrl = ssos.getLocation();
@@ -139,26 +141,32 @@ public class DiscoJuideJsonObjectBuilder {
         String countryCode = getOverrideCountryCode(source, entityID);
         if (countryCode != null) {
             this.djjo.setCountry(countryCode);
+            logger.debug("Set country code to {} based on override", countryCode);
             return this;
         }
 
         countryCode = getCountryForRegistrationAuthority(registrationAuthority, map);
         if (countryCode != null) {
             this.djjo.setCountry(countryCode);
+            logger.debug("Set country code to {} based on registration authority", countryCode);
             return this;
         }
 
         countryCode = getGeoIpCountryCode(lookup, singleSignOnServiceUrl);
         if (countryCode != null) {
             this.djjo.setCountry(countryCode);
+            logger.debug("Set country code to {} based on geo ip lookup", countryCode);
             return this;
         }
 
         countryCode = getTldCountryCode(singleSignOnServiceUrl);
         if (countryCode != null) {
             this.djjo.setCountry(countryCode);
+            logger.debug("Set country code to {} based on single sign on url tld", countryCode);
             return this;
         }
+        
+        logger.warn("No country code set");
 
         return this;
     }
