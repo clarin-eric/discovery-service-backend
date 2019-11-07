@@ -2,6 +2,7 @@ package nl.mpi.shibboleth.metadata.rest;
 
 import eu.clarin.discovery.federation.Authorities;
 import eu.clarin.discovery.federation.AuthoritiesFileParser;
+import eu.clarin.discovery.federation.AuthoritiesMapper;
 import nl.mpi.shibboleth.metadata.Configuration;
 import java.io.FileOutputStream;
 import javax.ws.rs.Path;
@@ -98,6 +99,7 @@ public class MetadataResource {
         URL federationMapSourceUrl = new URL(source.getFederationMapSource());
         AuthoritiesFileParser parser = new AuthoritiesFileParser();
         Authorities map = parser.parse(federationMapSourceUrl);
+        AuthoritiesMapper mapper = new AuthoritiesMapper(map);
         
         GeoIpLookup lookup = null;
         try {
@@ -106,8 +108,11 @@ public class MetadataResource {
             logger.warn("Failed to load geo ip lookup database. Continueing without geo ip lookup functionality.");
         }
         
-        MetadataDiscojuiceProcessor processor = new MetadataDiscojuiceProcessor(lookup, map);
+        MetadataDiscojuiceProcessor processor = new MetadataDiscojuiceProcessor(lookup, mapper);
         processIdpDescriptors(source, processor);
+        
+        //Report any mapping issues
+        mapper.report();
         
         List<DiscoJuiceJsonObject> objects = processor.getDiscoJuiceJson().getObjects();        
         

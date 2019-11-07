@@ -16,8 +16,7 @@ public class Authorities {
 
     private List<Authority> authorities = new ArrayList<>();
 
-    public Authorities() {
-    }
+    public Authorities() {}
 
     @XmlElement(name = "authority")
     public List<Authority> getAuthorities() {

@@ -139,6 +139,9 @@ fxLkDyGV/oQ=
     </ContactPerson>
   </EntityDescriptor>
   <EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" entityID="http://adfs.amolf.nl/adfs/services/trust">
+        <md:Extensions>
+            <mdrpi:RegistrationInfo registrationAuthority="http://unkown.authority.com/" />
+        </md:Extensions>
     <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
       <KeyDescriptor use="signing">
         <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">

@@ -1,6 +1,7 @@
 package nl.mpi.shibboleth.metadata.discojuice;
 
 import eu.clarin.discovery.federation.Authorities;
+import eu.clarin.discovery.federation.AuthoritiesMapper;
 import eu.clarin.url.TldUtils;
 import nl.mpi.geoip.GeoIpLookup;
 import nl.mpi.geoip.model.GeoLookupResult;
@@ -21,7 +22,7 @@ public class DiscoJuideJsonObjectBuilder {
 
     private final static Logger logger = LoggerFactory.getLogger(DiscoJuideJsonObjectBuilder.class);
 
-    public static DiscoJuiceJsonObject create(EntityDescriptor descriptor, Authorities map, MetadataSource source, GeoIpLookup lookup) {
+    public static DiscoJuiceJsonObject create(EntityDescriptor descriptor, AuthoritiesMapper map, MetadataSource source, GeoIpLookup lookup) {
         DiscoJuideJsonObjectBuilder builder = new DiscoJuideJsonObjectBuilder();
         String entityID = descriptor.getEntityID();
         logger.debug("Processing: {}", entityID);
@@ -60,14 +61,14 @@ public class DiscoJuideJsonObjectBuilder {
         return descriptor.getExtensions().registrationInfo.registrationAuthority;
     }
 
-    private static String getCountryForRegistrationAuthority(String registrationAuthority, Authorities map) {
+    private static String getCountryForRegistrationAuthority(String registrationAuthority, AuthoritiesMapper map) {
         if(map == null) {
             return null;
         }
         
         String countryCode = null;
         if (registrationAuthority != null) {
-            Authorities.Authority fed = map.getAuthority(registrationAuthority);
+            Authorities.Authority fed = map.getCountryCodeForRegistrationAuthority(registrationAuthority);
             if (fed != null) {                
                 countryCode = fed.getCode();
                 logger.debug("Mapped registration authority={} to country={}", registrationAuthority, countryCode);
@@ -131,7 +132,7 @@ public class DiscoJuideJsonObjectBuilder {
      * @param lookup
      * @return 
      */
-    public DiscoJuideJsonObjectBuilder setCountryCode(EntityDescriptor descriptor, MetadataSource source, Authorities map, GeoIpLookup lookup) {
+    public DiscoJuideJsonObjectBuilder setCountryCode(EntityDescriptor descriptor, MetadataSource source, AuthoritiesMapper map, GeoIpLookup lookup) {
         String entityID = descriptor.getEntityID();       
         IDPSSoDescriptor sso = descriptor.getIdpSsoDescriptors().get(0);
         SingleSignOnService ssos = sso.getSsos().get(0);
