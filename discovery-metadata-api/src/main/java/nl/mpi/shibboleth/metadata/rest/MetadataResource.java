@@ -3,6 +3,8 @@ package nl.mpi.shibboleth.metadata.rest;
 import eu.clarin.discovery.federation.Authorities;
 import eu.clarin.discovery.federation.AuthoritiesFileParser;
 import eu.clarin.discovery.federation.AuthoritiesMapper;
+import eu.clarin.report.ReporterFactory;
+import java.io.File;
 import nl.mpi.shibboleth.metadata.Configuration;
 import java.io.FileOutputStream;
 import javax.ws.rs.Path;
@@ -48,6 +50,13 @@ public class MetadataResource {
     @javax.ws.rs.core.Context
     private ServletContext ctxt;
 
+    private AuthoritiesMapper getAuthoritiesMapper(URL federationMapSourceUrl, String reportingPropertiesFile) {
+        AuthoritiesFileParser parser = new AuthoritiesFileParser();
+        Authorities map = parser.parse(federationMapSourceUrl);
+        AuthoritiesMapper mapper = new AuthoritiesMapper(map);
+        ReporterFactory.loadFromProperties(reportingPropertiesFile, mapper);
+        return mapper;
+    }
     /**
      * Return a list of unique country codes used in the shibboleth metadata 
      * specified by the input xml file.
@@ -95,11 +104,14 @@ public class MetadataResource {
        
         long t1 = System.nanoTime();
         logger.info("[{}] Convert metadata request", conversionId);
-        
-        URL federationMapSourceUrl = new URL(source.getFederationMapSource());
-        AuthoritiesFileParser parser = new AuthoritiesFileParser();
-        Authorities map = parser.parse(federationMapSourceUrl);
-        AuthoritiesMapper mapper = new AuthoritiesMapper(map);
+         
+        String reportingPropertiesFile = null;
+        try {          
+            reportingPropertiesFile = Configuration.getReportingPropertiesFile(ctxt);
+        } catch(NullPointerException ex) {
+            logger.warn("Failed to load reporting properties file. Continueing without reporting functionality.");
+        }
+        AuthoritiesMapper mapper = getAuthoritiesMapper(new URL(source.getFederationMapSource()), reportingPropertiesFile);
         
         GeoIpLookup lookup = null;
         try {

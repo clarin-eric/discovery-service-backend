@@ -59,4 +59,8 @@
         <param-name>PUBLIC-IP</param-name>
         <param-value>195.169.108.192</param-value>
     </context-param>
+    <context-param>
+        <param-name>REPORTING</param-name>
+        <param-value>/Users/wilelb/Code/work/clarin/git/aai/aai-discovery/discovery-metadata-api/src/main/resources/reporting.properties</param-value>
+    </context-param>
 </web-app>

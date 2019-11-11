@@ -39,7 +39,8 @@ public class MetadataResourceTest extends JerseyTest {
         
         MetadataSource input = new MetadataSource();
         input.setCountries(countries);
-        input.setFederationMapSource(getClass().getClassLoader().getResource("authorities.xml").toString());        
+        //input.setFederationMapSource(getClass().getClassLoader().getResource("authorities.xml").toString());        
+        input.setFederationMapSource("https://raw.githubusercontent.com/clarin-eric/pyFF_config/master/authorities_to_country/authorities.xml");
         input.setMetadataSources(sources);
         input.setWeights(overrides);
         
