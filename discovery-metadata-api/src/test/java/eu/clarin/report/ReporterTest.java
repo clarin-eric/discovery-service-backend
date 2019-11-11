@@ -10,10 +10,10 @@ import org.junit.Test;
  */
 public class ReporterTest {
 
-    @Test
+    //@Test
     public void sendSlackMessageTest() {
         Properties props = new Properties();
-        props.put(SlackReporter.SLACK_URL, "https://hooks.slack.com/services/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");
+        props.put(SlackReporter.SLACK_URL, "");
         
         Reporter reporter = new SlackReporter(props);
         boolean result = reporter.sendReport("Test line 1\nline2\nline3");
