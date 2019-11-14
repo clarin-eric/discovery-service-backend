@@ -4,6 +4,8 @@ import nl.mpi.shibboleth.ds.AbstractServlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -35,12 +37,17 @@ public class ServletStatus extends AbstractServlet {
     
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String feedParam = request.getParameter("feed");
+        if(feedParam != null) {
+            feedParam = URLDecoder.decode(feedParam, StandardCharsets.UTF_8.name());
+        }
+        
         //servlet 2.0 spec:
         ServletContext ctxt = request.getSession().getServletContext();
         //servlet 3.0 spec:
         //ServletContext ctxt = request.getServletContext();        
         
-        DiscoJuiceJson json = loader.loadMetadata(ctxt, CHARSET);
+        DiscoJuiceJson json = loader.loadMetadata(ctxt, CHARSET, feedParam);
         
         Statistics stats = new Statistics();
         stats.lastModified = new Time(new Date(loader.getLastModified()));
