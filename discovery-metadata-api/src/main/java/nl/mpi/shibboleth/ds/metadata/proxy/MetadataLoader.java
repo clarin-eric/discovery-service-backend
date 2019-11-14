@@ -26,7 +26,7 @@ public class MetadataLoader {
     
     private long lastModified = 0;
     
-    private final static String DEFAULT_FEED = "idps_clarin";
+    private final static String DEFAULT_FEED = "idps_clarin.json";
     
     public String loadRawMetadata(ServletContext ctxt, String charset, String feedParam) throws MalformedURLException, IllegalStateException, UnsupportedEncodingException, IOException {
         String jsonMetadataDir = ctxt.getInitParameter("metadata-source");
