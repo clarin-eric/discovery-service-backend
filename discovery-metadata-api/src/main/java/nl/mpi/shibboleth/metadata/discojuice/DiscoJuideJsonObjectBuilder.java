@@ -22,6 +22,8 @@ public class DiscoJuideJsonObjectBuilder {
 
     private final static Logger logger = LoggerFactory.getLogger(DiscoJuideJsonObjectBuilder.class);
 
+    private final static String UNKOWN_COUNTRY_CODE = "XX";
+    
     public static DiscoJuiceJsonObject create(EntityDescriptor descriptor, AuthoritiesMapper map, MetadataSource source, GeoIpLookup lookup) {
         DiscoJuideJsonObjectBuilder builder = new DiscoJuideJsonObjectBuilder();
         String entityID = descriptor.getEntityID();
@@ -167,7 +169,8 @@ public class DiscoJuideJsonObjectBuilder {
             return this;
         }
         
-        logger.warn("No country code set");
+        this.djjo.setCountry(UNKOWN_COUNTRY_CODE);
+        logger.warn("No country code set, falling back to {}", UNKOWN_COUNTRY_CODE);
 
         return this;
     }
