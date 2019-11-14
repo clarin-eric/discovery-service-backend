@@ -14,8 +14,7 @@ script:
 deploy:
   provider: releases
   prerelease: true
-  api_key:
-    secure: "${DEPLOY_TOKEN}"
+  api_key: "${DEPLOY_TOKEN}"
   file: "discovery-metadata-api/target/metadata-api-${TRAVIS_TAG}.war"
   skip_cleanup: true
   on:

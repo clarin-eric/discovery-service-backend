@@ -1,5 +1,6 @@
 package nl.mpi.shibboleth.metadata.shibboleth;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -20,10 +21,10 @@ import javax.xml.bind.annotation.XmlValue;
  */
 
 public class UIInfo {
-    private List<Keywords> keywords;
-    private List<Name> names;
-    private List<Description> descriptions;
-    private Logo logo;
+    private List<Keywords> keywords = new ArrayList<>();
+    private List<Name> names = new ArrayList<>();
+    private List<Description> descriptions = new ArrayList<>();
+    private Logo logo = new Logo();
     
     @XmlElement(name="DisplayName", namespace="urn:oasis:names:tc:SAML:metadata:ui")
     public List<Name> getNames() {
@@ -107,10 +108,10 @@ public class UIInfo {
     
     public static class Logo {
         @XmlValue
-        public String url;
+        public String url = "";
         @XmlAttribute
-        public int height;
+        public int height = 0;
         @XmlAttribute
-        public int width;
+        public int width = 0;
     }
 }

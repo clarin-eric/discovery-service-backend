@@ -14,6 +14,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class MetadataSource {
 
     /**
+     * @return the federationMapSource
+     */
+    public String getFederationMapSource() {
+        return federationMapSource;
+    }
+
+    /**
+     * @param federationMapSource the federationMapSource to set
+     */
+    public void setFederationMapSource(String federationMapSource) {
+        this.federationMapSource = federationMapSource;
+    }
+
+    private String federationMapSource;
+    
+    /**
      * List of shibboleth metadata sources
      */
     private List<String> metadataSources;

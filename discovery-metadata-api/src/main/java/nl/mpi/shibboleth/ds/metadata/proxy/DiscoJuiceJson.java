@@ -9,11 +9,11 @@ import java.util.List;
  */
 public class DiscoJuiceJson {
     
-    public List<Idp> idps = new ArrayList<Idp>();
+    public List<Idp> idps = new ArrayList<>();
     
     public static class Idp {    
         public String entityID;
-        public List<Title> titles = new ArrayList<Title>();
+        public List<Title> titles = new ArrayList<>();
         public String country;
         public Geo geo;
         public Integer weight = 0;

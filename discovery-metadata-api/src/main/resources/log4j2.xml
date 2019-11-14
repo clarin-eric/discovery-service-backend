@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="30" status="warn">
+    <!-- 
+        What to log?
+        Levels in order of verbosity: FATAL, ERROR, WARN, INFO, DEBUG, TRACE
+    -->
+    <Loggers>
+        
+        <!-- Default log level -->
+        <Root level="INFO">
+            <!-- Default appender specifies where to log by default (can be changed per logger) -->
+            <AppenderRef ref="LOGFILE"/>
+        </Root>
+        
+	<Logger name="nl.mpi.shibboleth.metadata.rest" level="INFO">            
+            <AppenderRef ref="CONVERSION_OUTPUT"/>
+        </Logger>
+        
+        <Logger name="nl.mpi.shibboleth.metadata.discojuice" level="INFO">            
+            <AppenderRef ref="CONVERSION_OUTPUT"/>
+        </Logger>        
+        
+        <!-- 
+            3rd party subsystems 
+        -->		
+        <Logger name="org.quartz" level="WARN"/>
+    </Loggers>
+	
+	
+    <!-- Where to log? -->
+    <Appenders>
+        <Console name="CONSOLE">
+            <PatternLayout pattern="%d{ISO8601} [%t] %-5p %c:%equals{%1x}{[]}{} %m%n"/>
+        </Console>
+		
+        <RollingRandomAccessFile 
+            name="LOGFILE" 
+            fileName="${sys:catalina.home}/logs/sma.log" 
+            filePattern="${sys:catalina.home}/logs/sma.log.%d{yyyy-MM-dd}">
+            
+            <PatternLayout pattern="%d{ISO8601} [%t] %-5p %c:%equals{%1x}{[]}{} %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy/>
+        </RollingRandomAccessFile>
+        
+        <RollingRandomAccessFile 
+            name="CONVERSION_OUTPUT" 
+            fileName="${sys:catalina.home}/logs/md_conversion.log" 
+            filePattern="${sys:catalina.home}/logs/md_conversion.%d{yyyy-MM-dd}">
+            
+            <PatternLayout pattern="%d{ISO8601} [%t] %-5p %c:%equals{%1x}{[]}{} %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy/>
+        </RollingRandomAccessFile>
+    </Appenders>
+	
+</Configuration>

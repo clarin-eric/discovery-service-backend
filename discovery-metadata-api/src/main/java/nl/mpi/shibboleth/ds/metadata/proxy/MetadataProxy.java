@@ -42,15 +42,28 @@ public class MetadataProxy extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        
+        logger.info("Proxy pathInfo={}", request.getPathInfo());
+        logger.info("Proxy method={}", request.getMethod());
+        logger.info("Proxy uri={}", request.getRequestURI());
+        logger.info("Proxy query string={}", request.getQueryString());
+        
         String charset = "UTF-8";
-        response.setContentType("text/html;charset="+charset);
+        ((HttpServletResponse) response).setContentType("text/html;charset="+charset);
         if(this.cors_enabled) {
             //Set cross origin access policy
-            response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+            ((HttpServletResponse) response).addHeader("Access-Control-Allow-Origin", "*");
+            ((HttpServletResponse) response).addHeader("Access-Control-Allow-Methods", "GET, OPTIONS, POST, DELETE, PUT");
         }
+        
+        // For HTTP OPTIONS verb/method reply with ACCEPTED status code -- per CORS handshake
+        if (request.getMethod().equals("OPTIONS")) {
+            response.setStatus(HttpServletResponse.SC_ACCEPTED);
+            return;
+        }
+ 
         String jsonMetadata = getServletContext().getInitParameter("metadata-source");
-
+        
         BufferedReader br = null;
         OutputStreamWriter out = new OutputStreamWriter(response.getOutputStream(), Charset.forName(charset));
 
@@ -119,6 +132,7 @@ public class MetadataProxy extends HttpServlet {
             buffer.append(discojuiceJsonBuffer.toString());
             buffer.append("}");
 
+            
             out.write(buffer.toString());
         } catch(MalformedURLException ex) {
             logger.error("Malformed url [" + jsonMetadata + "]", ex);
@@ -171,7 +185,4 @@ public class MetadataProxy extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    
-
 }

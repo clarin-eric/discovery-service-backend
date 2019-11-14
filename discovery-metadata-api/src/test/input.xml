@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<metadataSource>
+    <federationMapSource>https://raw.githubusercontent.com/clarin-eric/pyFF_config/master/authorities_to_country/authorities.xml</federationMapSource>
+    <metadataSources>https://aai.clarin-dev.eu/metadata/idp-staging-metadata.xml</metadataSources>
+    <!-- weight overrides -->
+    <weights>
+        <entry>
+            <key>http://idm.clarin-dev.eu</key>
+            <value>100</value>
+        </entry>
+    </weights>
+    <!-- country code override -->
+    <countries>
+        <entry>
+            <key>http://idm.clarin-dev.eu</key>
+            <value>EU</value>
+        </entry>
+    </countries>
+</metadataSource>

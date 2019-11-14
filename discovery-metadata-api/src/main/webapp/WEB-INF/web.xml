@@ -9,17 +9,11 @@
 
     <!-- Conversion API servlet -->
     <servlet>
-        <servlet-name>Shib-Metadata-API</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-        <init-param>
-            <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>nl.mpi.shibboleth.metadata.rest</param-value>
-        </init-param>
-
-        <load-on-startup>1</load-on-startup>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
     </servlet>
+    
     <servlet-mapping>
-        <servlet-name>Shib-Metadata-API</servlet-name>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
         
@@ -30,7 +24,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>MetadataProxy</servlet-name>
-        <url-pattern>/proxy</url-pattern>
+        <url-pattern>/proxy/*</url-pattern>
     </servlet-mapping>
     
     <!-- status servlet -->
@@ -50,39 +44,13 @@
         <param-value>http://localhost:8080/DS/clarin_spf_idps.json</param-value>
     </context-param>
     
-    <listener>
-        <listener-class>nl.mpi.shibbolet.metadata.QuartzListener</listener-class>
-    </listener>
-        
-    <!-- Quartz scheduler configuration -->
+    <!-- Application configuration -->
     <!--
     <context-param>
-        <param-name>quartz:config-file</param-name>
-        <param-value>quartz.properties</param-value>
-    </context-param>
-    <context-param>
-        <param-name>quartz:shutdown-on-unload</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <context-param>
-        <param-name>quartz:wait-on-shutdown</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <context-param>
-        <param-name>quartz:start-on-load</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <context-param>
-        <param-name>quartz:scheduler-context-servlet-context-key</param-name>
-        <param-value>servletContext</param-value>
-    </context-param>
-     -->
-         
-    <!-- Application configuration -->
-    <context-param>
         <param-name>GEO-IP-DATABASE</param-name>
-        <param-value>/lat/webapps/geolookup/GeoLiteCity.dat</param-value>
+        <param-value>/Users/wilelb/Code/servers/apache-tomcat/temp/geolookup/GeoLiteCity.dat</param-value>
     </context-param>
+        -->
     <context-param>
         <param-name>LOCAL-IP</param-name>
         <param-value>172.16.16.</param-value>
@@ -90,5 +58,9 @@
     <context-param>
         <param-name>PUBLIC-IP</param-name>
         <param-value>195.169.108.192</param-value>
+    </context-param>
+    <context-param>
+        <param-name>REPORTING</param-name>
+        <param-value>/Users/wilelb/Code/work/clarin/git/aai/aai-discovery/discovery-metadata-api/src/main/resources/reporting.properties</param-value>
     </context-param>
 </web-app>

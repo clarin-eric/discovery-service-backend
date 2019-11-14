@@ -26,28 +26,46 @@ public class MetadataLoader {
     
     private long lastModified = 0;
     
-    public String loadRawMetadata(ServletContext ctxt, String charset) throws MalformedURLException, IllegalStateException, UnsupportedEncodingException, IOException {
-        String jsonMetadata = ctxt.getInitParameter("metadata-source");
+    private final static String DEFAULT_FEED = "idps_clarin.json";
+    
+    public String loadRawMetadata(ServletContext ctxt, String charset, String feedParam) throws MalformedURLException, IllegalStateException, UnsupportedEncodingException, IOException {
+        String jsonMetadataDir = ctxt.getInitParameter("metadata-source");
+        if(!jsonMetadataDir.endsWith("/")) {
+            jsonMetadataDir+="/";
+        }
         
-        if(jsonMetadata == null) {
+        String feed = DEFAULT_FEED;
+        if(feedParam != null && !feedParam.isEmpty()) {
+            feed = feedParam;
+        }        
+        if(feed.startsWith("/")) {
+            feed = feed.substring(1, feed.length());                   
+        }
+        
+        
+        String jsonMetadataFile = jsonMetadataDir+feed;
+        if(jsonMetadataFile == null) {
             throw new IllegalStateException("Configuration problem. <metadata-source> is not configured.");
         }      
+        
+        
+        logger.info("Status request for {}", jsonMetadataFile);
         
         lastModified = 0;
                 
         BufferedReader br = null;
-        URL url = new URL(jsonMetadata);
+        URL url = new URL(jsonMetadataFile);
         if(url.getProtocol().equalsIgnoreCase("file")) {            
-            String f = jsonMetadata.replaceAll("file://", "");
+            String f = jsonMetadataFile.replaceAll("file://", "");
             lastModified = new File(f).lastModified();
             logger.info("Proxying local file [{}]", f);
             br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
-        } else {
-            logger.info("Proxying url [{}]", jsonMetadata);
+        }/* else {
+            logger.info("Proxying url [{}]", jsonMetadataFile);
             HttpURLConnection httpConnection = (HttpURLConnection)url.openConnection();
             lastModified = httpConnection.getLastModified();
             br = new BufferedReader(new InputStreamReader(httpConnection.getInputStream(), charset));
-        }
+        }*/
 
         String line = null;
         StringBuilder discojuiceJsonBuffer = new StringBuilder();
@@ -58,8 +76,8 @@ public class MetadataLoader {
         return discojuiceJsonBuffer.toString();
     }
     
-    public DiscoJuiceJson loadMetadata(ServletContext ctxt, String charset) throws IllegalStateException, UnsupportedEncodingException, IOException {
-        String json = loadRawMetadata(ctxt, charset);
+    public DiscoJuiceJson loadMetadata(ServletContext ctxt, String charset, String feedParam) throws IllegalStateException, UnsupportedEncodingException, IOException {
+        String json = loadRawMetadata(ctxt, charset, feedParam);
         return mapper.readValue("{\"idps\":"+json+"}", DiscoJuiceJson.class);
     }
 

@@ -14,7 +14,7 @@ public class EntityExtensions {
     public List<EntityAttribute> attributes;
     
     public static class RegistrationInfo {
-        @XmlAttribute(name = "registrationAuthority=")
+        @XmlAttribute(name = "registrationAuthority")
         public String registrationAuthority;
         @XmlAttribute(name = "registrationInstant")
         public String registrationInstant;
