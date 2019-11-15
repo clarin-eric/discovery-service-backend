@@ -48,7 +48,6 @@ public class MetadataLoader {
             throw new IllegalStateException("Configuration problem. <metadata-source> is not configured.");
         }      
         
-        
         logger.info("Status request for {}", jsonMetadataFile);
         
         lastModified = 0;
