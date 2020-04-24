@@ -5,9 +5,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.ServletContext;
-import nl.mpi.geoip.DatabaseDownloader;
 import nl.mpi.geoip.GeoIpLookup;
-import nl.mpi.geoip.impl.GeoIpLookupImplApiV1;
 import nl.mpi.geoip.impl.GeoIpLookupImplApiV2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Configuration {
 
+    public final static String DATA_DIR = "DATA-DIR";
     public final static String PRIVATE_IP = "LOCAL-IP";
     public final static String PUBLIC_IP = "PUBLIC-IP";
     public final static String GEO_IP_DATABASE = "GEO-IP-DATABASE";
@@ -90,5 +89,10 @@ public class Configuration {
             return null;
         }
         return configuration.get(Configuration.REPORTING_CONFIG);
+    }
+    
+    public static String getDataDir(ServletContext ctxt) {
+        Map<String, String> config = Configuration.loadConfiguration(ctxt);
+        return configuration.get(Configuration.DATA_DIR);
     }
 }

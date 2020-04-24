@@ -2,6 +2,7 @@ package nl.mpi.shibboleth.metadata.rest;
 
 import eu.clarin.discovery.federation.Authorities;
 import eu.clarin.discovery.federation.AuthoritiesFileParser;
+import eu.clarin.discovery.federation.FileBackedAuthoritiesFileParser;
 import eu.clarin.discovery.federation.AuthoritiesMapper;
 import eu.clarin.report.ReporterFactory;
 import java.io.File;
@@ -50,37 +51,14 @@ public class MetadataResource {
     @javax.ws.rs.core.Context
     private ServletContext ctxt;
 
-    private AuthoritiesMapper getAuthoritiesMapper(URL federationMapSourceUrl, String reportingPropertiesFile) {
-        AuthoritiesFileParser parser = new AuthoritiesFileParser();
+    private AuthoritiesMapper getAuthoritiesMapper(URL federationMapSourceUrl, String fileLocation, String reportingPropertiesFile) {
+        AuthoritiesFileParser parser = new FileBackedAuthoritiesFileParser(fileLocation);
         Authorities map = parser.parse(federationMapSourceUrl);
         AuthoritiesMapper mapper = new AuthoritiesMapper(map);
         ReporterFactory.loadFromProperties(reportingPropertiesFile, mapper);
         return mapper;
     }
-    /**
-     * Return a list of unique country codes used in the shibboleth metadata 
-     * specified by the input xml file.
-     * 
-     * @param source
-     * @return 
-     */
-    /*
-    @POST
-    @Path("/languages")
-    @Consumes({MediaType.APPLICATION_XML})
-    @Produces({MediaType.APPLICATION_JSON})
-    public MetadataLanguageProcessor.Languages getLanguages(MetadataSource source) throws MalformedURLException {
-        if (source == null) {
-            throw new IllegalStateException("No source argument supplied.");
-        } else if (source.getMetadataSources() == null || source.getMetadataSources().size() <= 0) {
-            throw new IllegalStateException("No source urls defined in the source argument.");
-        }
-        
-        MetadataLanguageProcessor processor = new MetadataLanguageProcessor();
-        processIdpDescriptors(source, processor);
-        return processor.getLanguages(); 
-    }
-*/
+
     /**
      * Given the shibboleth metadata files specified in the input xml file, generate
      * a list of idps in disojuice json format
@@ -111,12 +89,18 @@ public class MetadataResource {
         } catch(NullPointerException ex) {
             logger.warn("Failed to load reporting properties file. Continueing without reporting functionality.");
         }
-        AuthoritiesMapper mapper = getAuthoritiesMapper(new URL(source.getFederationMapSource()), reportingPropertiesFile);
+        String dataDir = Configuration.getDataDir(ctxt);
+        
+        AuthoritiesMapper mapper = 
+                getAuthoritiesMapper(
+                    new URL(source.getFederationMapSource()), 
+                    dataDir+"/authorities.xml", 
+                    reportingPropertiesFile);
         
         GeoIpLookup lookup = null;
         try {
             lookup = Configuration.loadLookup(ctxt);
-        } catch(IOException | NullPointerException ex) {
+        } catch(NullPointerException ex) {
             logger.warn("Failed to load geo ip lookup database. Continueing without geo ip lookup functionality.");
         }
         
