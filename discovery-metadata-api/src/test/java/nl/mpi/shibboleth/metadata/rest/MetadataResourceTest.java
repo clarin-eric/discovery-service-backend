@@ -5,11 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import nl.mpi.shibboleth.metadata.source.MetadataSource;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
@@ -21,12 +18,7 @@ import org.junit.Test;
  * 
  * @author wilelb
  */
-public class MetadataResourceTest extends JerseyTest {
-
-    @Override
-    protected Application configure() {
-        return new ResourceConfig(MetadataResource.class);
-    }
+public class MetadataResourceTest extends AbstractRestTest {
 
     @Test
     public void testSimpleConversion() {

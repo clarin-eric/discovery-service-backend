@@ -4,13 +4,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.annotation.WebListener;
 
-import org.quartz.CronScheduleBuilder;
-import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
 import org.quartz.Scheduler;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
 import org.quartz.ee.servlet.QuartzInitializerListener;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -41,6 +36,7 @@ public class QuartzListener extends QuartzInitializerListener {
         jobDataMap.put(QUARTZ_SC_KEY_NAME, sce.getServletContext());
             
         try {
+            /*
             JobDetail jobDetail = 
                 JobBuilder
                         .newJob(nl.mpi.geoip.DatabaseDownloadJob.class)
@@ -53,13 +49,14 @@ public class QuartzListener extends QuartzInitializerListener {
                         .withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * 1/1 * ? *"))
                         .startNow()
                         .build();
-            
+            */
             Scheduler scheduler = factory.getScheduler();
-            scheduler.scheduleJob(jobDetail, trigger);
+            //scheduler.scheduleJob(jobDetail, trigger);
             scheduler.start();
         } catch (Exception e) {
             ctx.log("There was an error scheduling the job.", e);
         }
+
     }
 
 }

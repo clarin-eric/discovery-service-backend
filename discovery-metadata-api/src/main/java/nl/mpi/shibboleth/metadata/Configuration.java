@@ -1,13 +1,12 @@
 package nl.mpi.shibboleth.metadata;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.ServletContext;
-import nl.mpi.geoip.DatabaseDownloader;
 import nl.mpi.geoip.GeoIpLookup;
-import nl.mpi.geoip.impl.GeoIpLookupImplApiV1;
 import nl.mpi.geoip.impl.GeoIpLookupImplApiV2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Configuration {
 
+    public final static String DATA_DIR = "DATA-DIR";
     public final static String PRIVATE_IP = "LOCAL-IP";
     public final static String PUBLIC_IP = "PUBLIC-IP";
     public final static String GEO_IP_DATABASE = "GEO-IP-DATABASE";
@@ -26,9 +26,10 @@ public class Configuration {
     public final static String REPORTING_CONFIG = "REPORTING";
     
     public final static String DEFAULT_GEOLITE2_CITY_FILENAME = "GeoLiteCity.dat";
+    public final static String DEFAULT_DATA_DIR = "/tmp";
     
     private final static Logger logger = LoggerFactory.getLogger(Configuration.class);
-
+    
     //private final static String[] parameters = new String[] {PRIVATE_IP,PUBLIC_IP,GEO_IP_DATABASE};
 
     private static Map<String,String> configuration =null;
@@ -64,11 +65,14 @@ public class Configuration {
         }
         
         String geo_ip_database = getGeoIpDatabaseFile();
-        GeoIpLookup lookup = new GeoIpLookupImplApiV2(
-                    geo_ip_database,
-                    config.get(Configuration.PRIVATE_IP),
-                    config.get(Configuration.PUBLIC_IP)
-                );
+        GeoIpLookup lookup =null;
+        if(new File(geo_ip_database).exists()){
+            lookup = new GeoIpLookupImplApiV2(
+                        geo_ip_database,
+                        config.get(Configuration.PRIVATE_IP),
+                        config.get(Configuration.PUBLIC_IP)
+                    );
+        }
         return lookup;
     }
     
@@ -90,5 +94,18 @@ public class Configuration {
             return null;
         }
         return configuration.get(Configuration.REPORTING_CONFIG);
+    }
+    
+    public static String getDataDir(ServletContext ctxt) {
+        Map<String, String> config = Configuration.loadConfiguration(ctxt);
+        if(config == null) {
+            throw new NullPointerException("Configuration is null");
+        }
+        String data_dir =  configuration.get(Configuration.DATA_DIR);
+        if(data_dir == null) {
+            logger.warn("No DATA-DIR configured. Falling back to default: {}", DEFAULT_DATA_DIR); 
+            data_dir = DEFAULT_DATA_DIR;
+        }
+        return data_dir;
     }
 }

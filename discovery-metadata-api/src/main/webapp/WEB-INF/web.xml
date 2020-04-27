@@ -63,4 +63,8 @@
         <param-name>REPORTING</param-name>
         <param-value>/Users/wilelb/Code/work/clarin/git/aai/aai-discovery/discovery-metadata-api/src/main/resources/reporting.properties</param-value>
     </context-param>
+    <context-param>
+        <param-name>DATA-DIR</param-name>
+        <param-value>/tmp</param-value>
+    </context-param>
 </web-app>
